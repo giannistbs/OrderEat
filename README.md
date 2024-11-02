@@ -1,1 +1,1 @@
-# OrderEat---Self-Ordering-Platform
+# OrderEat - The Self Ordering Platform

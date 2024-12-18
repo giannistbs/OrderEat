@@ -71,6 +71,18 @@ public class MenuDAO {
         return menuList;
     }
 
+    public List<MenuItem> getMenuByCategory(String category) throws Exception {
+        List<MenuItem> categoryList = new ArrayList<>();
+        List<MenuItem> menuItems = browseMenu();
+        
+        for (MenuItem item : menuItems) {
+            if (item.getCategory().equalsIgnoreCase(category)) {
+                categoryList.add(item);
+            }
+        }
+        return categoryList;
+    }
+
     /**
      * Adds or updates a menu item in the database.
      * 

@@ -131,4 +131,48 @@ public class MenuDAO {
             }
         }
     }
+    public void manageMenu(List<MenuItem> menuItems) throws Exception {
+        DB db = new DB();
+        Connection connection = null;
+        PreparedStatement statement = null;
+    
+        try {
+            connection = db.getConnection();
+    
+            // Delete all existing items in the menu
+            String deleteQuery = "DELETE FROM " + TABLE_NAME;
+            statement = connection.prepareStatement(deleteQuery);
+            statement.executeUpdate();
+    
+            // Insert new items from the provided list
+            String insertQuery = "INSERT INTO " + TABLE_NAME + " (itemId, name, description, price, category) VALUES (?, ?, ?, ?, ?)";
+            statement = connection.prepareStatement(insertQuery);
+    
+            for (MenuItem menuItem : menuItems) {
+                statement.setInt(1, menuItem.getItemId());
+                statement.setString(2, menuItem.getName());
+                statement.setString(3, menuItem.getDescription());
+                statement.setFloat(4, menuItem.getPrice());
+                statement.setString(5, menuItem.getCategory());
+                statement.executeUpdate();
+            }
+        } catch (Exception e) {
+            throw new Exception("Error managing menu items: " + e.getMessage(), e);
+        } finally {
+            if (statement != null) {
+                try {
+                    statement.close();
+                } catch (SQLException e) {
+                    // Log exception
+                }
+            }
+            if (connection != null) {
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    // Log exception
+                }
+            }
+        }
+    }
 }

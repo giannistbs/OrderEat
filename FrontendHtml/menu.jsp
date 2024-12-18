@@ -1,6 +1,6 @@
 <%@ page contentType="text/html; charset=UTF-8" language="java" %>
-<%@ page import="classes.MenuDAO" %>
-<%@ page import="classes.MenuItem" %>
+<%@ page import="omakidh.MenuDAO" %>
+<%@ page import="omadikh.MenuItem" %>
 
 
 <%

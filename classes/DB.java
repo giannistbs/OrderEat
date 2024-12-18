@@ -21,6 +21,7 @@ public class DB {
 	 * @return Connection, the Connection object
 	 * @throws Exception
 	 */
+	@SuppressWarnings("deprecation")
 	public Connection getConnection() throws Exception {
 
 		/* Step 1 -> Dynamically load the driver's class file into memory */

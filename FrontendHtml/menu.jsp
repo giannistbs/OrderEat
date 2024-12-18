@@ -8,9 +8,10 @@
 <%
     // Create an instance of MenuDAO and retrieve the items by category
     MenuDAO menuDAO = new MenuDAO();
-    List<MenuItem> breakfastItems = menuDAO.getMenuByCategory("Breakfast");
-    List<MenuItem> lunchItems = menuDAO.getMenuByCategory("Lunch");
-    List<MenuItem> dinnerItems = menuDAO.getMenuByCategory("Dinner");
+    List<MenuItem> breakfastItems = menuDAO.getMenuByCategory("food");
+    List<MenuItem> lunchItems = menuDAO.getMenuByCategory("sweet");
+    List<MenuItem> dinnerItems = menuDAO.getMenuByCategory("drink");
+        
 %>
 
 <!DOCTYPE html>
@@ -121,7 +122,7 @@
                     </ul>
                     <div class="tab-content">
                         <!-- Breakfast Tab -->
-                        <div id="breakfast" class="tab-pane fade show active">
+                        <div id="tab-1" class="tab-pane fade show active">
                             <div class="row g-4">
                                 <%
                                     for (MenuItem item : breakfastItems) {
@@ -146,7 +147,7 @@
                         </div>
         
                         <!-- Lunch Tab -->
-                        <div id="lunch" class="tab-pane fade">
+                        <div id="tab-2" class="tab-pane fade">
                             <div class="row g-4">
                                 <%
                                     for (MenuItem item : lunchItems) {
@@ -171,7 +172,7 @@
                         </div>
         
                         <!-- Dinner Tab -->
-                        <div id="dinner" class="tab-pane fade">
+                        <div id="tab-3" class="tab-pane fade">
                             <div class="row g-4">
                                 <%
                                     for (MenuItem item : dinnerItems) {

@@ -177,8 +177,8 @@
         bb.generate({
             data: {
                 columns: [
-                    ["Drinks", 2],
-                    ["Food", 4],
+                    ["Drinks", 3],
+                    ["Food", 3],
                     ["Sweets", 3],
                 ],
                 type: "donut"

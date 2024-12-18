@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MenuDAO {
-    private static final String TABLE_NAME = "menu_ex3_8220029_2024_2025";
+    private static final String TABLE_NAME = "menu";
 
     public MenuDAO() {
     }

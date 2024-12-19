@@ -94,7 +94,7 @@
                     <ul class="nav nav-pills d-inline-flex justify-content-center border-bottom mb-5">
                         <li class="nav-item">
                             <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
-                                <i class="fa fa-coffee fa-2x text-primary"></i>
+                                <i class="fa fa-utensils fa-2x text-primary"></i>
                                 <div class="ps-3">
                                     <small class="text-body">Best</small>
                                     <h6 class="mt-n1 mb-0">Lunch</h6>
@@ -103,7 +103,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="d-flex align-items-center text-start mx-3 pb-3" data-bs-toggle="pill" href="#tab-2">
-                                <i class="fa fa-hamburger fa-2x text-primary"></i>
+                                <i class="fa fa-ice-cream fa-2x text-primary"></i>
                                 <div class="ps-3">
                                     <small class="text-body">Special</small>
                                     <h6 class="mt-n1 mb-0">Sweet</h6>
@@ -112,7 +112,7 @@
                         </li>
                         <li class="nav-item">
                             <a class="d-flex align-items-center text-start mx-3 me-0 pb-3" data-bs-toggle="pill" href="#tab-3">
-                                <i class="fa fa-utensils fa-2x text-primary"></i>
+                                <i class="fa fa-cocktail fa-2x text-primary"></i>
                                 <div class="ps-3">
                                     <small class="text-body">Lovely</small>
                                     <h6 class="mt-n1 mb-0">Drinks</h6>

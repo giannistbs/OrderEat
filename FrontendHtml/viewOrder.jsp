@@ -27,7 +27,7 @@
         <!-- Navbar & Hero Start -->
         <div class="container-xxl position-relative p-0">
             <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark px-4 px-lg-5 py-3 py-lg-8">
-                <a href="menu.html" class="navbar-brand p-0">
+                <a href="menu.jsp" class="navbar-brand p-0">
                     <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>OrderEat</h1>
                 </a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -35,12 +35,12 @@
                 </button>
                 <div class="collapse navbar-collapse" id="navbarCollapse">
                     <div class="navbar-nav ms-auto py-0 pe-4">
-                        <!-- <a href="index.html" class="nav-item nav-link">Home</a> -->
-                        <!-- <a href="about.html" class="nav-item nav-link">Order</a> -->
+                        <!-- <a href="index.jsp" class="nav-item nav-link">Home</a> -->
+                        <!-- <a href="about.jsp" class="nav-item nav-link">Order</a> -->
                         <a href="#" class="nav-item nav-link">Call Waiter</a>
-                        <a href="menu.html" class="nav-item nav-link">Menu</a>
-                        <a href="viewOrder.html" class="nav-item nav-link active">View Order</a>
-                        <a href="login.html" class="nav-item nav-link">Login</a>
+                        <a href="menu.jsp" class="nav-item nav-link">Menu</a>
+                        <a href="viewOrder.jsp" class="nav-item nav-link active">View Order</a>
+                        <a href="login.jsp" class="nav-item nav-link">Login</a>
                     </div>
                 </div>
             </nav>

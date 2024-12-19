@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!DOCTYPE jsp>
 <html lang="en">
 
 <head>
@@ -102,10 +102,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0 pe-4">
-                    <a href="adminview.html" class="nav-item nav-link active">Dashboard</a>
-                    <a href="orders.html" class="nav-item nav-link">Orders</a>
-                    <a href="reports.html" class="nav-item nav-link">Reports</a>
-                    <a href="editmenu.html" class="nav-item nav-link">Edit Menu</a>
+                    <a href="adminview.jsp" class="nav-item nav-link active">Dashboard</a>
+                    <a href="orders.jsp" class="nav-item nav-link">Orders</a>
+                    <a href="reports.jsp" class="nav-item nav-link">Reports</a>
+                    <a href="editmenu.jsp" class="nav-item nav-link">Edit Menu</a>
                 </div>
             </div>
         </nav>

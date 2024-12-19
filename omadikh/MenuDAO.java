@@ -1,4 +1,4 @@
-package classes;
+package omadikh;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -187,4 +187,65 @@ public class MenuDAO {
             }
         }
     }
+
+    /**
+ * Retrieves a specific menu item from the database by its ID.
+ * 
+ * @param itemId The ID of the menu item to retrieve.
+ * @return A MenuItem object representing the menu item with the given ID.
+ * @throws Exception if the item is not found or there's an issue during the retrieval.
+ */
+public MenuItem getMenuItemById(int itemId) throws Exception {
+    DB db = new DB();
+    Connection connection = null;
+    PreparedStatement statement = null;
+    ResultSet resultSet = null;
+    MenuItem menuItem = null;
+
+    try {
+        connection = db.getConnection();
+        String query = "SELECT * FROM " + TABLE_NAME + " WHERE itemId = ?";
+        statement = connection.prepareStatement(query);
+        statement.setInt(1, itemId);
+        resultSet = statement.executeQuery();
+
+        if (resultSet.next()) {
+            String name = resultSet.getString("name");
+            String description = resultSet.getString("description");
+            float price = resultSet.getFloat("price");
+            String category = resultSet.getString("category");
+
+            // Constructing the MenuItem object
+            menuItem = new MenuItem(itemId, name, description, price, category);
+        } else {
+            throw new Exception("Item with ID " + itemId + " not found in the menu.");
+        }
+    } catch (Exception e) {
+        throw new Exception("Error retrieving menu item: " + e.getMessage(), e);
+    } finally {
+        if (resultSet != null) {
+            try {
+                resultSet.close();
+            } catch (SQLException e) {
+                // Log exception
+            }
+        }
+        if (statement != null) {
+            try {
+                statement.close();
+            } catch (SQLException e) {
+                // Log exception
+            }
+        }
+        if (connection != null) {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                // Log exception
+            }
+        }
+    }
+
+    return menuItem;
+}
 }

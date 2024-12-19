@@ -1,4 +1,4 @@
-package classes;
+package omadikh;
 
 public class Customer {
 

@@ -1,4 +1,4 @@
-package classes;
+package omadikh;
 
 import java.util.Date;
 

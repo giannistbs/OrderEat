@@ -3,6 +3,8 @@
 <%@ page import="omadikh.MenuItem" %>
 <%@ page import="java.util.List" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ page import="java.util.HashMap" %>
+
 
 
 <%
@@ -11,8 +13,30 @@
     List<MenuItem> breakfastItems = menuDAO.getMenuByCategory("food");
     List<MenuItem> lunchItems = menuDAO.getMenuByCategory("sweet");
     List<MenuItem> dinnerItems = menuDAO.getMenuByCategory("drink");
-        
-%>
+    // Create or retrieve the HashMap from the session
+    HashMap<Integer, Integer> itemQuantities = 
+        (HashMap<Integer, Integer>) session.getAttribute("itemQuantities");
+    if (itemQuantities == null) {
+        itemQuantities = new HashMap();
+        session.setAttribute("itemQuantities", itemQuantities);
+    }
+
+    // Logic to handle adding/removing items
+    String action = request.getParameter("action");
+    String itemIdStr = request.getParameter("id");
+
+    if (action != null && itemIdStr != null) {
+        int itemId = Integer.parseInt(itemIdStr);
+        if ("add".equals(action)) {
+            itemQuantities.put(itemId, itemQuantities.getOrDefault(itemId, 0) + 1);
+        } else if ("remove".equals(action)) {
+            itemQuantities.put(itemId, Math.max(itemQuantities.getOrDefault(itemId, 1) - 1, 0));
+            if (itemQuantities.get(itemId) == 0) {
+                itemQuantities.remove(itemId);
+            }
+        }
+    }
+    %>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -137,9 +161,21 @@
                                             </h5>
                                             <div class="d-flex mt-1">
                                                 <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button>
-                                                <button class="btn btn-sm btn-outline-primary mt-1" onclick="addToOrder('<%= item.getName() %>')" style="margin-left: 2px;">+</button>
+                                                
+                                                <form method="post" style="display: inline;">
+                                                    <input type="hidden" name="action" value="remove">
+                                                    <input type="hidden" name="id" value="<%= item.getItemId() %>">
+                                                    <button type="submit" class="btn btn-sm btn-outline-primary mt-1">-</button>
+                                                </form>
+                                            
+                                                <!-- Form for Add (+) Button -->
+                                                <form method="post" style="display: inline;">
+                                                    <input type="hidden" name="action" value="add">
+                                                    <input type="hidden" name="id" value="<%= item.getItemId() %>">
+                                                    <button type="submit" class="btn btn-sm btn-outline-primary mt-1" style="margin-left: 2px;">+</button>
+                                                </form>
                                             </div>
+                                            
                                         </div>
                                     </div>
                                 </div>
@@ -165,9 +201,21 @@
                                                 </h5>
                                                 <div class="d-flex mt-1">
                                                     <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                    <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button>
-                                                    <button class="btn btn-sm btn-outline-primary mt-1" onclick="addToOrder('<%= item.getName() %>')" style="margin-left: 2px;">+</button>
+                                                    
+                                                    <form method="post" style="display: inline;">
+                                                        <input type="hidden" name="action" value="remove">
+                                                        <input type="hidden" name="id" value="<%= item.getItemId() %>">
+                                                        <button type="submit" class="btn btn-sm btn-outline-primary mt-1">-</button>
+                                                    </form>
+                                                
+                                                    <!-- Form for Add (+) Button -->
+                                                    <form method="post" style="display: inline;">
+                                                        <input type="hidden" name="action" value="add">
+                                                        <input type="hidden" name="id" value="<%= item.getItemId() %>">
+                                                        <button type="submit" class="btn btn-sm btn-outline-primary mt-1" style="margin-left: 2px;">+</button>
+                                                    </form>
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -193,9 +241,21 @@
                                                 </h5>
                                                 <div class="d-flex mt-1">
                                                     <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                    <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button>
-                                                    <button class="btn btn-sm btn-outline-primary mt-1" onclick="addToOrder('<%= item.getName() %>')" style="margin-left: 2px;">+</button>
+                                                    
+                                                    <form method="post" style="display: inline;">
+                                                        <input type="hidden" name="action" value="remove">
+                                                        <input type="hidden" name="id" value="<%= item.getItemId() %>">
+                                                        <button type="submit" class="btn btn-sm btn-outline-primary mt-1">-</button>
+                                                    </form>
+                                                
+                                                    <!-- Form for Add (+) Button -->
+                                                    <form method="post" style="display: inline;">
+                                                        <input type="hidden" name="action" value="add">
+                                                        <input type="hidden" name="id" value="<%= item.getItemId() %>">
+                                                        <button type="submit" class="btn btn-sm btn-outline-primary mt-1" style="margin-left: 2px;">+</button>
+                                                    </form>
                                                 </div>
+                                                
                                             </div>
                                         </div>
                                     </div>
@@ -209,7 +269,7 @@
             </div>
             <!-- Menu End -->
         </div>
-
+        
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0/dist/js/bootstrap.bundle.min.js"></script>

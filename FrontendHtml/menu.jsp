@@ -96,8 +96,8 @@
                             <a class="d-flex align-items-center text-start mx-3 ms-0 pb-3 active" data-bs-toggle="pill" href="#tab-1">
                                 <i class="fa fa-coffee fa-2x text-primary"></i>
                                 <div class="ps-3">
-                                    <small class="text-body">Popular</small>
-                                    <h6 class="mt-n1 mb-0">Food</h6>
+                                    <small class="text-body">Best</small>
+                                    <h6 class="mt-n1 mb-0">Lunch</h6>
                                 </div>
                             </a>
                         </li>
@@ -121,7 +121,7 @@
                         </li>
                     </ul>
                     <div class="tab-content">
-                        <!-- Breakfast Tab -->
+                        <!-- Lunch Tab -->
                         <div id="tab-1" class="tab-pane fade show active">
                             <div class="row g-4">
                                 <%
@@ -135,7 +135,7 @@
                                                 <span><%= item.getName() %></span>
                                                 <span class="text-primary">$<%= item.getPrice() %></span>
                                             </h5>
-                                            <div class="d-flex mt-2">
+                                            <div class="d-flex mt-1">
                                                 <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
                                                 <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button>
                                                 <button class="btn btn-sm btn-outline-primary mt-1" onclick="addToOrder('<%= item.getName() %>')" style="margin-left: 2px;">+</button>
@@ -143,14 +143,13 @@
                                         </div>
                                     </div>
                                 </div>
-                                
                                 <% 
                                     }
                                 %>
                             </div>
                         </div>
         
-                        <!-- Lunch Tab -->
+                        <!-- Sweet Tab -->
                         <div id="tab-2" class="tab-pane fade">
                             <div class="row g-4">
                                 <%
@@ -164,7 +163,7 @@
                                                     <span><%= item.getName() %></span>
                                                     <span class="text-primary">$<%= item.getPrice() %></span>
                                                 </h5>
-                                                <div class="d-flex mt-2">
+                                                <div class="d-flex mt-1">
                                                     <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
                                                     <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button>
                                                     <button class="btn btn-sm btn-outline-primary mt-1" onclick="addToOrder('<%= item.getName() %>')" style="margin-left: 2px;">+</button>
@@ -178,7 +177,7 @@
                             </div>
                         </div>
         
-                        <!-- Dinner Tab -->
+                        <!-- Drinks Tab -->
                         <div id="tab-3" class="tab-pane fade">
                             <div class="row g-4">
                                 <%
@@ -192,7 +191,7 @@
                                                     <span><%= item.getName() %></span>
                                                     <span class="text-primary">$<%= item.getPrice() %></span>
                                                 </h5>
-                                                <div class="d-flex mt-2">
+                                                <div class="d-flex mt-1">
                                                     <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
                                                     <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button>
                                                     <button class="btn btn-sm btn-outline-primary mt-1" onclick="addToOrder('<%= item.getName() %>')" style="margin-left: 2px;">+</button>

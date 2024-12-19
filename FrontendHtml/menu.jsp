@@ -59,12 +59,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0 pe-4">
-                    <!-- <a href="index.html" class="nav-item nav-link">Home</a> -->
-                    <!-- <a href="about.html" class="nav-item nav-link">Order</a> -->
+                    <!-- <a href="index.jsp" class="nav-item nav-link">Home</a> -->
+                    <!-- <a href="about.jsp" class="nav-item nav-link">Order</a> -->
                     <a href="#" class="nav-item nav-link">Call Waiter</a>
-                    <a href="menu.html" class="nav-item nav-link active">Menu</a>
-                    <a href="viewOrder.html" class="nav-item nav-link">View Order</a>
-                    <a href="login.html" class="nav-item nav-link">Login</a>
+                    <a href="menu.jsp" class="nav-item nav-link active">Menu</a>
+                    <a href="viewOrder.jsp" class="nav-item nav-link">View Order</a>
+                    <a href="login.jsp" class="nav-item nav-link">Login</a>
                 </div>
             </div>
         </nav>

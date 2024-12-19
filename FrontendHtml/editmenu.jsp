@@ -30,7 +30,7 @@
 <body>
     <div class="container-xxl bg-white p-0">
         <nav class="navbar navbar-expand-lg sticky-top navbar-dark bg-dark px-4 px-lg-5 py-3 py-lg-8">
-            <a href="adminview.html" class="navbar-brand p-0">
+            <a href="adminview.jsp" class="navbar-brand p-0">
                 <h1 class="text-primary m-0"><i class="fa fa-utensils me-4"></i>OrderEat</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -38,10 +38,10 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0 pe-4">
-                    <a href="adminview.html" class="nav-item nav-link no-underline">Dashboard</a>
-                    <a href="orders.html" class="nav-item nav-link no-underline">Orders</a>
-                    <a href="reports.html" class="nav-item nav-link no-underline">Reports</a>
-                    <a href="editmenu.html" class="nav-item nav-link no-underline active">Edit Menu</a>
+                    <a href="adminview.jsp" class="nav-item nav-link no-underline">Dashboard</a>
+                    <a href="orders.jsp" class="nav-item nav-link no-underline">Orders</a>
+                    <a href="reports.jsp" class="nav-item nav-link no-underline">Reports</a>
+                    <a href="editmenu.jsp" class="nav-item nav-link no-underline active">Edit Menu</a>
                 </div>
             </div>
         </nav>

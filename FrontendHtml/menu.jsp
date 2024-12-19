@@ -127,19 +127,23 @@
                                 <%
                                     for (MenuItem item : breakfastItems) {
                                 %>
-                                    <div class="col-lg-6">
-                                        <div class="d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid rounded" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW1PsgEhJ1j03TqWMROf-aA6PCkdSUJJ2Y-w&s" alt="" style="width: 80px;">
-                                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                    <span><%= item.getName() %></span>
-                                                    <span class="text-primary">$<%= item.getPrice() %></span>
-                                                </h5>
-                                                <small class="fst-italic"><%= item.getDescription() %></small>
-                                                <button class="btn btn-outline-primary ms-3" onclick="addToOrder('<%= item.getName() %>')">+</button>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW1PsgEhJ1j03TqWMROf-aA6PCkdSUJJ2Y-w&s" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span><%= item.getName() %></span>
+                                                <span class="text-primary">$<%= item.getPrice() %></span>
+                                            </h5>
+                                            <div class="d-flex mt-2">
+                                                <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
+                                                <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button>
+                                                <button class="btn btn-sm btn-outline-primary mt-1" onclick="addToOrder('<%= item.getName() %>')" style="margin-left: 2px;">+</button>
                                             </div>
                                         </div>
                                     </div>
+                                </div>
+                                
                                 <% 
                                     }
                                 %>
@@ -160,8 +164,11 @@
                                                     <span><%= item.getName() %></span>
                                                     <span class="text-primary">$<%= item.getPrice() %></span>
                                                 </h5>
-                                                <small class="fst-italic"><%= item.getDescription() %></small>
-                                                <button class="btn btn-outline-primary ms-3" onclick="addToOrder('<%= item.getName() %>')">+</button>
+                                                <div class="d-flex mt-2">
+                                                    <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
+                                                    <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button>
+                                                    <button class="btn btn-sm btn-outline-primary mt-1" onclick="addToOrder('<%= item.getName() %>')" style="margin-left: 2px;">+</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -185,8 +192,11 @@
                                                     <span><%= item.getName() %></span>
                                                     <span class="text-primary">$<%= item.getPrice() %></span>
                                                 </h5>
-                                                <small class="fst-italic"><%= item.getDescription() %></small>
-                                                <button class="btn btn-outline-primary ms-3" onclick="addToOrder('<%= item.getName() %>')">+</button>
+                                                <div class="d-flex mt-2">
+                                                    <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
+                                                    <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button>
+                                                    <button class="btn btn-sm btn-outline-primary mt-1" onclick="addToOrder('<%= item.getName() %>')" style="margin-left: 2px;">+</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>

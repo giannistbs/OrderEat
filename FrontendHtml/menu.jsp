@@ -129,7 +129,7 @@
                                 %>
                                 <div class="col-lg-6">
                                     <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW1PsgEhJ1j03TqWMROf-aA6PCkdSUJJ2Y-w&s" alt="" style="width: 80px;">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
                                         <div class="w-100 d-flex flex-column text-start ps-4">
                                             <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                 <span><%= item.getName() %></span>
@@ -157,7 +157,7 @@
                                 %>
                                     <div class="col-lg-6">
                                         <div class="d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid rounded" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW1PsgEhJ1j03TqWMROf-aA6PCkdSUJJ2Y-w&s" alt="" style="width: 80px;">
+                                            <img class="flex-shrink-0 img-fluid rounded" src="img/sweet/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
                                             <div class="w-100 d-flex flex-column text-start ps-4">
                                                 <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                     <span><%= item.getName() %></span>
@@ -185,7 +185,7 @@
                                 %>
                                     <div class="col-lg-6">
                                         <div class="d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid rounded" src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW1PsgEhJ1j03TqWMROf-aA6PCkdSUJJ2Y-w&s" alt="" style="width: 80px;">
+                                            <img class="flex-shrink-0 img-fluid rounded" src="img/drink/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
                                             <div class="w-100 d-flex flex-column text-start ps-4">
                                                 <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                     <span><%= item.getName() %></span>

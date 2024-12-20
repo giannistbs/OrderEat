@@ -12,6 +12,11 @@
     List<MenuItem> sweetItems = menuDAO.getMenuByCategory("sweet");
     List<MenuItem> drinkItems = menuDAO.getMenuByCategory("drink");
         
+    List<MenuItem> orderItems = (List<MenuItem>) session.getAttribute("orderItems");
+        if (orderItems == null) {
+            orderItems = new ArrayList();
+            session.setAttribute("orderItems", orderItems);
+        }
 %>
 
 <!DOCTYPE html>

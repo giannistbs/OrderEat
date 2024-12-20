@@ -137,8 +137,11 @@
                                             </h5>
                                             <div class="d-flex mt-1">
                                                 <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button>
-                                                <button class="btn btn-sm btn-outline-primary mt-1" onclick="addToOrder('<%= item.getName() %>')" style="margin-left: 2px;">+</button>
+                                                <!-- <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button> -->
+                                                 <!-- TODO -->
+                                                 <!-- add-to-cart & remove-from-cart to be implemented -->
+                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
+                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -165,8 +168,11 @@
                                                 </h5>
                                                 <div class="d-flex mt-1">
                                                     <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                    <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button>
-                                                    <button class="btn btn-sm btn-outline-primary mt-1" onclick="addToOrder('<%= item.getName() %>')" style="margin-left: 2px;">+</button>
+                                                    <!-- <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button> -->
+                                                     <!-- TODO -->
+                                                     <!-- add-to-cart & remove-from-cart to be implemented -->
+                                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -193,8 +199,11 @@
                                                 </h5>
                                                 <div class="d-flex mt-1">
                                                     <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                    <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button>
-                                                    <button class="btn btn-sm btn-outline-primary mt-1" onclick="addToOrder('<%= item.getName() %>')" style="margin-left: 2px;">+</button>
+                                                    <!-- <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button> -->
+                                                     <!-- TODO -->
+                                                     <!-- add-to-cart & remove-from-cart to be implemented -->
+                                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
                                                 </div>
                                             </div>
                                         </div>

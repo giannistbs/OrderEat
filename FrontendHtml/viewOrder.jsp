@@ -26,6 +26,22 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+    <style>
+       .order-summary {
+            position: fixed; /* Ensures it sticks to the viewport */
+            bottom: 0; /* Places it at the bottom */
+            width: 87%; /* Full width */
+            background-color: #fff0d5;
+            padding: 15px;
+            text-align: center;
+            z-index: 1000; /* Ensures it stays on top */
+            border-radius: 10px;
+        }
+        .order-summary p {
+            margin: 0;
+            font-size: 16px;
+        }
+    </style>
 </head>
 
 <%
@@ -89,45 +105,54 @@
     
 
         <!-- Menu Start -->
-        <div class="tab-content">
-            <div id="tab-1" class="tab-pane fade show p-0 active">
-                <div class="row g-4">
-                    <% 
-                        if (orderItems != null && !orderItems.isEmpty()) {
-                            for (MenuItem item : orderItems) {
-                    %>
-                    <div class="col-lg-6">
-                        <div class="d-flex align-items-center">
-                            <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
-                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                    <span><%= item.getName() %></span>
-                                    <span class="text-primary">$<%= item.getPrice() %></span>
-                                </h5>
-                                <div class="d-flex mt-1">
-                                    <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                    <!-- <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button> -->
-                                    <!-- TODO -->
-                                    <!-- add-to-cart & remove-from-cart to be implemented -->
-                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
-                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
-                                    <!-- <button type="button" class="btn btn-sm btn-outline-primary mt-1" onclick="addToCart(<%= item.getItemId() %>)">+</button> -->
+        <div class="container menu-section">
+                    <div class="tab-content">
+                        <div id="tab-1" class="tab-pane fade show p-0 active">
+                            <div class="row g-4">
+                                <% 
+                                    if (orderItems != null && !orderItems.isEmpty()) {
+                                        for (MenuItem item : orderItems) {
+                                %>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span><%= item.getName() %></span>
+                                                <span class="text-primary">$<%= item.getPrice() %></span>
+                                            </h5>
+                                            <div class="d-flex mt-1">
+                                                <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
+                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
+                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
+                                <% 
+                                        } // End of for loop
+                                    } else { 
+                                %>
+                                    <div class="col-lg-12 text-center">
+                                        <p class="text-muted">Your cart is empty!</p>
+                                    </div>
+                                <% 
+                                    } // End of if-else
+                                %>
                             </div>
                         </div>
                     </div>
-                    <% 
-                            } // End of for loop
-                        } else { 
-                    %>
-                        <div class="col-lg-12 text-center">
-                            <p class="text-muted">Your cart is empty!</p>
-                        </div>
-                    <% 
-                        } // End of if-else
-                    %>
+                    <div class="order-summary">
+                        <% 
+                            double total = 0;
+                            for (MenuItem item : orderItems) {
+                                total += item.getPrice();
+                        %>
+                        <% } %>
+                        <p>Total: <strong>$<%= String.format("%.2f", total) %></strong></p>
+                        <button class="btn btn-primary btn-block">Place Order</button>
+                    </div>
                 </div>
-            </div>
         </div>
     </div>
 

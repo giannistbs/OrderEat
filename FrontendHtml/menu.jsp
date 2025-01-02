@@ -51,6 +51,8 @@
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
+
+    <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
 </head>
 
 <body>
@@ -147,6 +149,7 @@
                                                  <!-- add-to-cart & remove-from-cart to be implemented -->
                                                 <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
                                                 <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
+                                                <!-- <button type="button" class="btn btn-sm btn-outline-primary mt-1" onclick="addToCart(<%= item.getItemId() %>)">+</button> -->
                                             </div>
                                         </div>
                                     </div>
@@ -165,7 +168,7 @@
                                 %>
                                     <div class="col-lg-6">
                                         <div class="d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid rounded" src="img/sweet/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
+                                            <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
                                             <div class="w-100 d-flex flex-column text-start ps-4">
                                                 <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                     <span><%= item.getName() %></span>
@@ -196,7 +199,7 @@
                                 %>
                                     <div class="col-lg-6">
                                         <div class="d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid rounded" src="img/drink/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
+                                            <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
                                             <div class="w-100 d-flex flex-column text-start ps-4">
                                                 <h5 class="d-flex justify-content-between border-bottom pb-2">
                                                     <span><%= item.getName() %></span>
@@ -223,6 +226,40 @@
             </div>
             <!-- Menu End -->
         </div>
+
+    <script>
+        $(document).on('click', '.add-to-cart', function () {
+            const itemId = $(this).data('code');
+            $.ajax({
+                url: 'viewOrder.jsp', // Updated URL
+                type: 'POST',
+                data: { action: 'add', itemId: itemId },
+                success: function (response) {
+                    alert('Item added to cart!');
+                    location.reload(); // Reload to update UI
+                },
+                error: function () {
+                    alert('Error adding item to cart!');
+                }
+            });
+        });
+
+        $(document).on('click', '.remove-from-cart', function () {
+            const itemId = $(this).data('code');
+            $.ajax({
+                url: 'viewOrder.jsp',
+                type: 'POST',
+                data: { action: 'remove', itemId: itemId },
+                success: function (response) {
+                    alert('Item removed from cart!');
+                    location.reload(); // Reload to update UI
+                },
+                error: function () {
+                    alert('Error removing item from cart!');
+                }
+            });
+        });
+    </script>
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

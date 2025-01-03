@@ -4,8 +4,9 @@ public class MenuItem {
     private int itemId;
     private String name;
     private String description;
-    private float price; // Corrected "prize" to "price"
+    private float price;
     private String category;
+    public int quantity;
 
     // Constructor to initialize all fields
     public MenuItem(int itemId, String name, String description, float price, String category) {
@@ -14,6 +15,7 @@ public class MenuItem {
         this.description = description;
         this.price = price;
         this.category = category;
+        this.quantity = 1;
     }
 
     // Default constructor (useful for frameworks)
@@ -63,6 +65,15 @@ public class MenuItem {
     public void setCategory(String category) {
         this.category = category;
     }
+
+    public int getQuantity(){
+        return quantity;
+    }
+
+    public void setQuantity(int quantity) {
+        this.quantity = quantity;
+    }
+
 
     // Override toString for better object representation
     @Override

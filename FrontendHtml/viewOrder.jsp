@@ -61,8 +61,17 @@
             int itemId = Integer.parseInt(itemIdParam);
             MenuDAO menuDAO = new MenuDAO();
             MenuItem item = menuDAO.getMenuItemById(itemId); // Retrieve the item from the database
-            if (item != null) {
-                orderItems.add(item); // Add the item to the session's cart
+            boolean itemExists = false;
+            for (MenuItem existingItem : orderItems) {
+                if (existingItem.getItemId() == item.getItemId()) {
+                    existingItem.setQuantity(existingItem.getQuantity() + 1);
+                    itemExists = true;
+                    break;
+                }
+            }
+
+            if (!itemExists && item != null) {
+                orderItems.add(item);
             }
         } catch (NumberFormatException e) {
             out.println("<p>Error: Invalid item ID!</p>");
@@ -118,7 +127,7 @@
                                         <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
                                         <div class="w-100 d-flex flex-column text-start ps-4">
                                             <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span><%= item.getName() %></span>
+                                                <span><%= item.getName() %> <%= item.getQuantity() %></span>
                                                 <span class="text-primary">$<%= item.getPrice() %></span>
                                             </h5>
                                             <div class="d-flex mt-1">

@@ -15,7 +15,7 @@ public class MenuItem {
         this.description = description;
         this.price = price;
         this.category = category;
-        this.quantity = 1;
+        this.quantity = 0;
     }
 
     // Default constructor (useful for frameworks)

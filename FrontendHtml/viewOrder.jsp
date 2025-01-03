@@ -3,6 +3,66 @@
 <%@ page import="omadikh.MenuDAO" %>
 <%@ page import="omadikh.MenuItem" %>
 
+
+<%
+    // Ensure session is not null
+    List<MenuItem> orderItems = (List<MenuItem>) session.getAttribute("orderItems");
+    if (orderItems == null) {
+        orderItems = new ArrayList();
+        session.setAttribute("orderItems", orderItems);
+    }
+
+    // Process "add" action
+    String action = request.getParameter("action");
+    String itemIdParam = request.getParameter("itemId");
+
+    if ("add".equals(action) && itemIdParam != null) {
+        try {
+            int itemId = Integer.parseInt(itemIdParam);
+            MenuDAO menuDAO = new MenuDAO();
+            MenuItem item = menuDAO.getMenuItemById(itemId); // Retrieve the item from the database
+            boolean itemExists = false;
+            for (MenuItem existingItem : orderItems) {
+                if (existingItem.getItemId() == item.getItemId()) {
+                    existingItem.setQuantity(existingItem.getQuantity() + 1);
+                    itemExists = true;
+                    break;
+                }
+            }
+
+            if (!itemExists && item != null) {
+                orderItems.add(item);
+                item.setQuantity(1);
+            }
+        } catch (NumberFormatException e) {
+            out.println("<p>Error: Invalid item ID!</p>");
+        }
+    } else if ("remove".equals(action) && itemIdParam != null){
+        try {
+            int itemId = Integer.parseInt(itemIdParam);
+            // Iterate through the orderItems list to find the item to remove
+            for (MenuItem item : orderItems) {
+                if (item.getItemId() == itemId) {
+                    if (item.getQuantity() == 1){
+                        orderItems.remove(item); // Remove the item from the cart
+                        break;
+                    } else {
+                        item.setQuantity(item.getQuantity() - 1);
+                    }
+                }
+            }
+        } catch (NumberFormatException e) {
+            out.println("<p>Error: Invalid item ID!</p>");
+        }
+    }
+
+    if (action != null) {
+        request.setAttribute("orderItems", orderItems);
+        RequestDispatcher dispatcher = request.getRequestDispatcher("menu.jsp");
+        dispatcher.forward(request, response);
+    }
+%>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -43,54 +103,6 @@
         }
     </style>
 </head>
-
-<%
-    // Ensure session is not null
-    List<MenuItem> orderItems = (List<MenuItem>) session.getAttribute("orderItems");
-    if (orderItems == null) {
-        orderItems = new ArrayList();
-        session.setAttribute("orderItems", orderItems);
-    }
-
-    // Process "add" action
-    String action = request.getParameter("action");
-    String itemIdParam = request.getParameter("itemId");
-
-    if ("add".equals(action) && itemIdParam != null) {
-        try {
-            int itemId = Integer.parseInt(itemIdParam);
-            MenuDAO menuDAO = new MenuDAO();
-            MenuItem item = menuDAO.getMenuItemById(itemId); // Retrieve the item from the database
-            boolean itemExists = false;
-            for (MenuItem existingItem : orderItems) {
-                if (existingItem.getItemId() == item.getItemId()) {
-                    existingItem.setQuantity(existingItem.getQuantity() + 1);
-                    itemExists = true;
-                    break;
-                }
-            }
-
-            if (!itemExists && item != null) {
-                orderItems.add(item);
-            }
-        } catch (NumberFormatException e) {
-            out.println("<p>Error: Invalid item ID!</p>");
-        }
-    } else if ("remove".equals(action) && itemIdParam != null){
-        try {
-            int itemId = Integer.parseInt(itemIdParam);
-            // Iterate through the orderItems list to find the item to remove
-            for (MenuItem item : orderItems) {
-                if (item.getItemId() == itemId) {
-                    orderItems.remove(item); // Remove the item from the cart
-                    break;
-                }
-            }
-        } catch (NumberFormatException e) {
-            out.println("<p>Error: Invalid item ID!</p>");
-        }
-    }
-%>
 
 <body>
     <!-- Navbar & Hero Start -->

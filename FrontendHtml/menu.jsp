@@ -52,7 +52,9 @@
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
+    <!-- JQuery for Scripts -->
     <script src="https://code.jquery.com/jquery-3.6.4.min.js"></script>
+
 </head>
 
 <body>
@@ -131,8 +133,18 @@
                         <!-- Lunch Tab -->
                         <div id="tab-1" class="tab-pane fade show active">
                             <div class="row g-4">
-                                <%
-                                    for (MenuItem item : foodItems) {
+                                <% for (MenuItem item : foodItems) { 
+                                    int quantity = 0;
+                                
+                                    // Check if this item is already in the orderItems list and get its quantity
+                                    if (orderItems != null) {
+                                        for (MenuItem orderItem : orderItems) {
+                                            if (orderItem.getItemId() == item.getItemId()) {
+                                                quantity = orderItem.getQuantity();
+                                                break;
+                                            }
+                                        }
+                                    }
                                 %>
                                 <div class="col-lg-6">
                                     <div class="d-flex align-items-center">
@@ -142,14 +154,14 @@
                                                 <span><%= item.getName() %></span>
                                                 <span class="text-primary">$<%= item.getPrice() %></span>
                                             </h5>
-                                            <div class="d-flex mt-1">
+                                            <div class="d-flex mt-1 cart-actions">
                                                 <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                <!-- <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button> -->
-                                                 <!-- TODO -->
-                                                 <!-- add-to-cart & remove-from-cart to be implemented -->
-                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
-                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
-                                                <!-- <button type="button" class="btn btn-sm btn-outline-primary mt-1" onclick="addToCart(<%= item.getItemId() %>)">+</button> -->
+                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display: none; position: relative; left: -13px;">
+                                                    <% int displayQuantity = (quantity > 0) ? quantity : 1; %>
+                                                    <%= quantity + 1%>
+                                                </span>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
+                                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -227,39 +239,51 @@
             <!-- Menu End -->
         </div>
 
-    <script>
-        $(document).on('click', '.add-to-cart', function () {
-            const itemId = $(this).data('code');
-            $.ajax({
-                url: 'viewOrder.jsp', // Updated URL
-                type: 'POST',
-                data: { action: 'add', itemId: itemId },
-                success: function (response) {
-                    alert('Item added to cart!');
-                    location.reload(); // Reload to update UI
-                },
-                error: function () {
-                    alert('Error adding item to cart!');
-                }
+        <script>
+            // Show the quantity box and temporarily hide the buttons on click
+            $(document).on('click', '.add-to-cart, .remove-from-cart', function () {
+                const button = $(this);
+                const cartActions = button.closest('.cart-actions');
+                const quantityBox = cartActions.find('.quantity-box');
+        
+                // Get action and itemId from button
+                const action = button.hasClass('add-to-cart') ? 'add' : 'remove';
+                const itemId = button.data('code');
+        
+                // Hide buttons, fade in the quantity box
+                cartActions.find('button').hide();
+                quantityBox.fadeIn(300);
+        
+                // Send the AJAX request
+                $.ajax({
+                    url: 'viewOrder.jsp',
+                    type: 'POST',
+                    data: { action: action, itemId: itemId },
+                    success: function (response) {
+                        // Reload the page for the quantity to load
+                        location.reload();
+                        // After 2 seconds, fade out the quantity box and show buttons with a delay
+                        setTimeout(function () {
+                            quantityBox.fadeOut(300, function () {
+                                cartActions.find('button').fadeIn(100);
+                            });
+                        }, 2000);
+                    },
+                    error: function () {
+                        quantityBox.text('Error').fadeIn();
+        
+                        // Hide the box and show buttons again after 2 seconds
+                        setTimeout(function () {
+                            quantityBox.fadeOut(300, function () {
+                                cartActions.find('button').fadeIn(100);
+                            });
+                        }, 2000);
+                    }
+                });
             });
-        });
-
-        $(document).on('click', '.remove-from-cart', function () {
-            const itemId = $(this).data('code');
-            $.ajax({
-                url: 'viewOrder.jsp',
-                type: 'POST',
-                data: { action: 'remove', itemId: itemId },
-                success: function (response) {
-                    alert('Item removed from cart!');
-                    location.reload(); // Reload to update UI
-                },
-                error: function () {
-                    alert('Error removing item from cart!');
-                }
-            });
-        });
-    </script>
+        </script>
+        
+        
 
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

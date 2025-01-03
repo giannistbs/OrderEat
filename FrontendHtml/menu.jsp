@@ -176,6 +176,17 @@
                             <div class="row g-4">
                                 <%
                                     for (MenuItem item : sweetItems) {
+                                        int quantity = 0;
+        
+                                        // Check if this item is already in the orderItems list and get its quantity
+                                        if (orderItems != null) {
+                                            for (MenuItem orderItem : orderItems) {
+                                                if (orderItem.getItemId() == item.getItemId()) {
+                                                    quantity = orderItem.getQuantity();
+                                                    break;
+                                                }
+                                            }
+                                        }
                                 %>
                                     <div class="col-lg-6">
                                         <div class="d-flex align-items-center">
@@ -185,13 +196,13 @@
                                                     <span><%= item.getName() %></span>
                                                     <span class="text-primary">$<%= item.getPrice() %></span>
                                                 </h5>
-                                                <div class="d-flex mt-1">
+                                                <div class="d-flex mt-1 cart-actions">
                                                     <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                    <!-- <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button> -->
-                                                     <!-- TODO -->
-                                                     <!-- add-to-cart & remove-from-cart to be implemented -->
                                                     <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
                                                     <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
+                                                    <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display: none; position: relative; left: -13px;">
+                                                        <%= quantity %>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -207,6 +218,17 @@
                             <div class="row g-4">
                                 <%
                                     for (MenuItem item : drinkItems) {
+                                        int quantity = 0;
+        
+                                        // Check if this item is already in the orderItems list and get its quantity
+                                        if (orderItems != null) {
+                                            for (MenuItem orderItem : orderItems) {
+                                                if (orderItem.getItemId() == item.getItemId()) {
+                                                    quantity = orderItem.getQuantity();
+                                                    break;
+                                                }
+                                            }
+                                        }
                                 %>
                                     <div class="col-lg-6">
                                         <div class="d-flex align-items-center">
@@ -216,13 +238,13 @@
                                                     <span><%= item.getName() %></span>
                                                     <span class="text-primary">$<%= item.getPrice() %></span>
                                                 </h5>
-                                                <div class="d-flex mt-1">
+                                                <div class="d-flex mt-1 cart-actions">
                                                     <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                    <!-- <button class="btn btn-sm btn-outline-primary mt-1" onclick="removeFromOrder('<%= item.getName() %>')">-</button> -->
-                                                     <!-- TODO -->
-                                                     <!-- add-to-cart & remove-from-cart to be implemented -->
                                                     <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
                                                     <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
+                                                    <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display: none; position: relative; left: -13px;">
+                                                        <%= quantity %>
+                                                    </span>
                                                 </div>
                                             </div>
                                         </div>
@@ -283,7 +305,7 @@
                     quantityBox.fadeOut(300, function () {
                         cartActions.find("button").fadeIn(100);
                     });
-                }, 2000);
+                }, 500);
             },
             error: function (xhr, status, error) {
                 console.error("Failed to update quantity:", status, error);
@@ -296,7 +318,7 @@
                     quantityBox.fadeOut(300, function () {
                         cartActions.find("button").fadeIn(100);
                     });
-                }, 2000);
+                }, 500);
             }
         });
     });

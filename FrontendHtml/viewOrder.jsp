@@ -171,7 +171,7 @@
                         <% 
                             double total = 0;
                             for (MenuItem item : orderItems) {
-                                total += item.getPrice();
+                                total += item.getPrice() * item.getQuantity();
                         %>
                         <% } %>
                         <p>Total: <strong>$<%= String.format("%.2f", total) %></strong></p>

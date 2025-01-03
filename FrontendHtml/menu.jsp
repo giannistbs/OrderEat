@@ -156,12 +156,11 @@
                                             </h5>
                                             <div class="d-flex mt-1 cart-actions">
                                                 <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display: none; position: relative; left: -13px;">
-                                                    <% int displayQuantity = (quantity > 0) ? quantity : 1; %>
-                                                    <%= quantity + 1%>
-                                                </span>
                                                     <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
                                                     <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
+                                                    <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display: none; position: relative; left: -13px;">
+                                                        <%= quantity %>
+                                                    </span>
                                             </div>
                                         </div>
                                     </div>
@@ -240,47 +239,69 @@
         </div>
 
         <script>
-            // Show the quantity box and temporarily hide the buttons on click
-            $(document).on('click', '.add-to-cart, .remove-from-cart', function () {
-                const button = $(this);
-                const cartActions = button.closest('.cart-actions');
-                const quantityBox = cartActions.find('.quantity-box');
-        
-                // Get action and itemId from button
-                const action = button.hasClass('add-to-cart') ? 'add' : 'remove';
-                const itemId = button.data('code');
-        
-                // Hide buttons, fade in the quantity box
-                cartActions.find('button').hide();
-                quantityBox.fadeIn(300);
-        
-                // Send the AJAX request
-                $.ajax({
-                    url: 'viewOrder.jsp',
-                    type: 'POST',
-                    data: { action: action, itemId: itemId },
-                    success: function (response) {
-                        // Reload the page for the quantity to load
-                        location.reload();
-                        // After 2 seconds, fade out the quantity box and show buttons with a delay
-                        setTimeout(function () {
-                            quantityBox.fadeOut(300, function () {
-                                cartActions.find('button').fadeIn(100);
-                            });
-                        }, 2000);
-                    },
-                    error: function () {
-                        quantityBox.text('Error').fadeIn();
-        
-                        // Hide the box and show buttons again after 2 seconds
-                        setTimeout(function () {
-                            quantityBox.fadeOut(300, function () {
-                                cartActions.find('button').fadeIn(100);
-                            });
-                        }, 2000);
-                    }
-                });
-            });
+            $(document).ready(function () {
+    // Event listener for Add and Remove buttons
+    $(".add-to-cart, .remove-from-cart").on("click", function () {
+        const button = $(this);
+        const cartActions = button.closest(".cart-actions");
+        const quantityBox = cartActions.find(".quantity-box");
+
+        // Get action and itemId from button
+        const action = button.hasClass("add-to-cart") ? "add" : "remove";
+        const itemId = button.data("code"); // Assuming "code" holds the itemId
+        let quantity = parseInt(quantityBox.text()) || 0;
+
+        // Update quantity locally
+        if (action === "add") {
+            quantity += 1;
+        } else if (action === "remove") {
+            quantity = Math.max(0, quantity - 1); // Prevent quantity from going below 0
+        }
+
+        // Update the displayed quantity
+        quantityBox.text(quantity);
+        quantityBox.data("quantity", quantity);
+
+        // Temporarily hide buttons and show quantity box
+        cartActions.find("button").hide();
+        quantityBox.fadeIn(300);
+
+        // Send the AJAX request to update quantity on the server
+        $.ajax({
+            url: "viewOrder.jsp",
+            type: "POST",
+            data: {
+                action: action,
+                itemId: itemId,
+                quantity: quantity,
+            },
+            success: function (response) {
+                console.log("Quantity updated successfully");
+
+                // After 2 seconds, fade out the quantity box and show buttons again
+                setTimeout(function () {
+                    quantityBox.fadeOut(300, function () {
+                        cartActions.find("button").fadeIn(100);
+                    });
+                }, 2000);
+            },
+            error: function (xhr, status, error) {
+                console.error("Failed to update quantity:", status, error);
+
+                // Display error in the quantity box
+                quantityBox.text("Error").fadeIn();
+
+                // Hide the box and show buttons again after 2 seconds
+                setTimeout(function () {
+                    quantityBox.fadeOut(300, function () {
+                        cartActions.find("button").fadeIn(100);
+                    });
+                }, 2000);
+            }
+        });
+    });
+});
+
         </script>
         
         

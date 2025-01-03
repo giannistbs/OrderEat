@@ -127,8 +127,12 @@
                                         <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
                                         <div class="w-100 d-flex flex-column text-start ps-4">
                                             <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span><%= item.getName() %> <%= item.getQuantity() %></span>
-                                                <span class="text-primary">$<%= item.getPrice() %></span>
+                                                <div style="display: flex; align-items: center;">
+                                                    <span><%= item.getName() %></span>
+                                                    <h3 class="text-primary m-0" style="margin-left: 2px; font-size: 1rem;"><i class="fa me-1"></i>x<%= item.getQuantity() %></h3>
+                                                </div>
+                                                
+                                                <span class="text-primary">$<%= item.getPrice() * item.getQuantity() %></span>
                                             </h5>
                                             <div class="d-flex mt-1">
                                                 <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>

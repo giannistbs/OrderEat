@@ -32,13 +32,12 @@ public class OrderDAO {
             connection.setAutoCommit(false); // Start transaction
 
             // Insert the order into the "orders" table
-            String insertOrderQuery = "INSERT INTO " + TABLE_NAME + " (orderId, tableId, orderDate, bill, payed) VALUES (?, ?, ?, ?, ?)";
+            String insertOrderQuery = "INSERT INTO " + TABLE_NAME + " (tableId, orderDate, bill, payed) VALUES (?, ?, ?, ?)";
             orderStatement = connection.prepareStatement(insertOrderQuery);
-            orderStatement.setString(1, order.getOrderId());
-            orderStatement.setString(2, order.getTableId());
-            orderStatement.setDate(3, new java.sql.Date(order.getOrderDate().getTime()));
-            orderStatement.setString(4, order.getBill());
-            orderStatement.setBoolean(5, order.getPayed());
+            orderStatement.setString(1, order.getTableId());
+            orderStatement.setDate(2, new java.sql.Date(order.getOrderDate().getTime()));
+            orderStatement.setString(3, order.getBill());
+            orderStatement.setBoolean(4, order.getPayed());
             orderStatement.executeUpdate();
 
             // Insert associated menu items into "order_menu_items" table

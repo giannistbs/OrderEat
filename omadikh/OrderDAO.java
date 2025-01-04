@@ -6,6 +6,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.sql.Statement;
 
 public class OrderDAO {
 
@@ -33,12 +34,20 @@ public class OrderDAO {
 
             // Insert the order into the "orders" table
             String insertOrderQuery = "INSERT INTO " + TABLE_NAME + " (tableId, orderDate, bill, payed) VALUES (?, ?, ?, ?)";
-            orderStatement = connection.prepareStatement(insertOrderQuery);
+            orderStatement = connection.prepareStatement(insertOrderQuery, Statement.RETURN_GENERATED_KEYS);
             orderStatement.setString(1, order.getTableId());
             orderStatement.setDate(2, new java.sql.Date(order.getOrderDate().getTime()));
             orderStatement.setString(3, order.getBill());
             orderStatement.setBoolean(4, order.getPayed());
             orderStatement.executeUpdate();
+
+            ResultSet generatedKeys = orderStatement.getGeneratedKeys();
+            if (generatedKeys.next()) {
+                int generatedOrderId = generatedKeys.getInt(1);
+                order.setOrderId(String.valueOf(generatedOrderId)); // Set the ID to the order object
+            } else {
+                throw new Exception("Failed to retrieve generated order ID.");
+            }
 
             // Insert associated menu items into "order_menu_items" table
             String insertItemsQuery = "INSERT INTO " + ORDER_ITEMS_TABLE + " (orderId, itemId) VALUES (?, ?)";

@@ -54,9 +54,13 @@
         } catch (NumberFormatException e) {
             out.println("<p>Error: Invalid item ID!</p>");
         }
+    } else if ("clear".equals(action)) {
+        orderItems.clear(); // Clear all items from the cart
+        session.setAttribute("orderItems", orderItems);
     }
+    
 
-    if (action != null) {
+    if (action != null && !"clear".equals(action)) {
         request.setAttribute("orderItems", orderItems);
         RequestDispatcher dispatcher = request.getRequestDispatcher("menu.jsp");
         dispatcher.forward(request, response);
@@ -215,9 +219,12 @@
                             <!-- Button Group -->
                             <div class="d-flex justify-content-between">
                                 <button id="placeOrderBtn" class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem;">Place Order</button>
-                                <button class="btn btn-light btn-sm ms-2" style="width: 45%; font-size: 0.8rem;" aria-label="Clear Order">
-                                    <i class="fa fa-trash" style="font-size: 1.5rem; color: rgb(124, 124, 124);"></i>
-                                </button>
+                                <form method="post" action="viewOrder.jsp" style="display: contents;">
+                                    <input type="hidden" name="action" value="clear">
+                                    <button class="btn btn-light btn-sm ms-2" style="width: 45%; font-size: 0.8rem;" aria-label="Clear Order">
+                                        <i class="fa fa-trash" style="font-size: 1.5rem; color: rgb(124, 124, 124);"></i>
+                                    </button>
+                                </form>
                             </div>
                         </div>
                     
@@ -230,9 +237,6 @@
                             </div>
                         </div>
                     </div>
-                    
-
-                    
                 </div>
         </div>
     </div>
@@ -256,6 +260,25 @@
                 }, 600); // Match the duration of the flip animation
             });
         });
+
+        document.addEventListener("DOMContentLoaded", function () {
+        const clearOrderBtn = document.querySelector('form[action="viewOrder.jsp"] button[type="submit"]');
+
+        clearOrderBtn.addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent form submission
+            fetch('viewOrder.jsp?action=clear', { method: 'POST' })
+                .then(response => response.text())
+                .then(data => {
+                    // Optionally, clear the cart visually
+                    const orderSummary = document.getElementById("orderSummary");
+                    location.reload()
+                    orderSummary.innerHTML = `
+                        <p class="text-muted text-center">Your cart is empty!</p>
+                    `;
+                })
+                .catch(error => console.error('Error:', error));
+        });
+    });
     </script>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

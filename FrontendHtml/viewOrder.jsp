@@ -249,6 +249,13 @@
             const backContent = orderSummary.querySelector(".back");
             const frontButtons = orderSummary.querySelectorAll(".front .btn");
     
+            // Check if the div has already flipped in this session
+            if (sessionStorage.getItem("orderSummaryFlipped") === "true") {
+                orderSummary.classList.add("flipped");
+                backContent.classList.remove("hidden");
+                frontButtons.forEach(button => button.classList.add("hidden"));
+            }
+
             placeOrderBtn.addEventListener("click", function () {
                 // Add the "flipped" class to trigger the animation
                 orderSummary.classList.add("flipped");
@@ -258,6 +265,8 @@
                     backContent.classList.remove("hidden"); // Show the back content
                     frontButtons.forEach(button => button.classList.add("hidden"));
                 }, 600); // Match the duration of the flip animation
+
+                sessionStorage.setItem("orderSummaryFlipped", "true");
             });
         });
         document.addEventListener("DOMContentLoaded", function () {

@@ -50,12 +50,13 @@ public class OrderDAO {
             }
 
             // Insert associated menu items into "order_order_items" table
-            String insertItemsQuery = "INSERT INTO " + ORDER_ITEMS_TABLE + " (orderId, itemId) VALUES (?, ?)";
+            String insertItemsQuery = "INSERT INTO " + ORDER_ITEMS_TABLE + " (orderId, itemId, quantity) VALUES (?, ?, ?)";
             itemsStatement = connection.prepareStatement(insertItemsQuery);
 
             for (MenuItem item : order.getMenuItems()) {
                 itemsStatement.setString(1, order.getOrderId());
                 itemsStatement.setInt(2, item.getItemId());
+                itemsStatement.setInt(3, item.getQuantity());
                 itemsStatement.addBatch();
             }
             itemsStatement.executeBatch();

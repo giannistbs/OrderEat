@@ -89,18 +89,52 @@
     <style>
        .order-summary {
             position: fixed; /* Ensures it sticks to the viewport */
-            bottom: 0; /* Places it at the bottom */
+            bottom: -500px; /* Places it at the bottom */
             width: 87%; /* Full width */
             background-color: #fff0d5;
             padding: 15px;
             text-align: center;
             z-index: 1000; /* Ensures it stays on top */
             border-radius: 10px;
+            height: 105px;
+            display: flex;
+            flex-direction: column;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);  /* Adds depth if needed */
         }
         .order-summary p {
             margin: 0;
             font-size: 16px;
         }
+
+        .order-summary {
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            position: relative;
+        }
+
+        .order-summary.flipped {
+            transform: rotateY(180deg);
+        }
+
+        .order-summary .front,
+        .order-summary .back {
+            backface-visibility: hidden;
+            position: fixed;
+            width: 87%;
+        }
+        
+        .order-summary .back {
+            transform: rotateY(180deg);
+            flex-direction: column;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .hidden {
+            display: none;
+        }
+
+       
     </style>
 </head>
 
@@ -166,27 +200,63 @@
                         </div>
                     </div>
                     
-                    <div class="order-summary" style="position: fixed; bottom: 20px; right: 20px; background-color: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); font-size: 0.9rem; width: 250px;">
+                    <div class="order-summary" id="orderSummary" style="position: fixed; bottom: 20px; right: 20px; background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); font-size: 0.9rem; width: 250px;">
                         <% 
                             double total = 0;
                             for (MenuItem item : orderItems) {
                                 total += item.getPrice() * item.getQuantity();
+                            }
                         %>
-                        <% } %>
-                        <p class="mb-2" style="font-size: 0.8rem;">Total: <strong>$<%= String.format("%.2f", total) %></strong></p>
-                        
-                        <!-- Button Group (Placed next to each other) -->
-                        <div class="d-flex justify-content-between align-items-center">
-                            <button class="btn btn-primary btn-sm me-2" style="width: 45%; flex: 1; padding: 5px 10px; font-size: 0.8rem;">Place Order</button>
-                            <button class="btn btn-light btn-sm ms-2" style="width: 45%; flex: 1; padding: 10px 10px; font-size: 0.8rem;" aria-label="Clear Order">
-                                <i class="fa fa-trash" style="font-size: 1.5rem; color: rgb(124, 124, 124);"></i>
-                            </button>
+                        <!-- Front Section -->
+                        <div class="front" style="bottom: 4px;">
+                            <!-- Total Section -->
+                            <p class="total mb-3 fw-bold text-center" style="font-size: 0.8rem;">Total: <strong>$<%= String.format("%.2f", total) %></strong></p>
+                            
+                            <!-- Button Group -->
+                            <div class="d-flex justify-content-between">
+                                <button id="placeOrderBtn" class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem;">Place Order</button>
+                                <button class="btn btn-light btn-sm ms-2" style="width: 45%; font-size: 0.8rem;" aria-label="Clear Order">
+                                    <i class="fa fa-trash" style="font-size: 1.5rem; color: rgb(124, 124, 124);"></i>
+                                </button>
+                            </div>
+                        </div>
+                    
+                        <!-- Back Section -->
+                        <div class="back hidden d-flex justify-content-between">
+                            <p class="total mb-3 fw-bold text-center" style="font-size: 0.8rem;">Total: <strong>$<%= String.format("%.2f", total) %></strong></p>
+                            <div class="d-flex justify-content-between" style="bottom: 0px">
+                                <button class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem;">Pay</button>
+                                <button class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem; text-align: left; padding-left: 7px;">Feedback</button>
+                            </div>
                         </div>
                     </div>
+                    
+
+                    
                 </div>
         </div>
     </div>
 
+    <script>
+        // Ensure the DOM is fully loaded before accessing elements
+        document.addEventListener("DOMContentLoaded", function () {
+            const placeOrderBtn = document.getElementById("placeOrderBtn");
+            const orderSummary = document.getElementById("orderSummary");
+            const backContent = orderSummary.querySelector(".back");
+            const frontButtons = orderSummary.querySelectorAll(".front .btn");
+    
+            placeOrderBtn.addEventListener("click", function () {
+                // Add the "flipped" class to trigger the animation
+                orderSummary.classList.add("flipped");
+    
+                // Show the back content after the animation
+                setTimeout(() => {
+                    backContent.classList.remove("hidden"); // Show the back content
+                    frontButtons.forEach(button => button.classList.add("hidden"));
+                }, 600); // Match the duration of the flip animation
+            });
+        });
+    </script>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
     <!-- Template Javascript -->

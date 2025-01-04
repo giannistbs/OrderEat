@@ -260,6 +260,33 @@
                 }, 600); // Match the duration of the flip animation
             });
         });
+        document.addEventListener("DOMContentLoaded", function () {
+            const placeButton = document.getElementById("placeOrderBtn");
+
+            placeButton.addEventListener("click", function () {
+                // Prepare the order data
+                const total = String("<%=total%>");
+
+                // Send AJAX request
+                $.ajax({
+                    url: "orderController.jsp", // The servlet URL
+                    type: "POST",
+                    data: {
+                        total: total,   // Total price
+                    },
+                    success: function (response) {
+                        // Handle successful response
+                        alert("Order placed successfully!");
+                    },
+                    error: function (xhr, status, error) {
+                        // Handle error
+                        console.error("Error:", error);
+                        alert("Failed to place the order. Please try again." + xhr.status);
+                        console.error("Status Code:", xhr.status);
+                    },
+                });
+            });
+        });
 
         document.addEventListener("DOMContentLoaded", function () {
         const clearOrderBtn = document.querySelector('form[action="viewOrder.jsp"] button[type="submit"]');

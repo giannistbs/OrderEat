@@ -1,23 +1,26 @@
 package omadikh;
 
 import java.util.Date;
+import java.util.List;
 
 public class Order {
 
     // Attributes
     private String orderId;
     private String tableId;
-    private MenuItem[] menuItems; // Assuming MenuItem is another class
+    private List<MenuItem> menuItems; // Assuming MenuItem is another class
     private Date orderDate;
     private String bill;
+    private Boolean payed;
 
     // Constructor
-    public Order(String orderId, String tableId, MenuItem[] menuItems, Date orderDate, String bill) {
+    public Order(String orderId, String tableId, List<MenuItem> menuItems , Date orderDate, String bill, Boolean payed) {
         this.orderId = orderId;
         this.tableId = tableId;
         this.menuItems = menuItems;
         this.orderDate = orderDate;
         this.bill = bill;
+        this.payed = payed;
     }
 
     // Getters and Setters
@@ -37,11 +40,11 @@ public class Order {
         this.tableId = tableId;
     }
 
-    public MenuItem[] getMenuItems() {
+    public List<MenuItem> getMenuItems() {
         return menuItems;
     }
 
-    public void setMenuItems(MenuItem[] menuItems) {
+    public void setMenuItems(List<MenuItem> menuItems) {
         this.menuItems = menuItems;
     }
 
@@ -59,6 +62,14 @@ public class Order {
 
     public void setBill(String bill) {
         this.bill = bill;
+    }
+
+    public Boolean getPayed() {
+        return payed;
+    }
+
+    public void setPayed(Boolean payed) {
+        this.payed = payed;
     }
 
     // toString method to display Order details

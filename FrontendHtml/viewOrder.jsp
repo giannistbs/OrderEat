@@ -148,8 +148,6 @@
                                             </h5>
                                             <div class="d-flex mt-1">
                                                 <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
-                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
                                             </div>
                                         </div>
                                     </div>
@@ -167,15 +165,23 @@
                             </div>
                         </div>
                     </div>
-                    <div class="order-summary">
+                    
+                    <div class="order-summary" style="position: fixed; bottom: 20px; right: 20px; background-color: white; padding: 10px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); font-size: 0.9rem; width: 250px;">
                         <% 
                             double total = 0;
                             for (MenuItem item : orderItems) {
                                 total += item.getPrice() * item.getQuantity();
                         %>
                         <% } %>
-                        <p>Total: <strong>$<%= String.format("%.2f", total) %></strong></p>
-                        <button class="btn btn-primary btn-block">Place Order</button>
+                        <p class="mb-2" style="font-size: 0.8rem;">Total: <strong>$<%= String.format("%.2f", total) %></strong></p>
+                        
+                        <!-- Button Group (Placed next to each other) -->
+                        <div class="d-flex justify-content-between align-items-center">
+                            <button class="btn btn-primary btn-sm me-2" style="width: 45%; flex: 1; padding: 5px 10px; font-size: 0.8rem;">Place Order</button>
+                            <button class="btn btn-light btn-sm ms-2" style="width: 45%; flex: 1; padding: 10px 10px; font-size: 0.8rem;" aria-label="Clear Order">
+                                <i class="fa fa-trash" style="font-size: 1.5rem; color: rgb(124, 124, 124);"></i>
+                            </button>
+                        </div>
                     </div>
                 </div>
         </div>

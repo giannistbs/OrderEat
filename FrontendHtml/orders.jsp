@@ -1,3 +1,9 @@
+<%@ page import="omadikh.Order" %>
+<%@ page import="omadikh.OrderDAO" %>
+<%@ page import="omadikh.MenuItem" %>
+<%@ page import="java.util.List" %>
+<%@ page import="java.util.ArrayList" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -84,173 +90,39 @@
         <div class="container">
             <h1 class="text-center">Order List</h1>
 
-            <!-- Orders Table -->
-            <div class="table-responsive">
-                <table class="table table-bordered table-striped">
-                    <thead>
+           <!-- Orders Table -->
+           <div class="table-responsive">
+            <table class="table table-bordered table-striped">
+                <thead>
+                    <tr>
+                        <th>Order ID</th>
+                        <th>Table</th>
+                        <th>Order Date</th>
+                        <th>Status</th>
+                        <th>Total</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <%
+                        OrderDAO orderDAO = new OrderDAO();
+                        List<Order> orders = orderDAO.manageOrders(); // Assuming getOrders() fetches all orders.
+                        for (Order order : orders) {
+                    %>
                         <tr>
-                            <th>Order ID</th>
-                            <th>Table</th>
-                            <th>Order Date</th>
-                            <th>Status</th>
-                            <th>Total</th>
+                            <td>#<%= order.getOrderId() %></td>
+                            <td><%= order.getTableId() %></td>
+                            <td><%= order.getOrderDate() %></td>
+                            <td><%= order.getPayed() ? "Paid" : "Pending" %></td>
+                            <td>$<%= order.getBill() %></td>
                         </tr>
-                    </thead>
-                    <tbody>
-                        <tr>
-                            <td>#001</td>
-                            <td>Table 2</td>
-                            <td>2024-10-01</td>
-                            <td>Completed</td>
-                            <td>$45.00</td>
-                        </tr>
-                        <tr>
-                            <td>#002</td>
-                            <td>Table 3</td>
-                            <td>2024-10-02</td>
-                            <td>Pending</td>
-                            <td>$30.00</td>
-                        </tr>
-                        <tr>
-                            <td>#003</td>
-                            <td>Table 4</td>
-                            <td>2024-10-03</td>
-                            <td>Cancelled</td>
-                            <td>$25.00</td>
-                        </tr>
-                        <tr>
-                            <td>#004</td>
-                            <td>Table 5</td>
-                            <td>2024-10-01</td>
-                            <td>Completed</td>
-                            <td>$45.00</td>
-                        </tr>
-                        <tr>
-                            <td>#005</td>
-                            <td>Table 6</td>
-                            <td>2024-10-02</td>
-                            <td>Pending</td>
-                            <td>$30.00</td>
-                        </tr>
-                        <tr>
-                            <td>#006</td>
-                            <td>Table 7</td>
-                            <td>2024-10-03</td>
-                            <td>Cancelled</td>
-                            <td>$25.00</td>
-                        </tr>
-                        <tr>
-                            <td>#007</td>
-                            <td>Table 8</td>
-                            <td>2024-10-01</td>
-                            <td>Completed</td>
-                            <td>$45.00</td>
-                        </tr>
-                        <tr>
-                            <td>#008</td>
-                            <td>Table 9</td>
-                            <td>2024-10-02</td>
-                            <td>Pending</td>
-                            <td>$30.00</td>
-                        </tr>
-                        <tr>
-                            <td>#009</td>
-                            <td>Table 10</td>
-                            <td>2024-10-03</td>
-                            <td>Cancelled</td>
-                            <td>$25.00</td>
-                        </tr>
-                        <tr>
-                            <td>#010</td>
-                            <td>Table 11</td>
-                            <td>2024-10-01</td>
-                            <td>Completed</td>
-                            <td>$45.00</td>
-                        </tr>
-                        <tr>
-                            <td>#011</td>
-                            <td>Table 12</td>
-                            <td>2024-10-02</td>
-                            <td>Pending</td>
-                            <td>$30.00</td>
-                        </tr>
-                        <tr>
-                            <td>#012</td>
-                            <td>Table 13</td>
-                            <td>2024-10-03</td>
-                            <td>Cancelled</td>
-                            <td>$25.00</td>
-                        </tr>
-                        <tr>
-                            <td>#013</td>
-                            <td>Table 14</td>
-                            <td>2024-10-01</td>
-                            <td>Completed</td>
-                            <td>$45.00</td>
-                        </tr>
-                        <tr>
-                            <td>#014</td>
-                            <td>Table 15</td>
-                            <td>2024-10-02</td>
-                            <td>Pending</td>
-                            <td>$30.00</td>
-                        </tr>
-                        <tr>
-                            <td>#015</td>
-                            <td>Table 16</td>
-                            <td>2024-10-03</td>
-                            <td>Cancelled</td>
-                            <td>$25.00</td>
-                        </tr>
-                        <tr>
-                            <td>#016</td>
-                            <td>Table 17</td>
-                            <td>2024-10-01</td>
-                            <td>Completed</td>
-                            <td>$45.00</td>
-                        </tr>
-                        <tr>
-                            <td>#017</td>
-                            <td>Table 18</td>
-                            <td>2024-10-02</td>
-                            <td>Pending</td>
-                            <td>$30.00</td>
-                        </tr>
-                        <tr>
-                            <td>#018</td>
-                            <td>Table 19</td>
-                            <td>2024-10-03</td>
-                            <td>Cancelled</td>
-                            <td>$25.00</td>
-                        </tr>
-                        <tr>
-                            <td>#019</td>
-                            <td>Table 20</td>
-                            <td>2024-10-01</td>
-                            <td>Completed</td>
-                            <td>$45.00</td>
-                        </tr>
-                        <tr>
-                            <td>#020</td>
-                            <td>Table 21</td>
-                            <td>2024-10-02</td>
-                            <td>Pending</td>
-                            <td>$30.00</td>
-                        </tr>
-                        <tr>
-                            <td>#021</td>
-                            <td>Table 22</td>
-                            <td>2024-10-03</td>
-                            <td>Cancelled</td>
-                            <td>$25.00</td>
-                        </tr>
-                        
-                        <!-- More orders can be added here -->
-                    </tbody>
-                </table>
-            </div>
+                    <%
+                        }
+                    %>
+                </tbody>
+            </table>
         </div>
     </div>
+</div>
 
     <!-- jQuery and Bootstrap JS -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>

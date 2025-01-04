@@ -49,7 +49,7 @@ public class OrderDAO {
                 throw new Exception("Failed to retrieve generated order ID.");
             }
 
-            // Insert associated menu items into "order_menu_items" table
+            // Insert associated menu items into "order_order_items" table
             String insertItemsQuery = "INSERT INTO " + ORDER_ITEMS_TABLE + " (orderId, itemId) VALUES (?, ?)";
             itemsStatement = connection.prepareStatement(insertItemsQuery);
 
@@ -90,7 +90,7 @@ public class OrderDAO {
             connection = db.getConnection();
 
             // Query to fetch the prices of all menu items for the given order
-            String query = "SELECT mi.price FROM menu_items mi JOIN order_menu_items omi ON mi.itemId = omi.itemId WHERE omi.orderId = ?";
+            String query = "SELECT mi.price FROM order_items mi JOIN order_order_items omi ON mi.itemId = omi.itemId WHERE omi.orderId = ?";
             statement = connection.prepareStatement(query);
             statement.setString(1, orderId);
             resultSet = statement.executeQuery();
@@ -175,69 +175,66 @@ public class OrderDAO {
     }
 
     /**
-     * Retrieves a specific order from the database by its ID.
+     * Retrieves all orders from the database.
      *
-     * @param orderId The ID of the order to retrieve.
      * @return The Order object containing details of the order and its menu items.
      * @throws Exception if there's an issue during the operation.
      */
-    public Order getOrder(String orderId) throws Exception {
-        DB db = new DB();
-        Connection connection = null;
-        PreparedStatement orderStatement = null;
-        PreparedStatement itemsStatement = null;
-        ResultSet orderResultSet = null;
-        ResultSet itemsResultSet = null;
-
-        Order order = null;
-
-        try {
-            connection = db.getConnection();
-
-            // Query to fetch the order details
-            String orderQuery = "SELECT * FROM " + TABLE_NAME + " WHERE orderId = ?";
-            orderStatement = connection.prepareStatement(orderQuery);
-            orderStatement.setString(1, orderId);
-            orderResultSet = orderStatement.executeQuery();
-
-            if (orderResultSet.next()) {
-                String tableId = orderResultSet.getString("tableId");
-                Date orderDate = orderResultSet.getDate("orderDate");
-                String bill = orderResultSet.getString("bill");
-                boolean payed = orderResultSet.getBoolean("payed");
-
-                // Query to fetch the associated menu items for this order
-                String itemsQuery = "SELECT mi.* FROM menu_items mi JOIN order_menu_items omi ON mi.itemId = omi.itemId WHERE omi.orderId = ?";
-                itemsStatement = connection.prepareStatement(itemsQuery);
-                itemsStatement.setString(1, orderId);
-                itemsResultSet = itemsStatement.executeQuery();
-
-                List<MenuItem> menuItems = new ArrayList<>();
-                while (itemsResultSet.next()) {
-                    int itemId = itemsResultSet.getInt("itemId");
-                    String name = itemsResultSet.getString("name");
-                    float price = itemsResultSet.getFloat("price");
-                    String description = itemsResultSet.getString("description");
-                    String category = itemsResultSet.getString("category");
-
-                    // Add menu item to the list
-                    menuItems.add(new MenuItem(itemId, name, description, price, category));
-                }
-
-                // Create the Order object
-                order = new Order(orderId, tableId, menuItems, orderDate, bill, payed);
-                System.out.println("Order retrieved successfully with Order ID: " + orderId);
-            } else {
-                System.out.println("No order found with Order ID: " + orderId);
-            }
-
-        } catch (Exception e) {
-            throw new Exception("Error retrieving order: " + e.getMessage(), e);
-        } finally {
-            closeResources(orderResultSet, itemsResultSet, orderStatement, itemsStatement, connection);
-        }
-
-        return order;
-    }
+    // public List<Order> getOrders() throws Exception {
+    //     DB db = new DB();
+    //     Connection connection = null;
+    //     PreparedStatement orderStatement = null;
+    //     PreparedStatement itemsStatement = null;
+    //     ResultSet orderResultSet = null;
+    //     ResultSet itemsResultSet = null;
+    
+    //     List<Order> orders = new ArrayList<>();
+    
+    //     try {
+    //         connection = db.getConnection();
+    
+    //         // Query to fetch all order details
+    //         String orderQuery = "SELECT * FROM " + TABLE_NAME;
+    //         orderStatement = connection.prepareStatement(orderQuery);
+    //         orderResultSet = orderStatement.executeQuery();
+    
+    //         while (orderResultSet.next()) {
+    //             String orderId = orderResultSet.getString("orderId");
+    //             String tableId = orderResultSet.getString("tableId");
+    //             Date orderDate = orderResultSet.getDate("orderDate");
+    //             String bill = orderResultSet.getString("bill");
+    //             boolean payed = orderResultSet.getBoolean("payed");
+    
+    //             // Query to fetch the associated menu items for this order
+    //             String itemsQuery = "SELECT * FROM 
+    //             itemsStatement = connection.prepareStatement(itemsQuery);
+    //             itemsStatement.setString(1, orderId);
+    //             itemsResultSet = itemsStatement.executeQuery();
+    
+    //             List<MenuItem> menuItems = new ArrayList<>();
+    //             while (itemsResultSet.next()) {
+    //                 int itemId = itemsResultSet.getInt("itemId");
+    //                 String name = itemsResultSet.getString("name");
+    //                 float price = itemsResultSet.getFloat("price");
+    //                 String description = itemsResultSet.getString("description");
+    //                 String category = itemsResultSet.getString("category");
+    
+    //                 // Add menu item to the list
+    //                 menuItems.add(new MenuItem(itemId, name, description, price, category));
+    //             }
+    
+    //             // Create the Order object and add it to the list of orders
+    //             orders.add(new Order(orderId, tableId, menuItems, orderDate, bill, payed));
+    //         }
+    
+    //     } catch (Exception e) {
+    //         throw new Exception("Error retrieving orders: " + e.getMessage(), e);
+    //     } finally {
+    //         closeResources(orderResultSet, itemsResultSet, orderStatement, itemsStatement, connection);
+    //     }
+    
+    //     return orders;
+    // }
+    
 
 }

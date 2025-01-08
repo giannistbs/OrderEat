@@ -13,15 +13,13 @@
         session.setAttribute("orderItems", orderItems);
     }
 
-    String table = request.getParameter("table");
+    String table = (String) session.getAttribute("table");
 
-    if (table != null && !table.isEmpty()) {
-        // Store the table number in the session
-        session.setAttribute("table", table);
+    // Check if the table attribute is null or empty (optional check for robustness)
+    if (table == null || table.isEmpty()) {
+        table = "Unknown"; // Or set to some default value
     }
-    if (session.getAttribute("table") == null) {
-        out.println("<div class='alert alert-danger'> error : no table selected </div>");
-    }
+
 
     // Process "add" action
     String action = request.getParameter("action");
@@ -89,7 +87,7 @@
     <meta content="" name="description">
 
     <!-- Icon Font Stylesheet -->
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="//netdna.bootstrapcdn.com/font-awesome/3.2.1/css/font-awesome.css" rel="stylesheet">
 
     <!-- Libraries Stylesheet -->
     <link href="lib/animate/animate.min.css" rel="stylesheet">
@@ -100,7 +98,7 @@
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
     <%-- Font Awesome --%>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
@@ -163,12 +161,14 @@
             <a href="menu.jsp" class="navbar-brand p-0">
                 <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>OrderEat</h1>
             </a>
-            <h1 class="fa-solid fa-chair"><%=table %></h1>
+            <h1 class="fa-solid fa-chair text-white" style="font-size: 1rem; margin-top: -10px; margin-left: -12px;">
+                <%= table %>
+            </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto py-0 pe-4">"fa-solid fa-chair"
+                <div class="navbar-nav ms-auto py-0 pe-4">
                     <a href="#" class="nav-item nav-link">Call Waiter</a>
                     <a href="menu.jsp" class="nav-item nav-link">Menu</a>
                     <a href="viewOrder.jsp" class="nav-item nav-link active">View Order</a>

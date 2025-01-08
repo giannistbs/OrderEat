@@ -161,6 +161,80 @@ public class OrderDAO {
 
         return orders;
     }
+    /**
+     * Fetches all items for all orders associated with a given table ID.
+     *
+     * @param tableId The ID of the table to fetch items for.
+     * @return A list of OrderItem objects.
+     * @throws Exception if there's an issue during the operation.
+     */
+    public List<MenuItem> getOrderItemsByTable(int tableId) throws Exception {
+        DB db = new DB();
+        Connection connection = null;
+        PreparedStatement orderStatement = null;
+        PreparedStatement itemStatement = null;
+        PreparedStatement menuItemStatement = null;
+        ResultSet orderResultSet = null;
+        ResultSet itemResultSet = null;
+        ResultSet menuItemResultSet = null;
+
+        List<MenuItem> menuItems = new ArrayList<>();
+
+        try {
+            connection = db.getConnection();
+
+            // Step 1: Fetch orders by tableId
+            String orderQuery = "SELECT orderId FROM order_table WHERE tableId = ?";
+            orderStatement = connection.prepareStatement(orderQuery);
+            orderStatement.setInt(1, tableId);
+            orderResultSet = orderStatement.executeQuery();
+
+            // Step 2: Fetch items for each orderId
+            String itemQuery = "SELECT * FROM order_items WHERE orderId = ?";
+            itemStatement = connection.prepareStatement(itemQuery);
+
+            while (orderResultSet.next()) {
+                int orderId = orderResultSet.getInt("orderId");
+
+                // Set orderId parameter and execute query
+                itemStatement.setInt(1, orderId);
+                itemResultSet = itemStatement.executeQuery();
+
+
+                while (itemResultSet.next()) {
+                    int itemId = itemResultSet.getInt("itemId");
+                    int quantity = itemResultSet.getInt("quantity");
+
+                    // Step 3: Fetch menu item details from the menu table
+                    String menuItemQuery = "SELECT * FROM menu WHERE itemId = ?";
+                    menuItemStatement = connection.prepareStatement(menuItemQuery);
+                    menuItemStatement.setInt(1, itemId);
+                    menuItemResultSet = menuItemStatement.executeQuery();
+
+                    while (menuItemResultSet.next()) {
+                        String name = menuItemResultSet.getString("name");
+                        String description = menuItemResultSet.getString("description");
+                        float price = menuItemResultSet.getFloat("price");
+                        String category = menuItemResultSet.getString("category");
+
+                        // Create MenuItem object and set the quantity
+                        MenuItem menuItem = new MenuItem(itemId, name, description, price, category);
+                        menuItem.setQuantity(quantity);// Add to the list
+                        menuItems.add(menuItem);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            throw new Exception("Error fetching order items: " + e.getMessage(), e);
+        } finally {
+            // Ensure resources are closed
+            closeResources(orderResultSet, orderStatement, null);
+            closeResources(itemResultSet, itemStatement, null);
+            closeResources(null, null, connection);
+        }
+
+        return menuItems;
+    }
 
     // Utility method to close resources
     private void closeResources(AutoCloseable... resources) {

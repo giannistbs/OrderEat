@@ -64,6 +64,9 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <%-- Font Awesome --%>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
@@ -78,6 +81,9 @@
             <a href="" class="navbar-brand p-0">
                 <h1 class="text-primary m-0"><i class="fa fa-utensils me-4"></i>OrderEat</h1>
             </a>
+            <h1 class="fa-solid fa-chair text-white" style="font-size: 1rem; margin-top: -10px; margin-left: -12px;">
+                <%= sessionTable %>
+            </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
             </button>
@@ -85,7 +91,6 @@
                 <div class="navbar-nav ms-auto py-0 pe-4">
                     <!-- <a href="index.jsp" class="nav-item nav-link">Home</a> -->
                     <!-- <a href="about.jsp" class="nav-item nav-link">Order</a> -->
-                    <h1 class="text text-white">Table: <%= sessionTable %></h1>
                     <a href="#" class="nav-item nav-link">Call Waiter</a>
                     <a href="menu.jsp" class="nav-item nav-link active">Menu</a>
                     <a href="viewOrder.jsp" class="nav-item nav-link">View Order</a>

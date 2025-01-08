@@ -5,6 +5,7 @@
 
 
 <%
+
     // Ensure session is not null
     List<MenuItem> orderItems = (List<MenuItem>) session.getAttribute("orderItems");
     if (orderItems == null) {
@@ -98,6 +99,9 @@
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
 
+    <%-- Font Awesome --%>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
     <!-- Template Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
     <style>
@@ -159,12 +163,12 @@
             <a href="menu.jsp" class="navbar-brand p-0">
                 <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>OrderEat</h1>
             </a>
-            <h1 class="text text-white">Table: <%= sessionTable %></h1>
+            <h1 class="fa-solid fa-chair"><%=table %></h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
-                <div class="navbar-nav ms-auto py-0 pe-4">
+                <div class="navbar-nav ms-auto py-0 pe-4">"fa-solid fa-chair"
                     <a href="#" class="nav-item nav-link">Call Waiter</a>
                     <a href="menu.jsp" class="nav-item nav-link">Menu</a>
                     <a href="viewOrder.jsp" class="nav-item nav-link active">View Order</a>

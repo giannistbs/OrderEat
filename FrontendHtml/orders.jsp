@@ -31,7 +31,7 @@
             margin-bottom: 30px;
             font-family: "Verdana", sans-serif;
             font-size: 1em; /* Make the title smaller */
-         */
+
 
         .no-underline {
             text-decoration: none;

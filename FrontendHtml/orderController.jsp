@@ -12,6 +12,12 @@
         return;
     }
 
+    String table = (String) session.getAttribute("table");
+    if (table == null) {
+        out.println("<script>alert('TableId not found'); history.back();</script>");
+        return;
+    }
+
     // Step 2: Retrieve request parameters
     String totalStr = request.getParameter("total");
     if (totalStr == null){
@@ -43,7 +49,7 @@
     String billStr = String.valueOf(total);
 
     // Create the Order object
-    Order order = new Order("1", "3", orderItems, orderDate, billStr, false);
+    Order order = new Order("1", table, orderItems, orderDate, billStr, false);
 
     // Place the order
     OrderDAO orderDAO = new OrderDAO();

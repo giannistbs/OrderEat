@@ -12,6 +12,16 @@
         session.setAttribute("orderItems", orderItems);
     }
 
+    String table = request.getParameter("table");
+
+    if (table != null && !table.isEmpty()) {
+        // Store the table number in the session
+        session.setAttribute("table", table);
+    }
+    if (session.getAttribute("table") == null) {
+        out.println("<div class='alert alert-danger'> error : no table selected </div>");
+    }
+
     // Process "add" action
     String action = request.getParameter("action");
     String itemIdParam = request.getParameter("itemId");
@@ -149,6 +159,7 @@
             <a href="menu.jsp" class="navbar-brand p-0">
                 <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>OrderEat</h1>
             </a>
+            <h1 class="text text-white">Table: <%= sessionTable %></h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
             </button>

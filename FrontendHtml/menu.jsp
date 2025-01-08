@@ -6,6 +6,21 @@
 
 
 <%
+    // Check if the 'table' parameter is present in the URL
+    String table = request.getParameter("table");
+
+    if (table != null && !table.isEmpty()) {
+        // Store the table number in the session
+        session.setAttribute("table", table);
+    }
+    if (session.getAttribute("table") == null) {
+        out.println("<div class='alert alert-danger'> error : no table selected </div>");
+    }
+
+    // Optional: Retrieve the stored table number from the session for confirmation
+    String sessionTable = (String) session.getAttribute("table");
+
+
     // Create an instance of MenuDAO and retrieve the items by category
     MenuDAO menuDAO = new MenuDAO();
     List<MenuItem> foodItems = menuDAO.getMenuByCategory("food");
@@ -70,6 +85,7 @@
                 <div class="navbar-nav ms-auto py-0 pe-4">
                     <!-- <a href="index.jsp" class="nav-item nav-link">Home</a> -->
                     <!-- <a href="about.jsp" class="nav-item nav-link">Order</a> -->
+                    <h1 class="text text-white">Table: <%= sessionTable %></h1>
                     <a href="#" class="nav-item nav-link">Call Waiter</a>
                     <a href="menu.jsp" class="nav-item nav-link active">Menu</a>
                     <a href="viewOrder.jsp" class="nav-item nav-link">View Order</a>

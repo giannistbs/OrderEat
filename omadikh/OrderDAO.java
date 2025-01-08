@@ -168,7 +168,7 @@ public class OrderDAO {
      * @return A list of OrderItem objects.
      * @throws Exception if there's an issue during the operation.
      */
-    public List<MenuItem> getOrderItemsByTable(int tableId) throws Exception {
+    public List<MenuItem> getOrderItemsByTable(String tableId) throws Exception {
         DB db = new DB();
         Connection connection = null;
         PreparedStatement orderStatement = null;
@@ -186,7 +186,7 @@ public class OrderDAO {
             // Step 1: Fetch orders by tableId
             String orderQuery = "SELECT orderId FROM order_table WHERE tableId = ?";
             orderStatement = connection.prepareStatement(orderQuery);
-            orderStatement.setInt(1, tableId);
+            orderStatement.setString(1, tableId);
             orderResultSet = orderStatement.executeQuery();
 
             // Step 2: Fetch items for each orderId

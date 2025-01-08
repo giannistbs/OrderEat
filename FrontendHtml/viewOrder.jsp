@@ -2,6 +2,9 @@
 <%@ page import="java.util.ArrayList" %>
 <%@ page import="omadikh.MenuDAO" %>
 <%@ page import="omadikh.MenuItem" %>
+<%@ page import="omadikh.OrderDAO" %>
+
+
 
 
 <%
@@ -14,10 +17,30 @@
     }
 
     String table = (String) session.getAttribute("table");
+    String tableId = (String) session.getAttribute("table");
+
 
     // Check if the table attribute is null or empty (optional check for robustness)
     if (table == null || table.isEmpty()) {
-        table = "Unknown"; // Or set to some default value
+        table = "0"; // Or set to some default value
+    }
+
+    List<MenuItem> orderItemsByTable = new ArrayList();
+    if (!tableId.isEmpty()) {
+        try {
+            // Call the method to fetch items by table ID
+            OrderDAO yourObject = new OrderDAO(); // Replace `YourClass` with the actual class name where the method is implemented
+            orderItemsByTable = yourObject.getOrderItemsByTable(tableId);
+
+            // Calculate total
+//            for (MenuItem item : orderItemsByTable) {
+//                total += item.getPrice() * item.getQuantity();
+//            }
+        } catch (Exception e) {
+            out.println("<div class='alert alert-danger'>Error fetching order items: " + e.getMessage() + "</div>");
+        }
+    } else {
+        out.println("<div class='alert alert-warning'>No table selected!</div>");
     }
 
 
@@ -74,6 +97,9 @@
         RequestDispatcher dispatcher = request.getRequestDispatcher("menu.jsp");
         dispatcher.forward(request, response);
     }
+
+    boolean isEmpty = (orderItems == null || orderItems.isEmpty());
+
 %>
 
 <!DOCTYPE html>
@@ -172,7 +198,9 @@
                     <a href="#" class="nav-item nav-link">Call Waiter</a>
                     <a href="menu.jsp" class="nav-item nav-link">Menu</a>
                     <a href="viewOrder.jsp" class="nav-item nav-link active">View Order</a>
-                    <a href="login.jsp" class="nav-item nav-link">Login</a>
+                    <a href="login.jsp" class="nav-item nav-link">
+                        <i class="fa-solid fa-user"></i> Login
+                    </a>
                 </div>
             </div>
         </nav>
@@ -180,110 +208,156 @@
 
         <!-- Menu Start -->
         <div class="container menu-section mt-3">
-                    <div class="tab-content">
-                        <div id="tab-1" class="tab-pane fade show p-0 active">
-                            <div class="row g-4">
-                                <% 
-                                    if (orderItems != null && !orderItems.isEmpty()) {
-                                        for (MenuItem item : orderItems) {
-                                %>
-                                <div class="col-lg-6">
-                                    <div class="d-flex align-items-center">
-                                        <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
-                                        <div class="w-100 d-flex flex-column text-start ps-4">
-                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <div style="display: flex; align-items: center;">
-                                                    <span><%= item.getName() %></span>
-                                                    <h3 class="text-primary m-0" style="margin-left: 2px; font-size: 1rem;"><i class="fa me-1"></i>x<%= item.getQuantity() %></h3>
-                                                </div>
-                                                
-                                                <span class="text-primary">$<%= item.getPrice() * item.getQuantity() %></span>
-                                            </h5>
-                                            <div class="d-flex mt-1">
-                                                <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                            </div>
+            <div class="tab-content">
+                <div class="mb-3">
+                    <h3 class="text-primary">New Order</h3>
+                </div>
+                <div id="tab-1" class="tab-pane fade show p-0 active">
+                    <div class="row g-4">
+                        <%
+                            if (orderItems != null && !orderItems.isEmpty()) {
+                                for (MenuItem item : orderItems) {
+                        %>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <div style="display: flex; align-items: center;">
+                                            <span><%= item.getName() %></span>
+                                            <h3 class="text-primary m-0" style="margin-left: 2px; font-size: 1rem;"><i class="fa me-1"></i>x<%= item.getQuantity() %></h3>
                                         </div>
+
+                                        <span class="text-primary">$<%= item.getPrice() * item.getQuantity() %></span>
+                                    </h5>
+                                    <div class="d-flex mt-1">
+                                        <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
                                     </div>
                                 </div>
-                                <% 
-                                        } // End of for loop
-                                    } else { 
-                                %>
-                                    <div class="col-lg-12 text-center">
-                                        <p class="text-muted">Your cart is empty!</p>
-                                    </div>
-                                <% 
-                                    } // End of if-else
-                                %>
                             </div>
                         </div>
-                    </div>
-                    
-                    <div class="order-summary" id="orderSummary" style="position: fixed; bottom: 20px; right: 20px; background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); font-size: 0.9rem; width: 250px;">
-                        <% 
-                            double total = 0;
-                            for (MenuItem item : orderItems) {
-                                total += item.getPrice() * item.getQuantity();
-                            }
+                        <%
+                                } // End of for loop
+                            } else {
                         %>
-                        <!-- Front Section -->
-                        <div class="front" style="bottom: 4px;">
-                            <!-- Total Section -->
-                            <p class="total mb-3 fw-bold text-center" style="font-size: 0.8rem;">Total: <strong>$<%= String.format("%.2f", total) %></strong></p>
-                            
-                            <!-- Button Group -->
-                            <div class="d-flex justify-content-between">
-                                <button id="placeOrderBtn" class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem;">Place Order</button>
-                                <form method="post" action="viewOrder.jsp" style="display: contents;">
-                                    <input type="hidden" name="action" value="clear">
-                                    <button class="btn btn-light btn-sm ms-2" style="width: 45%; font-size: 0.8rem;" aria-label="Clear Order">
-                                        <i class="fa fa-trash" style="font-size: 1.5rem; color: rgb(124, 124, 124);"></i>
-                                    </button>
-                                </form>
+                            <div class="col-lg-12 text-center">
+                                <p class="text-muted">Your cart is empty!</p>
                             </div>
-                        </div>
-                    
-                        <!-- Back Section -->
-                        <div class="back hidden d-flex justify-content-between">
-                            <p class="total mb-3 fw-bold text-center" style="font-size: 0.8rem;">Total: <strong>$<%= String.format("%.2f", total) %></strong></p>
-                            <div class="d-flex justify-content-between" style="bottom: 0px">
-                                <button class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem;">Pay</button>
-                                <button class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem; text-align: left; padding-left: 7px;">Feedback</button>
-                            </div>
-                        </div>
+                        <%
+                            } // End of if-else
+                        %>
                     </div>
                 </div>
+            </div>
+
+            <!-- Divider -->
+            <hr class="my-4" style="border: 1px solid #ccc;">
+            <div id="orderStatus" data-is-empty="<%= isEmpty %>" style="display:none;"></div>
+
+            <div class="tab-content">
+                <div class="mb-3">
+                    <h3 class="text-primary">Receipt</h3>
+                </div>
+                <div id="tab-2" class="tab-pane fade show p-0 active">
+                    <div class="row g-4">
+                        <%
+                            if (orderItemsByTable != null && !orderItemsByTable.isEmpty()) {
+                                for (MenuItem item : orderItemsByTable) {
+                        %>
+                        <div class="col-lg-6">
+                            <div class="d-flex align-items-center">
+                                <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
+                                <div class="w-100 d-flex flex-column text-start ps-4">
+                                    <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                        <div style="display: flex; align-items: center;">
+                                            <span><%= item.getName() %></span>
+                                            <h3 class="text-primary m-0" style="margin-left: 2px; font-size: 1rem;"><i class="fa me-1"></i>x<%= item.getQuantity() %></h3>
+                                        </div>
+                                        <span class="text-primary">$<%= String.format("%.2f", item.getPrice() * item.getQuantity()) %></span>
+                                    </h5>
+                                    <div class="d-flex mt-1">
+                                        <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <%
+                            } // End of for loop
+                        } else {
+                        %>
+                        <div class="col-lg-12 text-center">
+                            <p class="text-muted">Your cart is empty!</p>
+                        </div>
+                        <%
+                            } // End of if-else
+                        %>
+                    </div>
+                </div>
+            </div>
+
+            <div class="order-summary" id="orderSummary" style="position: fixed; bottom: 20px; right: 20px; background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); font-size: 0.9rem; width: 250px;">
+                <%
+                    double total = 0;
+                    for (MenuItem item : orderItems) {
+                        total += item.getPrice() * item.getQuantity();
+                    }
+                %>
+                <!-- Front Section -->
+                <div class="front" style="bottom: 4px;">
+                    <!-- Total Section -->
+                    <p class="total mb-3 fw-bold text-center" style="font-size: 0.8rem;">Total: <strong>$<%= String.format("%.2f", total) %></strong></p>
+
+                    <!-- Button Group -->
+                    <div class="d-flex justify-content-between">
+                        <button id="placeOrderBtn" class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem;">Place Order</button>
+                        <form method="post" action="viewOrder.jsp" style="display: contents;">
+                            <input type="hidden" name="action" value="clear">
+                            <button class="btn btn-light btn-sm ms-2" style="width: 45%; font-size: 0.8rem;" aria-label="Clear Order">
+                                <i class="fa fa-trash" style="font-size: 1.5rem; color: rgb(124, 124, 124);"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Back Section -->
+                <div class="back hidden d-flex justify-content-between">
+                    <p class="total mb-3 fw-bold text-center" style="font-size: 0.8rem;">Total: <strong>$<%= String.format("%.2f", total) %></strong></p>
+                    <div class="d-flex justify-content-between" style="bottom: 0px">
+                        <button class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem;">Pay</button>
+                        <button class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem; text-align: left; padding-left: 7px;">Feedback</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
 
     <script>
-        // Ensure the DOM is fully loaded before accessing elements
         document.addEventListener("DOMContentLoaded", function () {
-            const placeOrderBtn = document.getElementById("placeOrderBtn");
+            // Get the value from the hidden element
+            const orderStatus = document.getElementById("orderStatus");
+            const isEmpty = orderStatus.getAttribute("data-is-empty") === "true"; // Convert string to boolean
+
+            // Front/back logic based on the empty status of orderItems
             const orderSummary = document.getElementById("orderSummary");
             const backContent = orderSummary.querySelector(".back");
             const frontButtons = orderSummary.querySelectorAll(".front .btn");
-    
-            // Check if the div has already flipped in this session
-            if (sessionStorage.getItem("orderSummaryFlipped") === "true") {
+
+            if (isEmpty) {
+                // If orderItems is empty, show the back content
                 orderSummary.classList.add("flipped");
                 backContent.classList.remove("hidden");
                 frontButtons.forEach(button => button.classList.add("hidden"));
+            } else {
+                // If orderItems is not empty, show the front content
+                orderSummary.classList.remove("flipped");
+                backContent.classList.add("hidden");
+                frontButtons.forEach(button => button.classList.remove("hidden"));
             }
-
-            placeOrderBtn.addEventListener("click", function () {
-                // Add the "flipped" class to trigger the animation
-                orderSummary.classList.add("flipped");
-    
-                // Show the back content after the animation
-                setTimeout(() => {
-                    backContent.classList.remove("hidden"); // Show the back content
-                    frontButtons.forEach(button => button.classList.add("hidden"));
-                }, 600); // Match the duration of the flip animation
-
-                sessionStorage.setItem("orderSummaryFlipped", "true");
-            });
         });
+
+
+
         document.addEventListener("DOMContentLoaded", function () {
             const placeButton = document.getElementById("placeOrderBtn");
 

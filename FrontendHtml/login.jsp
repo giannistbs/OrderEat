@@ -12,6 +12,9 @@
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
     <link href="css/style.css" rel="stylesheet">
+
+    <%-- Font Awesome --%>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
 </head>
 
 <body>
@@ -29,7 +32,9 @@
                     <a href="#" class="nav-item nav-link">Call Waiter</a>
                     <a href="menu.jsp" class="nav-item nav-link">Menu</a>
                     <a href="viewOrder.jsp" class="nav-item nav-link">View Order</a>
-                    <a href="login.jsp" class="nav-item nav-link active">Login</a>
+                    <a href="login.jsp" class="nav-item nav-link">
+                        <i class="fa-solid fa-user"></i> Login
+                    </a>
                 </div>
             </div>
         </nav>

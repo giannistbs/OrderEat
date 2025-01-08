@@ -285,7 +285,7 @@
                     },
                     success: function (response) {
                         // Handle successful response
-                        alert("Order placed successfully!");
+                        location.reload()
                     },
                     error: function (xhr, status, error) {
                         // Handle error
@@ -294,6 +294,7 @@
                         console.error("Status Code:", xhr.status);
                     },
                 });
+                
             });
         });
 

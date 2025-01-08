@@ -43,9 +43,14 @@
     String billStr = String.valueOf(total);
 
     // Create the Order object
-    Order order = new Order("2", "3", orderItems, orderDate, billStr, false);
+    Order order = new Order("1", "3", orderItems, orderDate, billStr, false);
 
     // Place the order
     OrderDAO orderDAO = new OrderDAO();
     orderDAO.placeOrder(order);
+
+    if (total > 0){
+        orderItems.clear();
+    }
+    session.setAttribute("orderItems", orderItems);
 %>

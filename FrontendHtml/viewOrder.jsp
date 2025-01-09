@@ -261,8 +261,10 @@
                 <div id="tab-2" class="tab-pane fade show p-0 active">
                     <div class="row g-4">
                         <%
+                            double totalOrd = 0;
                             if (orderItemsByTable != null && !orderItemsByTable.isEmpty()) {
                                 for (MenuItem item : orderItemsByTable) {
+                                    totalOrd += item.getPrice() * item.getQuantity();
                         %>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
@@ -286,7 +288,7 @@
                         } else {
                         %>
                         <div class="col-lg-12 text-center">
-                            <p class="text-muted">Your cart is empty!</p>
+                            <p class="text-muted">You have no orders yet!</p>
                         </div>
                         <%
                             } // End of if-else
@@ -321,7 +323,7 @@
 
                 <!-- Back Section -->
                 <div class="back hidden d-flex justify-content-between">
-                    <p class="total mb-3 fw-bold text-center" style="font-size: 0.8rem;">Total: <strong>$<%= String.format("%.2f", total) %></strong></p>
+                    <p class="total mb-3 fw-bold text-center" style="font-size: 0.8rem;">Total: <strong>$<%= String.format("%.2f", totalOrd) %></strong></p>
                     <div class="d-flex justify-content-between" style="bottom: 0px">
                         <button class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem;">Pay</button>
                         <button class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem; text-align: left; padding-left: 7px;">Feedback</button>

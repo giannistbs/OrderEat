@@ -34,7 +34,7 @@
         return;
     }
 
-    // Convert orderDate string to Date object
+    // Get current Date
     Date date = new Date();
 
     // Convert total to String for 'bill'

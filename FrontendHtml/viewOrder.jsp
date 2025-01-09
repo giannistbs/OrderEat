@@ -6,7 +6,6 @@
 
 
 
-
 <%
 
     // Ensure session is not null
@@ -328,7 +327,7 @@
                 <div class="back hidden d-flex justify-content-between">
                     <p class="total mb-3 fw-bold text-center" style="font-size: 0.8rem;">Total: <strong>$<%= String.format("%.2f", totalOrd) %></strong></p>
                     <div class="d-flex justify-content-between" style="bottom: 0px">
-                        <button class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem;">Pay</button>
+                        <button id="payButton" class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem;">Pay</button>
                         <button class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem; text-align: left; padding-left: 7px;">Feedback</button>
                     </div>
                 </div>
@@ -338,31 +337,31 @@
     </div>
 
     <script>
-    document.addEventListener("DOMContentLoaded", function () {
-        // Get the flag value from the hidden element
-        const orderStatus = document.getElementById("orderStatus");
-        const flag = parseInt(orderStatus.getAttribute("data-flag"), 10); // Convert to integer
+        document.addEventListener("DOMContentLoaded", function () {
+            // Get the flag value from the hidden element
+            const orderStatus = document.getElementById("orderStatus");
+            const flag = parseInt(orderStatus.getAttribute("data-flag"), 10); // Convert to integer
 
-        // Get references to elements
-        const orderSummary = document.getElementById("orderSummary");
-        const backContent = orderSummary.querySelector(".back");
-        const frontButtons = orderSummary.querySelectorAll(".front .btn");
+            // Get references to elements
+            const orderSummary = document.getElementById("orderSummary");
+            const backContent = orderSummary.querySelector(".back");
+            const frontButtons = orderSummary.querySelectorAll(".front .btn");
 
-        if (flag === 1) {
-            // If flag is 1, show the back content
-            orderSummary.classList.add("flipped");
-            backContent.classList.remove("hidden");
-            frontButtons.forEach(button => button.classList.add("hidden"));
-        } else if (flag === 2) {
-            // If flag is 2, show the front content
-            orderSummary.classList.remove("flipped");
-            backContent.classList.add("hidden");
-            frontButtons.forEach(button => button.classList.remove("hidden"));
-        } else {
-            // If flag is 0 or invalid, hide everything
-            orderSummary.style.display = "none";
-        }
-    });
+            if (flag === 1) {
+                // If flag is 1, show the back content
+                orderSummary.classList.add("flipped");
+                backContent.classList.remove("hidden");
+                frontButtons.forEach(button => button.classList.add("hidden"));
+            } else if (flag === 2) {
+                // If flag is 2, show the front content
+                orderSummary.classList.remove("flipped");
+                backContent.classList.add("hidden");
+                frontButtons.forEach(button => button.classList.remove("hidden"));
+            } else {
+                // If flag is 0 or invalid, hide everything
+                orderSummary.style.display = "none";
+            }
+        });
 
 
 
@@ -396,24 +395,50 @@
             });
         });
 
-        document.addEventListener("DOMContentLoaded", function () {
-        const clearOrderBtn = document.querySelector('form[action="viewOrder.jsp"] button[type="submit"]');
+        $(document).ready(function() {
+        // Listen for the click event on the "Pay" button
+        $("#payButton").on("click", function() {
+            // Extract the totalOrd value from the DOM
+            const totalOrd = parseFloat($(".total strong").text().replace('$', '').trim());
 
-        clearOrderBtn.addEventListener("click", function (e) {
-            e.preventDefault(); // Prevent form submission
-            fetch('viewOrder.jsp?action=clear', { method: 'POST' })
-                .then(response => response.text())
-                .then(data => {
-                    // Optionally, clear the cart visually
-                    const orderSummary = document.getElementById("orderSummary");
-                    location.reload()
-                    orderSummary.innerHTML = `
-                        <p class="text-muted text-center">Your cart is empty!</p>
-                    `;
-                })
-                .catch(error => console.error('Error:', error));
+            // Perform the AJAX POST request
+                $.ajax({
+                    url: "paymentController.jsp", // URL of the JSP file
+                    method: "POST", // HTTP method
+                    data: { totalOrd: totalOrd }, // Data to send to the server
+                    success: function(response) {
+                        // Handle successful response from the server
+                        console.log("Payment successful:", response);
+                        alert("Payment Successful!");
+                    },
+                    error: function(xhr, status, error) {
+                        // Handle errors
+                        console.error("Payment failed:", error);
+                        alert("Payment Failed. Please try again.");
+                    }
+                });
+            });
         });
-    });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+            const clearOrderBtn = document.querySelector('form[action="viewOrder.jsp"] button[type="submit"]');
+
+            clearOrderBtn.addEventListener("click", function (e) {
+                e.preventDefault(); // Prevent form submission
+                fetch('viewOrder.jsp?action=clear', { method: 'POST' })
+                    .then(response => response.text())
+                    .then(data => {
+                        // Optionally, clear the cart visually
+                        const orderSummary = document.getElementById("orderSummary");
+                        location.reload()
+                        orderSummary.innerHTML = `
+                            <p class="text-muted text-center">Your cart is empty!</p>
+                        `;
+                    })
+                    .catch(error => console.error('Error:', error));
+            });
+        });
     </script>
     <!-- JavaScript Libraries -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

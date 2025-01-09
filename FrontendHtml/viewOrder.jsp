@@ -100,6 +100,13 @@
 
     boolean isEmpty = (orderItems == null || orderItems.isEmpty());
 
+    int flagisEmpty = 0;
+    if (orderItems != null && !orderItems.isEmpty()) {
+        flagisEmpty = 2; // Non-empty orderItems
+    } else if (orderItemsByTable != null && !orderItemsByTable.isEmpty()) {
+        flagisEmpty = 1; // Empty orderItems but non empty orderItemsByTable
+    }
+
 %>
 
 <!DOCTYPE html>
@@ -254,7 +261,7 @@
 
             <!-- Divider -->
             <hr class="my-4" style="border: 1px solid #ccc;">
-            <div id="orderStatus" data-is-empty="<%= isEmpty %>" style="display:none;"></div>
+            <div id="orderStatus" data-flag="<%= flagisEmpty %>" style="display:none;"></div>
 
             <div class="tab-content">
                 <div class="mb-3">
@@ -331,28 +338,32 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            // Get the value from the hidden element
-            const orderStatus = document.getElementById("orderStatus");
-            const isEmpty = orderStatus.getAttribute("data-is-empty") === "true"; // Convert string to boolean
+    document.addEventListener("DOMContentLoaded", function () {
+        // Get the flag value from the hidden element
+        const orderStatus = document.getElementById("orderStatus");
+        const flag = parseInt(orderStatus.getAttribute("data-flag"), 10); // Convert to integer
 
-            // Front/back logic based on the empty status of orderItems
-            const orderSummary = document.getElementById("orderSummary");
-            const backContent = orderSummary.querySelector(".back");
-            const frontButtons = orderSummary.querySelectorAll(".front .btn");
+        // Get references to elements
+        const orderSummary = document.getElementById("orderSummary");
+        const backContent = orderSummary.querySelector(".back");
+        const frontButtons = orderSummary.querySelectorAll(".front .btn");
 
-            if (isEmpty) {
-                // If orderItems is empty, show the back content
-                orderSummary.classList.add("flipped");
-                backContent.classList.remove("hidden");
-                frontButtons.forEach(button => button.classList.add("hidden"));
-            } else {
-                // If orderItems is not empty, show the front content
-                orderSummary.classList.remove("flipped");
-                backContent.classList.add("hidden");
-                frontButtons.forEach(button => button.classList.remove("hidden"));
-            }
-        });
+        if (flag === 1) {
+            // If flag is 1, show the back content
+            orderSummary.classList.add("flipped");
+            backContent.classList.remove("hidden");
+            frontButtons.forEach(button => button.classList.add("hidden"));
+        } else if (flag === 2) {
+            // If flag is 2, show the front content
+            orderSummary.classList.remove("flipped");
+            backContent.classList.add("hidden");
+            frontButtons.forEach(button => button.classList.remove("hidden"));
+        } else {
+            // If flag is 0 or invalid, hide everything
+            orderSummary.style.display = "none";
+        }
+    });
+
 
 
 

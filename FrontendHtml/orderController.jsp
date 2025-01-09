@@ -36,14 +36,6 @@
 
     // Convert orderDate string to Date object
     Date date = new Date();
-    // SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    // Date orderDate = null;
-    // try {
-    //     orderDate = dateFormat.parse(date); // Parse the date string to Date object
-    // } catch (Exception e) {
-    //     out.println("<script>alert('Invalid date format.'); history.back();</script>");
-    //     return;
-    // }
 
     // Convert total to String for 'bill'
     String billStr = String.valueOf(total);

@@ -236,6 +236,46 @@ public class OrderDAO {
         return menuItems;
     }
 
+
+    /**
+     * Fetches all orders associated with a given table ID.
+     *
+     * @param tableId The ID of the table to fetch items for.
+     * @return A list of Order Ids.
+     * @throws Exception if there's an issue during the operation.
+     */
+    public List<String> getOrderIDsByTable(String tableId) throws Exception {
+        DB db = new DB();
+        Connection connection = null;
+        PreparedStatement orderStatement = null;
+        ResultSet orderResultSet = null;
+
+        List<String> orderIds = new ArrayList<>();
+
+        try {
+            connection = db.getConnection();
+
+            // Step 1: Fetch unpaid orders by tableId
+            String orderQuery = "SELECT orderId FROM order_table WHERE tableId = ? AND payed = FALSE";
+            orderStatement = connection.prepareStatement(orderQuery);
+            orderStatement.setString(1, tableId);
+            orderResultSet = orderStatement.executeQuery();
+
+            while (orderResultSet.next()) {
+                int orderId = orderResultSet.getInt("orderId");
+                orderIds.add(String.valueOf(orderId));
+            }
+        } catch (Exception e) {
+            throw new Exception("Error fetching order items: " + e.getMessage(), e);
+        } finally {
+            // Ensure resources are closed
+            closeResources(orderResultSet, orderStatement, null);
+            closeResources(null, null, connection);
+        }
+
+        return orderIds;
+    }
+
     // Utility method to close resources
     private void closeResources(AutoCloseable... resources) {
         for (AutoCloseable resource : resources) {

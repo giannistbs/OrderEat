@@ -216,11 +216,24 @@ public class OrderDAO {
                         String description = menuItemResultSet.getString("description");
                         float price = menuItemResultSet.getFloat("price");
                         String category = menuItemResultSet.getString("category");
-
-                        // Create MenuItem object and set the quantity
-                        MenuItem menuItem = new MenuItem(itemId, name, description, price, category);
-                        menuItem.setQuantity(quantity);// Add to the list
-                        menuItems.add(menuItem);
+            
+                        // Check if the menu item already exists in the list
+                        boolean itemExists = false;
+                        for (MenuItem existingItem : menuItems) {
+                            if (existingItem.getItemId() == itemId) {
+                                // Increase quantity if item exists
+                                existingItem.setQuantity(existingItem.getQuantity() + quantity);
+                                itemExists = true;
+                                break;
+                            }
+                        }
+            
+                        // If the item does not exist, add it to the list
+                        if (!itemExists) {
+                            MenuItem menuItem = new MenuItem(itemId, name, description, price, category);
+                            menuItem.setQuantity(quantity);
+                            menuItems.add(menuItem);
+                        }
                     }
                 }
             }

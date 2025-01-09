@@ -5,10 +5,7 @@
 
 <%
     String totalOrd = request.getParameter("totalOrd");
-    if (totalOrd != null) {
-        // Payment processing logic
-        double total = Double.parseDouble(totalOrd);
-    } else {
+    if (totalOrd == null) {
         response.setStatus(HttpServletResponse.SC_BAD_REQUEST);
         response.getWriter().write("Error: Missing totalOrd parameter.");
     }
@@ -18,7 +15,6 @@
 
 //    This is what the costructor is waiting 
 //    int paymentId, int orderId, Date paymentDate, String amount
-    Payment payment = new Payment(1, orderid, date, total)
-%>
-
+        int orderId = 82;
+    Payment payment = new Payment(1, orderId, date, totalOrd);
 %>

@@ -215,8 +215,10 @@
                 <div id="tab-1" class="tab-pane fade show p-0 active">
                     <div class="row g-4">
                         <%
+                            double total = 0;
                             if (orderItems != null && !orderItems.isEmpty()) {
                                 for (MenuItem item : orderItems) {
+                                    total += item.getPrice() * item.getQuantity();
                         %>
                         <div class="col-lg-6">
                             <div class="d-flex align-items-center">
@@ -298,12 +300,6 @@
             </div>
 
             <div class="order-summary" id="orderSummary" style="position: fixed; bottom: 20px; right: 20px; background-color: white; padding: 15px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1); font-size: 0.9rem; width: 250px;">
-                <%
-                    double total = 0;
-                    for (MenuItem item : orderItems) {
-                        total += item.getPrice() * item.getQuantity();
-                    }
-                %>
                 <!-- Front Section -->
                 <div class="front" style="bottom: 4px;">
                     <!-- Total Section -->

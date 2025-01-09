@@ -35,21 +35,21 @@
     }
 
     // Convert orderDate string to Date object
-    String orderDateStr = "01/01/2025"; // You can dynamically get this
-    SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
-    Date orderDate = null;
-    try {
-        orderDate = dateFormat.parse(orderDateStr); // Parse the date string to Date object
-    } catch (Exception e) {
-        out.println("<script>alert('Invalid date format.'); history.back();</script>");
-        return;
-    }
+    Date date = new Date();
+    // SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy");
+    // Date orderDate = null;
+    // try {
+    //     orderDate = dateFormat.parse(date); // Parse the date string to Date object
+    // } catch (Exception e) {
+    //     out.println("<script>alert('Invalid date format.'); history.back();</script>");
+    //     return;
+    // }
 
     // Convert total to String for 'bill'
     String billStr = String.valueOf(total);
 
     // Create the Order object
-    Order order = new Order("1", table, orderItems, orderDate, billStr, false);
+    Order order = new Order("1", table, orderItems, date, billStr, false);
 
     // Place the order
     OrderDAO orderDAO = new OrderDAO();

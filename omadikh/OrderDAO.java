@@ -183,8 +183,8 @@ public class OrderDAO {
         try {
             connection = db.getConnection();
 
-            // Step 1: Fetch orders by tableId
-            String orderQuery = "SELECT orderId FROM order_table WHERE tableId = ?";
+            // Step 1: Fetch unpaid orders by tableId
+            String orderQuery = "SELECT orderId FROM order_table WHERE tableId = ? AND payed = FALSE";
             orderStatement = connection.prepareStatement(orderQuery);
             orderStatement.setString(1, tableId);
             orderResultSet = orderStatement.executeQuery();

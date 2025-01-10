@@ -174,16 +174,30 @@
                                         <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
                                         <div class="w-100 d-flex flex-column text-start ps-4">
                                             <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                <span><%= item.getName() %></span>
+                                                <span>
+                                                    <%= item.getName() %>
+                                                </span>
                                                 <span class="text-primary">$<%= item.getPrice() %></span>
                                             </h5>
-                                            <div class="d-flex mt-1 cart-actions">
-                                                <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
-                                                    <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display: none; position: relative; left: -13px;">
-                                                        <%= quantity %>
-                                                    </span>
+                                            <div class="d-flex mt-1 cart-actions align-items-center">
+                                                <small class="fst-italic align-self-center me-auto">
+                                                    <%= item.getDescription() %>
+                                                </small>
+                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">
+                                                    -
+                                                </button>
+                                                <% if (quantity > 0) { %>
+                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1 ms-1" style="">
+                                                    <%= quantity %>
+                                                </span>
+                                                <% } else { %>
+                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display:none">
+                                                    <%= quantity %>
+                                                </span>
+                                                <% } %>
+                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 ms-1 add-to-cart" data-code="<%= item.getItemId() %>">
+                                                    +
+                                                </button>
                                             </div>
                                         </div>
                                     </div>
@@ -197,89 +211,96 @@
                         <!-- Sweet Tab -->
                         <div id="tab-2" class="tab-pane fade">
                             <div class="row g-4">
-                                <%
-                                    for (MenuItem item : sweetItems) {
-                                        int quantity = 0;
-        
-                                        // Check if this item is already in the orderItems list and get its quantity
-                                        if (orderItems != null) {
-                                            for (MenuItem orderItem : orderItems) {
-                                                if (orderItem.getItemId() == item.getItemId()) {
-                                                    quantity = orderItem.getQuantity();
-                                                    break;
-                                                }
+                                <% for (MenuItem item : sweetItems) { 
+                                    int quantity = 0;
+
+                                    // Check if this item is already in the orderItems list and get its quantity
+                                    if (orderItems != null) {
+                                        for (MenuItem orderItem : orderItems) {
+                                            if (orderItem.getItemId() == item.getItemId()) {
+                                                quantity = orderItem.getQuantity();
+                                                break;
                                             }
                                         }
+                                    }
                                 %>
-                                    <div class="col-lg-6">
-                                        <div class="d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
-                                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                    <span><%= item.getName() %></span>
-                                                    <span class="text-primary">$<%= item.getPrice() %></span>
-                                                </h5>
-                                                <div class="d-flex mt-1 cart-actions">
-                                                    <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
-                                                    <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display: none; position: relative; left: -13px;">
-                                                        <%= quantity %>
-                                                    </span>
-                                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span><%= item.getName() %></span>
+                                                <span class="text-primary">$<%= item.getPrice() %></span>
+                                            </h5>
+                                            <div class="d-flex mt-1 cart-actions align-items-center">
+                                                <small class="fst-italic align-self-center me-auto">
+                                                    <%= item.getDescription() %>
+                                                </small>
+                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
+                                                <% if (quantity > 0) { %>
+                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1">
+                                                    <%= quantity %>
+                                                </span>
+                                                <% } else { %>
+                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display: none;">
+                                                    <%= quantity %>
+                                                </span>
+                                                <% } %>
+                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>">+</button>
                                             </div>
                                         </div>
                                     </div>
-                                <% 
-                                    }
-                                %>
+                                </div>
+                                <% } %>
                             </div>
                         </div>
         
                         <!-- Drinks Tab -->
                         <div id="tab-3" class="tab-pane fade">
                             <div class="row g-4">
-                                <%
-                                    for (MenuItem item : drinkItems) {
-                                        int quantity = 0;
-        
-                                        // Check if this item is already in the orderItems list and get its quantity
-                                        if (orderItems != null) {
-                                            for (MenuItem orderItem : orderItems) {
-                                                if (orderItem.getItemId() == item.getItemId()) {
-                                                    quantity = orderItem.getQuantity();
-                                                    break;
-                                                }
+                                <% for (MenuItem item : drinkItems) { 
+                                    int quantity = 0;
+
+                                    // Check if this item is already in the orderItems list and get its quantity
+                                    if (orderItems != null) {
+                                        for (MenuItem orderItem : orderItems) {
+                                            if (orderItem.getItemId() == item.getItemId()) {
+                                                quantity = orderItem.getQuantity();
+                                                break;
                                             }
                                         }
+                                    }
                                 %>
-                                    <div class="col-lg-6">
-                                        <div class="d-flex align-items-center">
-                                            <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
-                                            <div class="w-100 d-flex flex-column text-start ps-4">
-                                                <h5 class="d-flex justify-content-between border-bottom pb-2">
-                                                    <span><%= item.getName() %></span>
-                                                    <span class="text-primary">$<%= item.getPrice() %></span>
-                                                </h5>
-                                                <div class="d-flex mt-1 cart-actions">
-                                                    <small class="fst-italic align-self-center me-auto"><%= item.getDescription() %></small>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
-                                                    <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>" style="margin-left: 2px;">+</button>
-                                                    <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display: none; position: relative; left: -13px;">
-                                                        <%= quantity %>
-                                                    </span>
-                                                </div>
+                                <div class="col-lg-6">
+                                    <div class="d-flex align-items-center">
+                                        <img class="flex-shrink-0 img-fluid rounded" src="img/food/<%= item.getName().toLowerCase().replace(" ", "_") %>.jpg" alt="" style="width: 80px;">
+                                        <div class="w-100 d-flex flex-column text-start ps-4">
+                                            <h5 class="d-flex justify-content-between border-bottom pb-2">
+                                                <span><%= item.getName() %></span>
+                                                <span class="text-primary">$<%= item.getPrice() %></span>
+                                            </h5>
+                                            <div class="d-flex mt-1 cart-actions align-items-center">
+                                                <small class="fst-italic align-self-center me-auto">
+                                                    <%= item.getDescription() %>
+                                                </small>
+                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
+                                                <% if (quantity > 0) { %>
+                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1 ms-1">
+                                                    <%= quantity %>
+                                                </span>
+                                                <% } else { %>
+                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display: none;">
+                                                    <%= quantity %>
+                                                </span>
+                                                <% } %>
+                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 ms-1 add-to-cart" data-code="<%= item.getItemId() %>">+</button>
                                             </div>
                                         </div>
                                     </div>
-                                <% 
-                                    }
-                                %>
+                                </div>
+                                <% } %>
                             </div>
                         </div>
-                    </div>
-                </div>
-            </div>
             <!-- Menu End -->
         </div>
 
@@ -305,11 +326,13 @@
 
         // Update the displayed quantity
         quantityBox.text(quantity);
-        quantityBox.data("quantity", quantity);
 
-        // Temporarily hide buttons and show quantity box
-        cartActions.find("button").hide();
-        quantityBox.fadeIn(300);
+        // Adjust visibility of the quantity box and buttons
+        if (quantity > 0) {
+            quantityBox.show();
+        } else {
+            quantityBox.hide();
+        }
 
         // Send the AJAX request to update quantity on the server
         $.ajax({
@@ -323,12 +346,7 @@
             success: function (response) {
                 console.log("Quantity updated successfully");
 
-                // After 2 seconds, fade out the quantity box and show buttons again
-                setTimeout(function () {
-                    quantityBox.fadeOut(300, function () {
-                        cartActions.find("button").fadeIn(100);
-                    });
-                }, 500);
+                
             },
             error: function (xhr, status, error) {
                 console.error("Failed to update quantity:", status, error);
@@ -347,7 +365,7 @@
     });
 });
 
-        </script>
+</script>
         
         
 

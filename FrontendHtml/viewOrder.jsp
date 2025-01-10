@@ -396,29 +396,27 @@
         });
 
         $(document).ready(function() {
-        // Listen for the click event on the "Pay" button
-        $("#payButton").on("click", function() {
-            // Extract the totalOrd value from the DOM
-            const totalOrd = parseFloat($(".total strong").text().replace('$', '').trim());
-
-            // Perform the AJAX POST request
+            // Listen for the click event on the "Pay" button
+            $("#payButton").on("click", function() {
+                // Perform the AJAX GET request
                 $.ajax({
-                    url: "paymentController.jsp", // URL of the JSP file
-                    method: "POST", // HTTP method
-                    data: { totalOrd: totalOrd }, // Data to send to the server
+                    url: "paymentController.jsp",
+                    method: "POST",
                     success: function(response) {
-                        // Handle successful response from the server
                         console.log("Payment successful:", response);
                         alert("Payment Successful!");
+                        setTimeout(function() {
+                            location.reload(); // Delay the reload slightly
+                        }, 500); // Delay for 500 milliseconds
                     },
                     error: function(xhr, status, error) {
-                        // Handle errors
                         console.error("Payment failed:", error);
                         alert("Payment Failed. Please try again.");
                     }
                 });
             });
         });
+
 
 
         document.addEventListener("DOMContentLoaded", function () {

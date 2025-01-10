@@ -289,6 +289,50 @@ public class OrderDAO {
         return orderIds;
     }
 
+    /**
+         * Retrieves and lists all orders from the database.
+         *
+         * @return A list of Order objects.
+         * @throws Exception if there's an issue during the operation.
+         */
+        public List<Order> retrieveOrdersByTable(String tableId) throws Exception {
+            DB db = new DB();
+            Connection connection = null;
+            PreparedStatement statement = null;
+            ResultSet resultSet = null;
+
+            List<Order> orders = new ArrayList<>();
+
+            try {
+                connection = db.getConnection();
+
+                // Query to fetch all orders
+                String query = "SELECT * FROM order_table WHERE tableId = ? AND payed = FALSE";
+                statement = connection.prepareStatement(query);
+                statement.setString(1, tableId);
+                
+                resultSet = statement.executeQuery();
+
+                while (resultSet.next()) {
+                    String orderId = resultSet.getString("orderId");
+                    Date orderDate = resultSet.getDate("orderDate");
+                    String bill = resultSet.getString("bill");
+                    Boolean payed = resultSet.getBoolean("payed");
+
+                    orders.add(new Order(orderId, tableId, null, orderDate, bill, payed)); // MenuItems not loaded here
+                    System.out.println("Order ID: " + orderId + ", Table ID: " + tableId + ", Bill: $" + bill);
+                }
+
+            } catch (Exception e) {
+                throw new Exception("Error managing orders: " + e.getMessage(), e);
+            } finally {
+                closeResources(resultSet, statement, connection);
+            }
+
+            return orders;
+        }
+
+
     // Utility method to close resources
     private void closeResources(AutoCloseable... resources) {
         for (AutoCloseable resource : resources) {

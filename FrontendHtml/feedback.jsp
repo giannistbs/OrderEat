@@ -8,22 +8,40 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
     <%-- Font Awesome --%>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <style>
+        /* Blur effect for the background */
+        .blur-background {
+            filter: blur(5px);
+            transition: filter 0.3s ease;
+        }
+
+        .feedback-container {
+            position: relative;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hidden {
+            display: none;
+        }
+
         .rating {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: center
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
         }
 
         .rating>input {
-            display: none
+            display: none;
         }
 
         .rating>label {
@@ -32,45 +50,26 @@
             font-size: 30px;
             font-weight: 300;
             color: #FFD600;
-            cursor: pointer
+            cursor: pointer;
         }
 
         .rating>label::before {
             content: "\2605";
             position: absolute;
-            opacity: 0
+            opacity: 0;
         }
 
         .rating>label:hover:before,
         .rating>label:hover~label:before {
-            opacity: 1 !important
+            opacity: 1 !important;
         }
 
         .rating>input:checked~label:before {
-            opacity: 1
+            opacity: 1;
         }
 
         .rating:hover>input:checked~label:before {
-            opacity: 0.4
-        }
-
-
-        .buttons{
-            top: 36px;
-            position: relative;
-        }
-
-
-        .rating-submit{
-            border-radius: 15px;
-            color: #fff;
-                height: 49px;
-        }
-
-
-        .rating-submit:hover{
-            
-            color: #fff;
+            opacity: 0.4;
         }
     </style>
 </head>
@@ -99,29 +98,97 @@
         <!-- Navbar End -->
 
         <!-- Feedback Form Start -->
-        <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh; padding-top: 80px;">
-            <div class="col-md-6 col-lg-5 col-xl-4">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-4">
-                        <h3 class="text-center mb-4 text-primary"><i class="fa fa-comment-dots me-2"></i>Feedback</h3>
-                        <form>
-                            <label for="name" class="form-label text-center d-block">(Name will be retrieved here)</label>
-                            <div class="mb-3">
-                                <label for="message" class="form-label">Tell us your opinion!</label>
-                                <textarea class="form-control" id="message" rows="4" placeholder="Share your thoughts with us" required></textarea>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center"></div>
-                            <div class="rating"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label></div>
-                            <button type="submit" class="btn btn-primary w-100 mt-4">Submit Feedback</button>
-                        </form>
-                        <p class="text-center mt-3 mb-0">Go back to <a href="menu.jsp" class="text-primary">Menu</a></p>
-                    </div>
+        <div class="container" id="feedback-section">
+            <!-- Reviews from other users -->
+            <div class="row blur-background" id="other-reviews">
+                <div class="col-12 mb-4">
+                    <h4>Feedback from other users:</h4>
+                    <p>John Doe: "Amazing experience!"</p>
+                    <p>Jane Smith: "Loved the food and service!"</p>
+                    <p>Michael Brown: "Highly recommend this place!"</p>
                 </div>
             </div>
+
+            <!-- Feedback Form -->
+            <div class="row d-flex align-items-center justify-content-center" style="margin-top: -100px;">
+                <div class="col-md-6 feedback-container" id="feedback-form">
+                    <h3 class="text-center mb-4 text-primary"><i class="fa fa-comment-dots me-2"></i>Feedback</h3>
+                    <form>
+                        <label for="name" class="form-label text-center d-block">(Name will be retrieved here)</label>
+                        <div class="mb-3">
+                            <label for="message" class="form-label">Your opinion is valuable to us!</label>
+                            <!-- Feedback Textarea -->
+                            <textarea class="form-control" id="message" rows="4" placeholder="Share your thoughts with us" required></textarea>
+                        </div>
+                        <!-- Star Rating Inputs -->
+                        <div class="rating">
+                            <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                            <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                            <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                            <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                            <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                        </div>
+                        <!-- Submit Button -->
+                        <button type="button" class="btn btn-primary w-100 mt-4" id="submit-feedback">Submit Feedback</button>
+                    </form>
+                </div>
+            </div>
+
         </div>
         <!-- Feedback Form End -->
-
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            const submitFeedbackBtn = document.getElementById("submit-feedback");
+
+            submitFeedbackBtn.addEventListener("click", function (e) {
+                e.preventDefault(); // Prevent default button behavior
+
+                // Get the feedback text and rating
+                const feedbackText = document.getElementById("message").value;
+                const starRating = document.querySelector('input[name="rating"]:checked');
+
+                // Validate input
+                if (!feedbackText) {
+                    alert("Please enter your feedback.");
+                    return;
+                }
+
+                if (!starRating) {
+                    alert("Please select a star rating.");
+                    return;
+                }
+                
+
+                // Send data to feedbackController.jsp using AJAX
+                $.ajax({
+                    url: "feedbackController.jsp",  // The URL for the request
+                    method: "POST",                 // The HTTP method
+                    data: {
+                        feedback: feedbackText,     // Send the feedback text
+                        rating: starRating.value    // Send the star rating value
+                    },            // Send the data as a plain string
+                    success: function (response) {
+                        // Hide the feedback form only if submission was successful
+                        const feedbackForm = document.getElementById("feedback-form");
+                        feedbackForm.style.display = "none";
+
+                        // Remove the blur effect only after successful submission
+                        const otherReviews = document.getElementById("other-reviews");
+                        otherReviews.classList.remove("blur-background");
+                    },
+                    error: function (xhr, status, error) {
+                        console.error("Error submitting feedback:", error);
+                        alert("An error occurred while submitting your feedback. Please try again.");
+                    }
+                });
+            });
+        });
+
+
+
+    </script>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

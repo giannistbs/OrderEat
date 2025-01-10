@@ -1,14 +1,15 @@
 package omadikh;
+import java.util.Date;
 
 public class Feedback {
     private String feedbackId;
     private String customerId;
     private String rating;
     private String comment;
-    private String date;
+    private Date date;
 
     // Constructor
-    public Feedback(String feedbackId, String customerId, String rating, String comment, String date) {
+    public Feedback(String feedbackId, String customerId, String rating, String comment, Date date) {
         this.feedbackId = feedbackId;
         this.customerId = customerId;
         this.rating = rating;
@@ -52,11 +53,11 @@ public class Feedback {
         this.comment = comment;
     }
 
-    public String getDate() {
+    public Date getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(Date date) {
         this.date = date;
     }
 

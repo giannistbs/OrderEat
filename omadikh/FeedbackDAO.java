@@ -5,6 +5,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Date;
 
 public class FeedbackDAO {
     private static final String TABLE_NAME = "feedback";
@@ -25,13 +26,12 @@ public class FeedbackDAO {
         try {
             connection = db.getConnection();
 
-            String insertQuery = "INSERT INTO " + TABLE_NAME + " (feedbackId, customerId, rating, comment, date) VALUES (?, ?, ?, ?, ?)";
+            String insertQuery = "INSERT INTO " + TABLE_NAME + " (customerId, rating, comment, date) VALUES (?, ?, ?, ?)";
             statement = connection.prepareStatement(insertQuery);
-            statement.setString(1, feedback.getFeedbackId());
-            statement.setString(2, feedback.getCustomerId());
-            statement.setString(3, feedback.getRating());
-            statement.setString(4, feedback.getComment());
-            statement.setString(5, feedback.getDate());
+            statement.setString(1, feedback.getCustomerId());
+            statement.setString(2, feedback.getRating());
+            statement.setString(3, feedback.getComment());
+            statement.setDate(4, new java.sql.Date(feedback.getDate().getTime()));
 
             statement.executeUpdate();
             System.out.println("Feedback successfully added for Customer ID: " + feedback.getCustomerId());
@@ -68,7 +68,7 @@ public class FeedbackDAO {
                 String customerId = resultSet.getString("customerId");
                 String rating = resultSet.getString("rating");
                 String comment = resultSet.getString("comment");
-                String date = resultSet.getString("date");
+                Date date = resultSet.getDate("date");
 
                 Feedback feedback = new Feedback(feedbackId, customerId, rating, comment, date);
                 feedbackList.add(feedback);

@@ -238,7 +238,7 @@
                                                 </small>
                                                 <button type="button" class="btn btn-sm btn-outline-primary mt-1 remove-from-cart" data-code="<%= item.getItemId() %>">-</button>
                                                 <% if (quantity > 0) { %>
-                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1">
+                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1 ms-1">
                                                     <%= quantity %>
                                                 </span>
                                                 <% } else { %>
@@ -246,7 +246,7 @@
                                                     <%= quantity %>
                                                 </span>
                                                 <% } %>
-                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 add-to-cart" data-code="<%= item.getItemId() %>">+</button>
+                                                <button type="button" class="btn btn-sm btn-outline-primary mt-1 ms-1 add-to-cart" data-code="<%= item.getItemId() %>">+</button>
                                             </div>
                                         </div>
                                     </div>

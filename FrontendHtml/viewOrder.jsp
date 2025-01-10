@@ -395,15 +395,16 @@
             });
         });
 
-        $(document).ready(function() {
+        document.addEventListener("DOMContentLoaded", function () {
             // Listen for the click event on the "Pay" button
-            $("#payButton").on("click", function() {
+            const placeButton = document.getElementById("payButton");
+            placeButton.addEventListener("click", function () {
                 // Perform the AJAX GET request
                 $.ajax({
                     url: "paymentController.jsp",
                     method: "POST",
                     success: function(response) {
-                        console.log("Payment successful:", response);
+                        location.reload()
                         alert("Payment Successful!");
                         setTimeout(function() {
                             location.reload(); // Delay the reload slightly

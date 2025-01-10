@@ -191,7 +191,7 @@
                                                     <%= quantity %>
                                                 </span>
                                                 <% } else { %>
-                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display:none">
+                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1 ms-1" style="display:none">
                                                     <%= quantity %>
                                                 </span>
                                                 <% } %>
@@ -242,7 +242,7 @@
                                                     <%= quantity %>
                                                 </span>
                                                 <% } else { %>
-                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display: none;">
+                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1 ms-1" style="display: none;">
                                                     <%= quantity %>
                                                 </span>
                                                 <% } %>
@@ -289,7 +289,7 @@
                                                     <%= quantity %>
                                                 </span>
                                                 <% } else { %>
-                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1" style="display: none;">
+                                                <span class="quantity-box btn btn-sm btn-outline-primary mt-1 ms-1" style="display: none;">
                                                     <%= quantity %>
                                                 </span>
                                                 <% } %>

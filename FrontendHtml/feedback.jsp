@@ -137,7 +137,7 @@
                             <p><strong><%= customerDAO.getCustomerById(feedback.getCustomerId()).getName() %></strong>: "<%= feedback.getComment() %>"</p>
                             <!-- You can also display other feedback properties, like rating -->
                             <p>Rating: <%= feedback.getRating() %> stars</p>
-                            <p>Date: <%= feedback.getDate() %> stars</p>
+                            <p>Date: <%= feedback.getDate() %></p>
                         </div>
                     </div>
             <%

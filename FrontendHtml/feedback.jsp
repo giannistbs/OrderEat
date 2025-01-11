@@ -1,3 +1,8 @@
+<%@ page import="java.util.List" %>
+<%@ page import="omadikh.Feedback" %>
+<%@ page import="omadikh.FeedbackDAO" %>
+<%@ page import="omadikh.CustomerDAO" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -8,22 +13,40 @@
     <meta content="" name="keywords">
     <meta content="" name="description">
 
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
-    <!-- Bootstrap CSS -->
-    <link href="css/bootstrap.min.css" rel="stylesheet">
-    <link href="css/style.css" rel="stylesheet">
-
     <%-- Font Awesome --%>
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.0/css/all.min.css" rel="stylesheet">
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/style.css" rel="stylesheet">
     <style>
+        /* Blur effect for the background */
+        .blur-background {
+            filter: blur(5px);
+            transition: filter 0.3s ease;
+        }
+
+        .feedback-container {
+            position: relative;
+            z-index: 10;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        .hidden {
+            display: none;
+        }
+
         .rating {
-        display: flex;
-        flex-direction: row-reverse;
-        justify-content: center
+            display: flex;
+            flex-direction: row-reverse;
+            justify-content: center;
         }
 
         .rating>input {
-            display: none
+            display: none;
         }
 
         .rating>label {
@@ -32,45 +55,40 @@
             font-size: 30px;
             font-weight: 300;
             color: #FFD600;
-            cursor: pointer
+            cursor: pointer;
         }
 
         .rating>label::before {
             content: "\2605";
             position: absolute;
-            opacity: 0
+            opacity: 0;
         }
 
         .rating>label:hover:before,
         .rating>label:hover~label:before {
-            opacity: 1 !important
+            opacity: 1 !important;
         }
 
         .rating>input:checked~label:before {
-            opacity: 1
+            opacity: 1;
         }
 
         .rating:hover>input:checked~label:before {
-            opacity: 0.4
+            opacity: 0.4;
         }
 
-
-        .buttons{
-            top: 36px;
-            position: relative;
-        }
-
-
-        .rating-submit{
-            border-radius: 15px;
-            color: #fff;
-                height: 49px;
-        }
-
-
-        .rating-submit:hover{
-            
-            color: #fff;
+        .fixed-center {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            z-index: 1000;
+            background-color: rgba(255, 255, 255, 0.95);
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+            width: 40%;
+            max-width: 500px;
         }
     </style>
 </head>
@@ -99,29 +117,130 @@
         <!-- Navbar End -->
 
         <!-- Feedback Form Start -->
-        <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh; padding-top: 80px;">
-            <div class="col-md-6 col-lg-5 col-xl-4">
-                <div class="card shadow-sm border-0">
-                    <div class="card-body p-4">
-                        <h3 class="text-center mb-4 text-primary"><i class="fa fa-comment-dots me-2"></i>Feedback</h3>
-                        <form>
-                            <label for="name" class="form-label text-center d-block">(Name will be retrieved here)</label>
-                            <div class="mb-3">
-                                <label for="message" class="form-label">Tell us your opinion!</label>
-                                <textarea class="form-control" id="message" rows="4" placeholder="Share your thoughts with us" required></textarea>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center"></div>
-                            <div class="rating"> <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label> <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label> <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label> <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label> <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label></div>
-                            <button type="submit" class="btn btn-primary w-100 mt-4">Submit Feedback</button>
-                        </form>
-                        <p class="text-center mt-3 mb-0">Go back to <a href="menu.jsp" class="text-primary">Menu</a></p>
+        <div class="container" id="feedback-section">
+            <h4 class="blur-background">Feedback from other users:</h4>
+            <!-- Reviews from other users -->
+            <%
+                // Initialize the feedback DAO and fetch the list of feedbacks
+                FeedbackDAO feedbackDAO = new FeedbackDAO();
+                List<Feedback> feedbacks = feedbackDAO.viewFeedback(); // Assuming viewFeedback returns a List<Feedback>
+                CustomerDAO customerDAO = new CustomerDAO();
+
+
+                // Loop through each feedback and display dynamically
+                for (int i = feedbacks.size() - 1; i >= 0; i--) {
+                    Feedback feedback = feedbacks.get(i);
+            %>
+                    <div class="row blur-background" id="other-reviews">
+                        <div class="col-12 mb-4">
+                            <!-- Display feedback dynamically -->
+                            <p><strong><%= customerDAO.getCustomerById(feedback.getCustomerId()).getName() %></strong>: "<%= feedback.getComment() %>"</p>
+                            <!-- You can also display other feedback properties, like rating -->
+                            <p>Rating: <%= feedback.getRating() %> stars</p>
+                            <p>Date: <%= feedback.getDate() %></p>
+                        </div>
                     </div>
-                </div>
+            <%
+                }
+            %>
+
+            <div class="feedback-container fixed-center" id="feedback-form">
+                <h3 class="text-center mb-4 text-primary"><i class="fa fa-comment-dots me-2"></i>Feedback</h3>
+                <form>
+                    <label for="name" class="form-label text-center d-block">(Name will be retrieved here)</label>
+                    <div class="mb-3">
+                        <label for="message" class="form-label">Your opinion is valuable to us!</label>
+                        <textarea class="form-control" id="message" rows="4" placeholder="Share your thoughts with us" required></textarea>
+                    </div>
+                    <div class="rating">
+                        <input type="radio" name="rating" value="5" id="5"><label for="5">☆</label>
+                        <input type="radio" name="rating" value="4" id="4"><label for="4">☆</label>
+                        <input type="radio" name="rating" value="3" id="3"><label for="3">☆</label>
+                        <input type="radio" name="rating" value="2" id="2"><label for="2">☆</label>
+                        <input type="radio" name="rating" value="1" id="1"><label for="1">☆</label>
+                    </div>
+                    <button type="button" class="btn btn-primary w-100 mt-4" id="submit-feedback">Submit Feedback</button>
+                </form>
             </div>
+
         </div>
         <!-- Feedback Form End -->
-
     </div>
+
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+    const submitFeedbackBtn = document.getElementById("submit-feedback");
+
+    submitFeedbackBtn.addEventListener("click", function (e) {
+        e.preventDefault(); // Prevent default button behavior
+
+        // Get the feedback text and rating
+        const feedbackText = document.getElementById("message").value;
+        const starRating = document.querySelector('input[name="rating"]:checked');
+
+        // Validate input
+        if (!feedbackText) {
+            alert("Please enter your feedback.");
+            return;
+        }
+
+        if (!starRating) {
+            alert("Please select a star rating.");
+            return;
+        }
+
+        // Send data to feedbackController.jsp using AJAX
+        $.ajax({
+            url: "feedbackController.jsp",  // The URL for the request
+            method: "POST",                 // The HTTP method
+            data: {
+                feedback: feedbackText,     // Send the feedback text
+                rating: starRating.value    // Send the star rating value
+            },
+            success: function (response) {
+                // Store the state that the feedback has been submitted
+                localStorage.setItem("feedbackSubmitted", "true");
+
+                // Reload the page to update feedback list
+                location.reload();
+
+                // Optionally remove the blur effect from other reviews
+                const otherReviews = document.querySelectorAll(".blur-background");
+                otherReviews.forEach(function (review) {
+                    review.classList.remove("blur-background");
+                });
+
+                // Optionally show a success message
+            },
+            error: function (xhr, status, error) {
+                console.error("Error submitting feedback:", error);
+                alert("An error occurred while submitting your feedback. Please try again.");
+            }
+        });
+    });
+
+    window.onload = function () {
+        // Check if the feedback has been submitted previously
+        if (localStorage.getItem("feedbackSubmitted") === "true") {
+            // Hide the feedback form
+            const feedbackForm = document.getElementById("feedback-form");
+            if (feedbackForm) {
+                feedbackForm.style.display = "none";
+            }
+
+            // Remove the blur effect from other reviews
+            const otherReviews = document.querySelectorAll(".blur-background");
+            otherReviews.forEach(function (review) {
+                review.classList.remove("blur-background");
+            });
+
+            // Clear the state to ensure it's only hidden once
+            localStorage.removeItem("feedbackSubmitted");
+        }
+    };
+});
+
+    </script>
 
     <!-- Bootstrap JS and dependencies -->
     <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>

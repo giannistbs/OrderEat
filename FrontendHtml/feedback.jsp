@@ -128,7 +128,8 @@
 
 
                 // Loop through each feedback and display dynamically
-                for (Feedback feedback : feedbacks) {
+                for (int i = feedbacks.size() - 1; i >= 0; i--) {
+                    Feedback feedback = feedbacks.get(i);
             %>
                     <div class="row blur-background" id="other-reviews">
                         <div class="col-12 mb-4">

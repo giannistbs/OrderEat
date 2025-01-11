@@ -187,9 +187,24 @@
     </div>
 
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
+       document.addEventListener("DOMContentLoaded", function () {
+    const feedbackForm = document.getElementById("feedback-form");
     const submitFeedbackBtn = document.getElementById("submit-feedback");
 
+    // Check if feedback form should be hidden for this session
+    if (sessionStorage.getItem("feedbackSubmitted") === "true") {
+        if (feedbackForm) {
+            feedbackForm.style.display = "none";
+        }
+
+        // Remove blur effect from other reviews
+        const otherReviews = document.querySelectorAll(".blur-background");
+        otherReviews.forEach(function (review) {
+            review.classList.remove("blur-background");
+        });
+    }
+
+    // Handle feedback form submission
     submitFeedbackBtn.addEventListener("click", function (e) {
         e.preventDefault(); // Prevent default button behavior
 
@@ -210,26 +225,29 @@
 
         // Send data to feedbackController.jsp using AJAX
         $.ajax({
-            url: "feedbackController.jsp",  // The URL for the request
-            method: "POST",                 // The HTTP method
+            url: "feedbackController.jsp",
+            method: "POST",
             data: {
-                feedback: feedbackText,     // Send the feedback text
-                rating: starRating.value    // Send the star rating value
+                feedback: feedbackText,
+                rating: starRating.value
             },
-            success: function (response) {
-                // Store the state that the feedback has been submitted
-                localStorage.setItem("feedbackSubmitted", "true");
+            success: function () {
+                // Store the session state
+                sessionStorage.setItem("feedbackSubmitted", "true");
 
-                // Reload the page to update feedback list
-                location.reload();
+                // Hide feedback form immediately
+                if (feedbackForm) {
+                    feedbackForm.style.display = "none";
+                }
 
-                // Optionally remove the blur effect from other reviews
+                // Remove blur effect
                 const otherReviews = document.querySelectorAll(".blur-background");
                 otherReviews.forEach(function (review) {
                     review.classList.remove("blur-background");
                 });
 
-                // Optionally show a success message
+                // Reload the page to update feedback list
+                location.reload();
             },
             error: function (xhr, status, error) {
                 console.error("Error submitting feedback:", error);
@@ -237,27 +255,8 @@
             }
         });
     });
-
-    window.onload = function () {
-        // Check if the feedback has been submitted previously
-        if (localStorage.getItem("feedbackSubmitted") === "true") {
-            // Hide the feedback form
-            const feedbackForm = document.getElementById("feedback-form");
-            if (feedbackForm) {
-                feedbackForm.style.display = "none";
-            }
-
-            // Remove the blur effect from other reviews
-            const otherReviews = document.querySelectorAll(".blur-background");
-            otherReviews.forEach(function (review) {
-                review.classList.remove("blur-background");
-            });
-
-            // Clear the state to ensure it's only hidden once
-            localStorage.removeItem("feedbackSubmitted");
-        }
-    };
 });
+
 
     </script>
 

@@ -10,7 +10,7 @@ import java.util.List;
  */
 public class CustomerDAO {
 
-    private static final String TABLE_NAME = "Customers_ex3_8220146_2024_2025";
+    private static final String TABLE_NAME = "customer";
 
     /**
      * This method returns a List with all Customers

@@ -1,3 +1,7 @@
+<%@ page import="java.util.List" %>
+<%@ page import="omadikh.Feedback" %>
+<%@ page import="omadikh.FeedbackDAO" %>
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -100,14 +104,26 @@
         <!-- Feedback Form Start -->
         <div class="container" id="feedback-section">
             <!-- Reviews from other users -->
-            <div class="row blur-background" id="other-reviews">
-                <div class="col-12 mb-4">
-                    <h4>Feedback from other users:</h4>
-                    <p>John Doe: "Amazing experience!"</p>
-                    <p>Jane Smith: "Loved the food and service!"</p>
-                    <p>Michael Brown: "Highly recommend this place!"</p>
-                </div>
-            </div>
+            <%
+                // Initialize the feedback DAO and fetch the list of feedbacks
+                FeedbackDAO feedbackDAO = new FeedbackDAO();
+                List<Feedback> feedbacks = feedbackDAO.viewFeedback(); // Assuming viewFeedback returns a List<Feedback>
+                
+                // Loop through each feedback and display dynamically
+                for (Feedback feedback : feedbacks) {
+            %>
+                    <div class="row blur-background" id="other-reviews">
+                        <div class="col-12 mb-4">
+                            <h4>Feedback from other users:</h4>
+                            <!-- Display feedback dynamically -->
+                            <p><strong><%= feedback.getCustomerName() %></strong>: "<%= feedback.getComment() %>"</p>
+                            <!-- You can also display other feedback properties, like rating -->
+                            <p>Rating: <%= feedback.getRating() %> stars</p>
+                        </div>
+                    </div>
+            <%
+                }
+            %>
 
             <!-- Feedback Form -->
             <div class="row d-flex align-items-center justify-content-center" style="margin-top: -100px;">
@@ -159,7 +175,7 @@
                     alert("Please select a star rating.");
                     return;
                 }
-                
+
 
                 // Send data to feedbackController.jsp using AJAX
                 $.ajax({

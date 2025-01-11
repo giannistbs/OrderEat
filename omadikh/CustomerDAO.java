@@ -180,4 +180,45 @@ public class CustomerDAO {
         }
     }
 
+    /**
+     * This method returns a Customer object based on the provided customerId.
+     *
+     * @param customerId, String
+     * @return Customer, the Customer object or null if not found
+     * @throws Exception, if any database error occurs
+     */
+    public Customer getCustomerById(String customerId) throws Exception {
+        DB db = new DB();
+        Connection conn = null;
+        PreparedStatement pstmt = null;
+        ResultSet rs = null;
+
+        try {
+            conn = db.getConnection();
+            String sql = "SELECT * FROM " + TABLE_NAME + " WHERE customerId = ?";
+            pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, customerId);
+            rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                String password = rs.getString("password");
+                String name = rs.getString("name");
+                String email = rs.getString("email");
+                String phone = rs.getString("phone");
+                String loyaltyPoints = rs.getString("loyaltyPoints");
+
+                return new Customer(customerId, password, name, email, phone, loyaltyPoints);
+            }
+        } catch (Exception e) {
+            throw new Exception("Error fetching Customer by ID: " + e.getMessage(), e);
+        } finally {
+            if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
+            if (pstmt != null) try { pstmt.close(); } catch (SQLException ignore) {}
+            if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
+        }
+
+        return null;
+    }
+
+
 } // End of class

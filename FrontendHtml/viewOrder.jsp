@@ -328,7 +328,7 @@
                     <p class="total mb-3 fw-bold text-center" style="font-size: 0.8rem;">Total: <strong>$<%= String.format("%.2f", totalOrd) %></strong></p>
                     <div class="d-flex justify-content-between" style="bottom: 0px">
                         <button id="payButton" class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem;">Pay</button>
-                        <button class="btn btn-primary btn-sm me-2" style="width: 45%; font-size: 0.8rem; text-align: left; padding-left: 7px;">Feedback</button>
+                        <button class="btn btn-primary btn-sm me-2" id="feedback-btn" style="width: 45%; font-size: 0.8rem; text-align: left; padding-left: 7px;">Feedback</button>
                     </div>
                 </div>
             </div>
@@ -337,6 +337,10 @@
     </div>
 
     <script>
+        document.getElementById("feedback-btn").addEventListener("click", function() {
+            window.location.href = "feedback.jsp"; // Redirect to feedback.jsp
+        });
+
         document.addEventListener("DOMContentLoaded", function () {
             // Get the flag value from the hidden element
             const orderStatus = document.getElementById("orderStatus");

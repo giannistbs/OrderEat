@@ -118,7 +118,9 @@
 
         <!-- Feedback Form Start -->
         <div class="container" id="feedback-section">
-            <h4 class="blur-background">Feedback from other users:</h4>
+            <h4 class="text-primary fw-bold mb-4 text-center" style="background-color: #f8f9fa; padding: 10px 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+                <i class="fa fa-comments me-2"></i> Feedback from Others
+            </h4>
             <!-- Reviews from other users -->
             <%
                 // Initialize the feedback DAO and fetch the list of feedbacks
@@ -131,33 +133,41 @@
                 for (int i = feedbacks.size() - 1; i >= 0; i--) {
                     Feedback feedback = feedbacks.get(i);
             %>
-                    <div class="row blur-background" id="other-reviews">
-                        <div class="col-12 mb-4 d-flex align-items-start">
-                            <!-- User Image -->
-                            <img src="img/user.jpg" alt="User" class="rounded-circle me-3" style="width: 40px; height: 40px;">
+                    <div class="row justify-content-center my-4">
+                        <div class="col-md-8">
+                            <!-- Outer Feedback Container -->
+                            <div class="card shadow-sm bg-light p-3 mb-1" style="border-radius: 20px;">
+                                <!-- Inner Feedback Row -->
+                                <div class="d-flex align-items-start">
+                                    <!-- User Image -->
+                                    <img src="img/user.jpg" alt="User" class="rounded-circle me-3" style="width: 40px; height: 40px;">
 
-                            <!-- Feedback Content -->
-                            <div>
-                                <!-- Name and Date Row -->
-                                <div class="d-flex justify-content-between align-items-center">
-                                    <p class="mb-1 fw-bold" style="font-size: 1rem;"><%= customerDAO.getCustomerById(feedback.getCustomerId()).getName() %></p>
-                                    <p class="text-muted mb-0" style="font-size: 0.85rem; margin-left: 10px;"><%= feedback.getDate() %></p>
+                                    <!-- Feedback Content -->
+                                    <div>
+                                        <!-- Name and Date Row -->
+                                        <div class="d-flex justify-content-between align-items-center">
+                                            <p class="mb-1 fw-bold" style="font-size: 1rem;"><%= customerDAO.getCustomerById(feedback.getCustomerId()).getName() %></p>
+                                            <p class="text-muted mb-0" style="font-size: 0.85rem; margin-left: 10px;"><%= feedback.getDate() %></p>
+                                        </div>
+
+                                        <!-- Feedback Comment -->
+                                        <p style="font-size: 0.95rem; color: #333;"><%= feedback.getComment() %></p>
+
+                                        <!-- Star Rating -->
+                                        <p class="mb-0">
+                                            <% 
+                                                int rating = Integer.parseInt(feedback.getRating()); 
+                                                for (int starIndex = 1; starIndex <= 5; starIndex++) { 
+                                            %>
+                                                <i class="fa fa-star <%= starIndex <= rating ? "text-warning" : "text-muted" %>"></i>
+                                            <% } %>
+                                        </p>
+                                    </div>
                                 </div>
-                                <!-- Feedback Comment -->
-                                <p style="font-size: 0.95rem; color: #333;"><%= feedback.getComment() %></p>
-
-                                <!-- Star Rating -->
-                                <p class="mb-0">
-                                    <% 
-                                        int rating = Integer.parseInt(feedback.getRating()); 
-                                        for (int starIndex = 1; starIndex <= 5; starIndex++) { 
-                                    %>
-                                        <i class="fa fa-star <%= starIndex <= rating ? "text-warning" : "text-muted" %>"></i>
-                                    <% } %>
-                                </p>
                             </div>
                         </div>
                     </div>
+
 
             <%
                 }

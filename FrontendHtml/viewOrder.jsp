@@ -193,8 +193,8 @@
             <a href="menu.jsp" class="navbar-brand p-0">
                 <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>OrderEat</h1>
             </a>
-            <h1 class="fa-solid fa-chair text-white" style="font-size: 1rem; margin-top: -10px; margin-left: -12px;">
-                <%= table %>
+            <h1 class="text-primary m-0" style="font-size: 1rem; margin-top: -10px; margin-left: -12px;">
+                At Table <%= table %>
             </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>

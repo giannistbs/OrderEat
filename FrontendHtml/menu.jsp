@@ -81,8 +81,8 @@
             <a href="" class="navbar-brand p-0">
                 <h1 class="text-primary m-0"><i class="fa fa-utensils me-4"></i>OrderEat</h1>
             </a>
-            <h1 class="fa-solid fa-chair text-white" style="font-size: 1rem; margin-top: -10px; margin-left: -12px;">
-                <%= sessionTable %>
+            <h1 class="text-primary m-0" style="font-size: 1rem; margin-top: -2px; margin-left: -9px;">
+                At Table <%= sessionTable %>
             </h1>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>

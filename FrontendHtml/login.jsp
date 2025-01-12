@@ -46,21 +46,14 @@
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
                         <h3 class="text-center mb-4 text-primary"><i class="fa fa-user-circle me-2"></i>Login</h3>
-                        <form>
+                        <form action="loginController.jsp" method="post">
                             <div class="mb-3">
-                                <label for="email" class="form-label">Email address</label>
-                                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                                <label for="username" class="form-label">Username</label>
+                                <input type="username" class="form-control" id="username" name="username" placeholder="Enter your username" required>
                             </div>
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
-                            </div>
-                            <div class="d-flex justify-content-between align-items-center">
-                                <div class="form-check">
-                                    <input class="form-check-input" type="checkbox" id="remember">
-                                    <label class="form-check-label" for="remember">Remember me!</label>
-                                </div>
-                                <a href="#" class="text-primary">Forgot Password?</a>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
                             </div>
                             <button type="submit" class="btn btn-primary w-100 mt-4">Login</button>
                         </form>

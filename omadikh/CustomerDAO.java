@@ -67,7 +67,7 @@ public class CustomerDAO {
 
         try {
             conn = db.getConnection();
-            String sql = "SELECT * FROM " + TABLE_NAME + " WHERE Customername = ?";
+            String sql = "SELECT * FROM " + TABLE_NAME + " WHERE name = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, Customername);
             rs = pstmt.executeQuery();
@@ -110,7 +110,7 @@ public class CustomerDAO {
 
         try {
             conn = db.getConnection();
-            String sql = "SELECT * FROM " + TABLE_NAME + " WHERE Customername = ? AND password = ?";
+            String sql = "SELECT * FROM " + TABLE_NAME + " WHERE name = ? AND password = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, Customername);
             pstmt.setString(2, password);
@@ -125,7 +125,7 @@ public class CustomerDAO {
 				
 				return new Customer(customerId, password, name, email, phone, loyaltyPoints);
             } else {
-                throw new Exception("Wrong Customername or password");
+                throw new Exception("Wrong name or password");
             }
         } catch (Exception e) {
             throw new Exception("Error during authentication: " + e.getMessage(), e);
@@ -142,7 +142,7 @@ public class CustomerDAO {
      * @param Customer, Customer
      * @throws Exception, if encounter any error.
      */
-    public void register(Customer Customer) throws Exception {
+    public void register(Customer customer) throws Exception {
         DB db = new DB();
         Connection conn = null;
         PreparedStatement pstmt = null;
@@ -150,33 +150,37 @@ public class CustomerDAO {
 
         try {
             conn = db.getConnection();
-            String sqlCheck = "SELECT * FROM " + TABLE_NAME + " WHERE Customername = ? OR email = ?";
+            String sqlCheck = "SELECT * FROM " + TABLE_NAME + " WHERE name = ? OR email = ?";
             pstmt = conn.prepareStatement(sqlCheck);
-            pstmt.setString(1, Customer.getName());
-            pstmt.setString(2, Customer.getEmail());
+            pstmt.setString(1, customer.getName());
+            pstmt.setString(2, customer.getEmail());
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                throw new Exception("Sorry, Customername or email already registered");
+                throw new Exception("Customer with the same name or email already exists.");
             }
 
-            String sqlInsert = "INSERT INTO " + TABLE_NAME + " (customerId, password, name, email, phone, loyaltyPoints) VALUES (?, ?, ?, ?, ?, ?)";
-            pstmt = conn.prepareStatement(sqlInsert);
-            pstmt.setString(1, Customer.getCustomerId());
-            pstmt.setString(2, Customer.getPassword());
-            pstmt.setString(3, Customer.getName());
-            pstmt.setString(4, Customer.getEmail());
-            pstmt.setString(5, Customer.getPhone());
-            pstmt.setString(6, Customer.getLoyaltyPoints());
-
+            String sqlInsert = "INSERT INTO " + TABLE_NAME + " (password, name, email, phone, loyaltyPoints) VALUES (?, ?, ?, ?, ?)";
+            pstmt = conn.prepareStatement(sqlInsert, Statement.RETURN_GENERATED_KEYS);
+            pstmt.setString(1, customer.getPassword());
+            pstmt.setString(2, customer.getName());
+            pstmt.setString(3, customer.getEmail());
+            pstmt.setString(4, customer.getPhone());
+            pstmt.setString(5, customer.getLoyaltyPoints());
 
             pstmt.executeUpdate();
+
+            rs = pstmt.getGeneratedKeys();
+            if (rs.next()) {
+                int generatedId = rs.getInt(1);
+                customer.setCustomerId(String.valueOf(generatedId));
+            }
         } catch (Exception e) {
             throw new Exception("Error during registration: " + e.getMessage(), e);
         } finally {
-            if (rs != null) try { rs.close(); } catch (SQLException ignore) {}
-            if (pstmt != null) try { pstmt.close(); } catch (SQLException ignore) {}
-            if (conn != null) try { conn.close(); } catch (SQLException ignore) {}
+            if (rs != null) rs.close();
+            if (pstmt != null) pstmt.close();
+            if (conn != null) conn.close();
         }
     }
 

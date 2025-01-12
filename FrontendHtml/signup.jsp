@@ -42,31 +42,37 @@
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
                         <h3 class="text-center mb-4 text-primary"><i class="fa fa-user-plus me-2"></i>Sign Up</h3>
-                        <form>
+                        <form action="signupController.jsp" method="post">
                             <!-- Full Name -->
                             <div class="mb-3">
-                                <label for="fullName" class="form-label">Full Name</label>
-                                <input type="text" class="form-control" id="fullName" placeholder="Enter your full name" required>
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" name="username" placeholder="Enter your username" required>
                             </div>
-
+                        
                             <!-- Email Address -->
                             <div class="mb-3">
                                 <label for="email" class="form-label">Email Address</label>
-                                <input type="email" class="form-control" id="email" placeholder="Enter your email" required>
+                                <input type="email" class="form-control" id="email" name="email" placeholder="Enter your email" required>
                             </div>
-
+                        
+                            <!-- Phone Number -->
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone Number</label>
+                                <input type="tel" class="form-control" id="phone" name="phone" placeholder="Enter your phone number" required>
+                            </div>
+                        
                             <!-- Password -->
                             <div class="mb-3">
                                 <label for="password" class="form-label">Password</label>
-                                <input type="password" class="form-control" id="password" placeholder="Enter your password" required>
+                                <input type="password" class="form-control" id="password" name="password" placeholder="Enter your password" required>
                             </div>
-
+                        
                             <!-- Confirm Password -->
                             <div class="mb-3">
                                 <label for="confirmPassword" class="form-label">Confirm Password</label>
-                                <input type="password" class="form-control" id="confirmPassword" placeholder="Confirm your password" required>
+                                <input type="password" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm your password" required>
                             </div>
-
+                        
                             <!-- Terms and Conditions Checkbox -->
                             <div class="form-check mb-3">
                                 <input class="form-check-input" type="checkbox" id="terms" required>
@@ -74,7 +80,7 @@
                                     I agree to the <a href="#" class="text-primary">Terms & Conditions</a>
                                 </label>
                             </div>
-
+                        
                             <!-- Sign Up Button -->
                             <button type="submit" class="btn btn-primary w-100 mt-4">Sign Up</button>
                         </form>

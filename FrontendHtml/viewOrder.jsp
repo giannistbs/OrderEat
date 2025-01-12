@@ -204,9 +204,21 @@
                     <a href="#" class="nav-item nav-link">Call Waiter</a>
                     <a href="menu.jsp" class="nav-item nav-link">Menu</a>
                     <a href="viewOrder.jsp" class="nav-item nav-link active">View Order</a>
-                    <a href="login.jsp" class="nav-item nav-link">
-                        <i class="fa-solid fa-user"></i> Login
-                    </a>
+                    <% 
+                        omadikh.Customer customer = (omadikh.Customer) session.getAttribute("customer");
+                        if (customer != null) {
+                    %>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-user"></i> <%= customer.getName() %>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="logout.jsp">Log out</a></li>
+                            </ul>
+                        </div>
+                    <% } else { %>
+                        <a href="login.jsp" class="nav-item nav-link"><i class="fa-solid fa-user"></i> Login</a>
+                    <% } %>
                 </div>
             </div>
         </nav>

@@ -17,7 +17,6 @@
             Customer customer = customerDAO.authenticate(username, password);
             if (customer != null) {
                 request.getSession().setAttribute("customer", customer);
-                // THIS MAY BE CHANGED SOON
                 response.sendRedirect("menu.jsp"); // Redirect to menu page after successful login
             } else {
                 out.println("<p>Invalid username or password!</p>");

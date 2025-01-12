@@ -2,7 +2,16 @@
 <%@ page import="omadikh.OrderDAO" %>
 <%@ page import="omadikh.MenuItem" %>
 <%@ page import="java.util.List" %>
+<%@ page import="omadikh.Customer, omadikh.CustomerDAO" %>
 <%@ page import="java.util.ArrayList" %>
+
+<%
+    Customer admin = (Customer) session.getAttribute("customer");
+    if (admin == null || !admin.getName().startsWith("admin")) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
 
 <!DOCTYPE html>
 <html lang="en">

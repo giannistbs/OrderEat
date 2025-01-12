@@ -15,6 +15,17 @@
 
     if (username != null && email != null && phone != null && password != null && confirmPassword != null) {
         if (password.equals(confirmPassword)) {
+            
+
+            // TEMPORARY CHECK FOR ADMING
+            if (username.startsWith("admin")) {
+                if (!password.equals("AdminOnlyOrderEatPassword")) {
+                    out.println("<p>Error: Admin password must be the correct</p>");
+                    return;
+                }
+            }
+            //////
+
             String customerId = UUID.randomUUID().toString(); // random here, but doesnt matter since it will be autoincremented in the DAO
             String loyaltyPoints = "0"; // Initial loyalty points
 

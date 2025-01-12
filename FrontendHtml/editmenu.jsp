@@ -1,5 +1,14 @@
 <!DOCTYPE html>
 <html lang="en">
+<%@ page import="omadikh.Customer, omadikh.CustomerDAO" %>
+
+<%
+    Customer admin = (Customer) session.getAttribute("customer");
+    if (admin == null || !admin.getName().startsWith("admin")) {
+        response.sendRedirect("login.jsp");
+        return;
+    }
+%>
 
 <head>
     <meta charset="utf-8">

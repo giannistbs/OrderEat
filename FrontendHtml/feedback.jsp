@@ -2,6 +2,12 @@
 <%@ page import="omadikh.Feedback" %>
 <%@ page import="omadikh.FeedbackDAO" %>
 <%@ page import="omadikh.CustomerDAO" %>
+<%@ page import="omadikh.Customer" %>
+
+<%
+    Customer customer2 = (Customer) session.getAttribute("customer");
+    String customerName = customer2 != null ? customer2.getName() : "Guest";
+%>
 
 <!DOCTYPE html>
 <html lang="en">
@@ -188,7 +194,7 @@
             <div class="feedback-container fixed-center" id="feedback-form">
                 <h3 class="text-center mb-4 text-primary"><i class="fa fa-comment-dots me-2"></i>Feedback</h3>
                 <form>
-                    <label for="name" class="form-label text-center d-block">(Name will be retrieved here)</label>
+                    <label for="name" class="form-label text-center d-block"><%= customerName %></label>
                     <div class="mb-3">
                         <label for="message" class="form-label">Your opinion is valuable to us!</label>
                         <textarea class="form-control" id="message" rows="4" placeholder="Share your thoughts with us" required></textarea>
@@ -215,9 +221,10 @@
 
     // Check if feedback form should be hidden for this session
     if (sessionStorage.getItem("feedbackSubmitted") === "true") {
-        if (feedbackForm) {
-            feedbackForm.style.display = "none";
-        }
+        // messes up lot of things
+        // if (feedbackForm) {
+        //     feedbackForm.style.display = "none";
+        // }
 
         // Remove blur effect from other reviews
         const otherReviews = document.querySelectorAll(".blur-background");

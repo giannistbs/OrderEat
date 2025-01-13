@@ -2,7 +2,6 @@
 <%@ page import="omadikh.OrderStats" %>
 <%@ page import="omadikh.AdminView" %>
 <%@ page import="omadikh.Customer, omadikh.CustomerDAO, omadikh.Order" %>
-<>
 
 
 <!DOCTYPE jsp>
@@ -168,7 +167,18 @@
                         <div class="p-4 rounded shadow-sm d-flex flex-column justify-content-center align-items-center summary-card">
                             <h5 class="text-secondary mb-3">Average Order Value</h5>
                             <h3 class="text-primary"><%= String.format("%.2f", orderStats.getAverageOrderValue()) %></h3>
-                            <%-- <p class="text-muted">capacity precentage <span class="text-success">54%</span></p> --%>
+                            <p class="text-muted">
+                                    Target Average $20 
+                                    <%
+                                        double target = 20.0;
+                                        double averageOrderValue = orderStats.getAverageOrderValue();
+                                        double difference = averageOrderValue - target;
+                                        String cssClass = difference >= 0 ? "text-success" : "text-danger";
+                                        String sign = difference >= 0 ? "+" : "-";
+                                    %>
+                                    <span class="<%= cssClass %>"><%= sign + String.format("%.2f", Math.abs(difference)) %></span>
+                                </p>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -225,14 +235,30 @@
     <!-- Line Chart Script -->
     <script>
         const ctx = document.getElementById("myChart").getContext("2d");
+
+        // Dynamic data from JSP
+        const labels = [<% for (String date : orderStats.getOrdersByDate().keySet()) { %>"<%= date %>", <% } %>];
+        const data = [<% for (int count : orderStats.getOrdersByDate().values()) { %><%= count %>, <% } %>];
+
         const myChart = new Chart(ctx, {
             type: "line",
             data: {
-                labels: ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"],
-                datasets: [
-                    { label: "Work Load", data: [2, 9, 3, 17, 6, 3, 7], backgroundColor: "rgba(153,205,1,0.6)" },
-                    { label: "Free Hours", data: [2, 2, 5, 5, 2, 1, 10], backgroundColor: "rgba(155,153,10,0.6)" }
-                ]
+                labels: labels,
+                datasets: [{
+                    label: "Total Orders",
+                    data: data,
+                    backgroundColor: "rgba(153, 205, 1, 0.6)",
+                    borderColor: "rgba(153, 205, 1, 1)",
+                    fill: false
+                }]
+            },
+            options: {
+                responsive: true,
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
             }
         });
     </script>

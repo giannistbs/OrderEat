@@ -10,6 +10,7 @@ public class OrderStats {
     private int totalUnpaidOrders;
     private double averageOrderValue;
     private Map<String, Integer> ordersPerTable;
+    private Map<String, Integer> ordersByDate;
 
     private double foodPercentage;
     private double drinkPercentage;
@@ -18,7 +19,7 @@ public class OrderStats {
     // Constructor
     public OrderStats(int totalOrders, double totalRevenue, int totalPaidOrders, int totalUnpaidOrders,
                       double averageOrderValue, Map<String, Integer> ordersPerTable,
-                      double foodPercentage, double drinkPercentage, double sweetPercentage) {
+                      double foodPercentage, double drinkPercentage, double sweetPercentage, Map<String, Integer> ordersByDate) {
         this.totalOrders = totalOrders;
         this.totalRevenue = totalRevenue;
         this.totalPaidOrders = totalPaidOrders;
@@ -28,6 +29,7 @@ public class OrderStats {
         this.foodPercentage = foodPercentage;
         this.drinkPercentage = drinkPercentage;
         this.sweetPercentage = sweetPercentage;
+        this.ordersByDate = ordersByDate;
     }
 
     // Getters
@@ -65,6 +67,14 @@ public class OrderStats {
 
     public double getSweetPercentage() {
         return sweetPercentage;
+    }
+
+    public Map<String, Integer> getOrdersByDate() {
+        return ordersByDate;
+    }
+
+    public void setOrdersByDate(Map<String, Integer> ordersByDate) {
+        this.ordersByDate = ordersByDate;
     }
 
     // toString() Method for Debugging

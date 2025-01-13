@@ -3,10 +3,13 @@ package omadikh;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.TreeMap;
+
 import omadikh.OrderStats;
 import java.util.Date;
 
@@ -154,6 +157,17 @@ public class AdminView {
         return orders;
     }
 
+    public Map<String, Integer> getOrdersByDate() throws Exception {
+        List<Order> orders = manageOrders();
+        Map<String, Integer> ordersByDate = new HashMap<>();
+
+        for (Order order : orders) {
+            String date = new SimpleDateFormat("yyyy-MM-dd").format(order.getOrderDate());
+            ordersByDate.put(date, ordersByDate.getOrDefault(date, 0) + 1);
+        }
+
+        return new TreeMap<>(ordersByDate);
+    }
 
     /**
      * Calculates statistical facts from a list of orders.
@@ -169,6 +183,7 @@ public class AdminView {
         int totalPaidOrders = 0;
         int totalUnpaidOrders = 0;
         Map<String, Integer> ordersPerTable = new HashMap<>();
+        Map<String, Integer> ordersByDate = getOrdersByDate();
     
         // Counters for overall item type percentages
         double totalFoodPercentage = 0;
@@ -206,7 +221,7 @@ public class AdminView {
     
         // Return the OrderStats object with percentages included
         return new OrderStats(totalOrders, totalRevenue, totalPaidOrders, totalUnpaidOrders, averageOrderValue,
-                              ordersPerTable, foodPercentage, drinkPercentage, sweetPercentage);
+                              ordersPerTable, foodPercentage, drinkPercentage, sweetPercentage, ordersByDate);
     }
     
 

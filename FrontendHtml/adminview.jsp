@@ -1,6 +1,12 @@
+<%@ page import="java.util.*" %>
+<%@ page import="omadikh.OrderStats" %>
+<%@ page import="omadikh.AdminView" %>
+<%@ page import="omadikh.Customer, omadikh.CustomerDAO, omadikh.Order" %>
+<>
+
+
 <!DOCTYPE jsp>
 <html lang="en">
-<%@ page import="omadikh.Customer, omadikh.CustomerDAO" %>
 
 <%
     Customer admin = (Customer) session.getAttribute("customer");
@@ -100,6 +106,21 @@
 </head>
 
 <body>
+    <%
+        // Create an instance of AdminView
+        AdminView adminView = new AdminView();
+
+        // Fetch the order statistics
+        OrderStats orderStats = null;
+        try {
+            orderStats = adminView.calculateOrderStatistics();
+        } catch (Exception e) {
+            out.println("<p>Error: " + e.getMessage() + "</p>");
+        }
+
+        // Display the statistics if available
+        if (orderStats != null) {
+    %>
     <div class="container-xxl bg-white p-0">
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark px-4 px-lg-5 py-3 py-lg-8">
@@ -132,22 +153,22 @@
                     <div class="col-lg-4 col-md-3">
                         <div class="p-4 rounded shadow-sm d-flex flex-column justify-content-center align-items-center summary-card">
                             <h5 class="text-secondary mb-3">Total Sales</h5>
-                            <h3 class="text-primary">$12,345</h3>
+                            <h3 class="text-primary">$<%= String.format("%.2f", orderStats.getTotalRevenue()) %></h3>
                             <p class="text-muted">Compared to last month: <span class="text-success">+15%</span></p>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-3">
                         <div class="p-4 rounded shadow-sm d-flex flex-column justify-content-center align-items-center summary-card">
                             <h5 class="text-secondary mb-3">Total Orders</h5>
-                            <h3 class="text-primary">450</h3>
+                            <h3 class="text-primary"><%= orderStats.getTotalOrders() %></h3>
                             <p class="text-muted">New orders this week: <span class="text-success">+32</span></p>
                         </div>
                     </div>
                     <div class="col-lg-4 col-md-3">
                         <div class="p-4 rounded shadow-sm d-flex flex-column justify-content-center align-items-center summary-card">
-                            <h5 class="text-secondary mb-3">Tables Right Now</h5>
-                            <h3 class="text-primary">26</h3>
-                            <p class="text-muted">capacity precentage <span class="text-success">54%</span></p>
+                            <h5 class="text-secondary mb-3">Average Order Value</h5>
+                            <h3 class="text-primary"><%= String.format("%.2f", orderStats.getAverageOrderValue()) %></h3>
+                            <%-- <p class="text-muted">capacity precentage <span class="text-success">54%</span></p> --%>
                         </div>
                     </div>
                 </div>
@@ -180,6 +201,7 @@
             </div>
         </div>
     </div>
+    <% } %>
 
     <!-- Donut Chart Script -->
     <script>

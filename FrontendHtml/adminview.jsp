@@ -205,12 +205,13 @@
 
     <!-- Donut Chart Script -->
     <script>
+        // Dynamically populate the chart with data from OrderStats
         bb.generate({
             data: {
                 columns: [
-                    ["Drinks", 3],
-                    ["Food", 3],
-                    ["Sweets", 3],
+                    ["Drinks", <%= String.format("%.2f", orderStats.getDrinkPercentage() * 100) %>],
+                    ["Food", <%= String.format("%.2f", orderStats.getFoodPercentage() * 100) %>],
+                    ["Sweets", <%= String.format("%.2f", orderStats.getSweetPercentage() * 100) %>]
                 ],
                 type: "donut"
             },

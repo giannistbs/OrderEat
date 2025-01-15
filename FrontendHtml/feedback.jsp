@@ -137,7 +137,7 @@
         <!-- Feedback Form Start -->
         <div class="container" id="feedback-section">
             <h4 class="text-primary fw-bold mb-4 text-center" style="background-color: #f8f9fa; padding: 10px 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                <i class="fa fa-comments me-2"></i> Feedback from Others
+                <i class="fa fa-comments me-2 blur-background"></i> Feedback from Others
             </h4>
             <!-- Reviews from other users -->
             <%
@@ -151,7 +151,7 @@
                 for (int i = feedbacks.size() - 1; i >= 0; i--) {
                     Feedback feedback = feedbacks.get(i);
             %>
-                    <div class="row justify-content-center my-4">
+                    <div class="row justify-content-center my-4 blur-background">
                         <div class="col-md-8">
                             <!-- Outer Feedback Container -->
                             <div class="card shadow-sm bg-light p-3 mb-1" style="border-radius: 20px;">
@@ -215,78 +215,77 @@
     </div>
 
     <script>
-       document.addEventListener("DOMContentLoaded", function () {
-    const feedbackForm = document.getElementById("feedback-form");
-    const submitFeedbackBtn = document.getElementById("submit-feedback");
+        document.addEventListener("DOMContentLoaded", function () {
+        const submitFeedbackBtn = document.getElementById("submit-feedback");
 
-    // Check if feedback form should be hidden for this session
-    if (sessionStorage.getItem("feedbackSubmitted") === "true") {
-        // messes up lot of things
-        // if (feedbackForm) {
-        //     feedbackForm.style.display = "none";
-        // }
+        submitFeedbackBtn.addEventListener("click", function (e) {
+            e.preventDefault(); // Prevent default button behavior
 
-        // Remove blur effect from other reviews
-        const otherReviews = document.querySelectorAll(".blur-background");
-        otherReviews.forEach(function (review) {
-            review.classList.remove("blur-background");
+            // Get the feedback text and rating
+            const feedbackText = document.getElementById("message").value;
+            const starRating = document.querySelector('input[name="rating"]:checked');
+
+            // Validate input
+            if (!feedbackText) {
+                alert("Please enter your feedback.");
+                return;
+            }
+
+            if (!starRating) {
+                alert("Please select a star rating.");
+                return;
+            }
+
+            // Send data to feedbackController.jsp using AJAX
+            $.ajax({
+                url: "feedbackController.jsp",  // The URL for the request
+                method: "POST",                 // The HTTP method
+                data: {
+                    feedback: feedbackText,     // Send the feedback text
+                    rating: starRating.value    // Send the star rating value
+                },
+                success: function (response) {
+                    // Store the state that the feedback has been submitted
+                    localStorage.setItem("feedbackSubmitted", "true");
+
+                    // Reload the page to update feedback list
+                    location.reload();
+
+                    // Optionally remove the blur effect from other reviews
+                    const otherReviews = document.querySelectorAll(".blur-background");
+                    otherReviews.forEach(function (review) {
+                        review.classList.remove("blur-background");
+                    });
+
+                    // Optionally show a success message
+                },
+                error: function (xhr, status, error) {
+                    console.error("Error submitting feedback:", error);
+                    alert("An error occurred while submitting your feedback. Please try again.");
+                }
+            });
         });
-    }
 
-    // Handle feedback form submission
-    submitFeedbackBtn.addEventListener("click", function (e) {
-        e.preventDefault(); // Prevent default button behavior
-
-        // Get the feedback text and rating
-        const feedbackText = document.getElementById("message").value;
-        const starRating = document.querySelector('input[name="rating"]:checked');
-
-        // Validate input
-        if (!feedbackText) {
-            alert("Please enter your feedback.");
-            return;
-        }
-
-        if (!starRating) {
-            alert("Please select a star rating.");
-            return;
-        }
-
-        // Send data to feedbackController.jsp using AJAX
-        $.ajax({
-            url: "feedbackController.jsp",
-            method: "POST",
-            data: {
-                feedback: feedbackText,
-                rating: starRating.value
-            },
-            success: function () {
-                // Store the session state
-                sessionStorage.setItem("feedbackSubmitted", "true");
-
-                // Hide feedback form immediately
+        window.onload = function () {
+            // Check if the feedback has been submitted previously
+            if (localStorage.getItem("feedbackSubmitted") === "true") {
+                // Hide the feedback form
+                const feedbackForm = document.getElementById("feedback-form");
                 if (feedbackForm) {
                     feedbackForm.style.display = "none";
                 }
 
-                // Remove blur effect
+                // Remove the blur effect from other reviews
                 const otherReviews = document.querySelectorAll(".blur-background");
                 otherReviews.forEach(function (review) {
                     review.classList.remove("blur-background");
                 });
 
-                // Reload the page to update feedback list
-                location.reload();
-            },
-            error: function (xhr, status, error) {
-                console.error("Error submitting feedback:", error);
-                alert("An error occurred while submitting your feedback. Please try again.");
+                // Clear the state to ensure it's only hidden once
+                localStorage.removeItem("feedbackSubmitted");
             }
-        });
+        };
     });
-});
-
-
     </script>
 
     <!-- Bootstrap JS and dependencies -->

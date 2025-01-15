@@ -29,7 +29,7 @@
         /* Blur effect for the background */
         .blur-background {
             filter: blur(5px);
-            transition: filter 0.3s ease;
+            transition: filter 1.5s ease;
         }
 
         .feedback-container {
@@ -137,9 +137,9 @@
         <!-- Feedback Form Start -->
         <div class="container" id="feedback-section">
             <h4 class="text-primary fw-bold mb-4 text-center" style="background-color: #f8f9fa; padding: 10px 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-                <i class="fa fa-comments me-2 blur-background"></i> Feedback from Others
+                <i class="fa fa-comments me-2 blur-background blur-target"></i> Feedback from Others
             </h4>
-            <button id="reopen-feedback" class="btn btn-primary btn-lg position-fixed bottom-0 m-4 rounded-pill shadow blur-background" style="right: 100px;">
+            <button id="reopen-feedback" class="btn btn-primary btn-lg position-fixed bottom-0 m-4 rounded-pill shadow blur-background blur-target" style="right: 100px;">
                 <i class="fa fa-comment-dots me-2"></i> Feedback
             </button>
             <!-- Reviews from other users -->
@@ -154,7 +154,7 @@
                 for (int i = feedbacks.size() - 1; i >= 0; i--) {
                     Feedback feedback = feedbacks.get(i);
             %>
-                    <div class="row justify-content-center my-4 blur-background">
+                    <div class="row justify-content-center my-4 blur-background blur-target">
                         <div class="col-md-8">
                             <!-- Outer Feedback Container -->
                             <div class="card shadow-sm bg-light p-3 mb-1" style="border-radius: 20px;">
@@ -259,7 +259,7 @@
                     location.reload();
 
                     // Optionally remove the blur effect from other reviews
-                    const otherReviews = document.querySelectorAll(".blur-background");
+                    const otherReviews = document.querySelectorAll(".blur-target");
                     otherReviews.forEach(function (review) {
                         review.classList.remove("blur-background");
                     });
@@ -283,7 +283,7 @@
                 }
 
                 // Remove the blur effect from other reviews
-                const otherReviews = document.querySelectorAll(".blur-background");
+                const otherReviews = document.querySelectorAll(".blur-target");
                 otherReviews.forEach(function (review) {
                     review.classList.remove("blur-background");
                 });
@@ -306,7 +306,7 @@
             feedbackForm.style.display = "none";
 
             // Remove blur effect from background elements
-            const blurredElements = document.querySelectorAll(".blur-background");
+            const blurredElements = document.querySelectorAll(".blur-target");
             blurredElements.forEach(function (element) {
                 element.classList.remove("blur-background");
             });
@@ -324,7 +324,7 @@
             feedbackForm.style.display = "block";
 
             // Apply blur effect to background elements
-            const blurredElements = document.querySelectorAll(".content"); // Adjust selector as needed
+            const blurredElements = document.querySelectorAll(".blur-target");
             blurredElements.forEach(function (element) {
                 element.classList.add("blur-background");
             });

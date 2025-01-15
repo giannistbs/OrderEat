@@ -7,7 +7,7 @@
 
 
 <%
-
+    // This part of code is meant to be on a seperate jsp file called menuController.jsp mimicking the Servlet logic.
     // Ensure session is not null
     List<MenuItem> orderItems = (List<MenuItem>) session.getAttribute("orderItems");
     if (orderItems == null) {

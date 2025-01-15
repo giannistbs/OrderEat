@@ -192,6 +192,9 @@
             %>
 
             <div class="feedback-container fixed-center" id="feedback-form">
+                <button id="close-feedback" style="position: absolute; top: 10px; right: 10px; border: none; background: transparent; font-size: 1.5rem; cursor: pointer;">
+                    &times;
+                </button>
                 <h3 class="text-center mb-4 text-primary"><i class="fa fa-comment-dots me-2"></i>Feedback</h3>
                 <form>
                     <label for="name" class="form-label text-center d-block"><%= customerName %></label>
@@ -285,6 +288,25 @@
                 localStorage.removeItem("feedbackSubmitted");
             }
         };
+    });
+
+
+        document.addEventListener("DOMContentLoaded", function () {
+        const closeFeedbackBtn = document.getElementById("close-feedback");
+
+        // Close feedback form on X button click
+        closeFeedbackBtn.addEventListener("click", function () {
+            const feedbackForm = document.getElementById("feedback-form");
+
+            // Hide the feedback form
+            feedbackForm.style.display = "none";
+
+            // Remove blur effect from background elements
+            const blurredElements = document.querySelectorAll(".blur-background");
+            blurredElements.forEach(function (element) {
+                element.classList.remove("blur-background");
+            });
+        });
     });
     </script>
 

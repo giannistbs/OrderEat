@@ -139,6 +139,9 @@
             <h4 class="text-primary fw-bold mb-4 text-center" style="background-color: #f8f9fa; padding: 10px 15px; border-radius: 10px; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
                 <i class="fa fa-comments me-2 blur-background"></i> Feedback from Others
             </h4>
+            <button id="reopen-feedback" class="btn btn-primary btn-lg position-fixed bottom-0 m-4 rounded-pill shadow blur-background" style="right: 100px;">
+                <i class="fa fa-comment-dots me-2"></i> Feedback
+            </button>
             <!-- Reviews from other users -->
             <%
                 // Initialize the feedback DAO and fetch the list of feedbacks
@@ -213,6 +216,7 @@
                 </form>
             </div>
 
+            
         </div>
         <!-- Feedback Form End -->
     </div>
@@ -291,7 +295,7 @@
     });
 
 
-        document.addEventListener("DOMContentLoaded", function () {
+    document.addEventListener("DOMContentLoaded", function () {
         const closeFeedbackBtn = document.getElementById("close-feedback");
 
         // Close feedback form on X button click
@@ -308,6 +312,25 @@
             });
         });
     });
+
+    document.addEventListener("DOMContentLoaded", function () {
+        const reopenFeedbackBtn = document.getElementById("reopen-feedback");
+
+        // Reopen feedback form on button click
+        reopenFeedbackBtn.addEventListener("click", function () {
+            const feedbackForm = document.getElementById("feedback-form");
+
+            // Show the feedback form
+            feedbackForm.style.display = "block";
+
+            // Apply blur effect to background elements
+            const blurredElements = document.querySelectorAll(".content"); // Adjust selector as needed
+            blurredElements.forEach(function (element) {
+                element.classList.add("blur-background");
+            });
+        });
+    });
+
     </script>
 
     <!-- Bootstrap JS and dependencies -->

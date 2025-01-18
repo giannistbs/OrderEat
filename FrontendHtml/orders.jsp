@@ -28,6 +28,9 @@
     <!-- Bootstrap CSS -->
     <link href="css/bootstrap.min.css" rel="stylesheet" />
 
+     <%-- Font Awesome --%>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
     <!-- Customized Bootstrap Stylesheet -->
     <link href="css/style.css" rel="stylesheet">
 
@@ -92,6 +95,21 @@
                     <a href="orders.jsp" class="nav-item nav-link no-underline active">Orders</a>
                     <%-- <a href="reports.jsp" class="nav-item nav-link no-underline">Reports</a>
                     <a href="editmenu.jsp" class="nav-item nav-link no-underline">Edit Menu</a> --%>
+                     <% 
+                        omadikh.Customer customer = (omadikh.Customer) session.getAttribute("customer");
+                        if (customer != null) {
+                    %>
+                        <div class="nav-item dropdown">
+                            <a href="#" class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                                <i class="fa-solid fa-user"></i> <%= customer.getName() %>
+                            </a>
+                            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <li><a class="dropdown-item" href="logout.jsp">Log out</a></li>
+                            </ul>
+                        </div>
+                    <% } else { %>
+                        <a href="login.jsp" class="nav-item nav-link"><i class="fa-solid fa-user"></i> Login</a>
+                    <% } %>
                 </div>
             </div>
         </nav>

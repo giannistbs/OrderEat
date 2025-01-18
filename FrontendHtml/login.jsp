@@ -13,6 +13,8 @@
     if (session.getAttribute("table") == null) {
         out.println("<div class='alert alert-danger'> error : no table selected </div>");
     }
+    // Check if a login error parameter is present in the request
+    String loginError = request.getParameter("error");
 %>
 
 <head>
@@ -72,6 +74,9 @@
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
                         <h3 class="text-center mb-4 text-primary"><i class="fa fa-user-circle me-2"></i>Login</h3>
+                        <% if (loginError != null && !loginError.isEmpty()) { %>
+                            <div class="alert alert-danger text-center">Invalid username or password. Please try again.</div>
+                        <% } %>
                         <form action="loginController.jsp" method="post">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>

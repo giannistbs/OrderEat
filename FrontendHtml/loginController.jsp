@@ -19,12 +19,12 @@
                 request.getSession().setAttribute("customer", customer);
                 response.sendRedirect("menu.jsp"); // Redirect to menu page after successful login
             } else {
-                out.println("<p>Invalid username or password!</p>");
+                response.sendRedirect("login.jsp?error=login_error");
             }
         } catch (Exception e) {
-            out.println("<p>Error: " + e.getMessage() + "</p>");
+            response.sendRedirect("login.jsp?error=login_error");
         }
     } else {
-        out.println("<p>All fields are required!</p>");
+        response.sendRedirect("login.jsp?error=login_error");
     }
 %>

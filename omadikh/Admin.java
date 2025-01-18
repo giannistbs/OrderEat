@@ -20,6 +20,14 @@ public class Admin {
         this.password = password;
         this.role = role;
     }
+    // Constructor
+    public Admin(int adminId, String name, String email, String password) {
+        this.adminId = adminId;
+        this.name = name;
+        this.email = email;
+        this.password = password;
+        this.role = AdminRoleEnum.OWNER;
+    }
 
     public Admin() {
     }

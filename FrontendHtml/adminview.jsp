@@ -1,6 +1,6 @@
 <%@ page import="java.util.*" %>
 <%@ page import="omadikh.OrderStats" %>
-<%@ page import="omadikh.AdminView" %>
+<%@ page import="omadikh.AdminStats" %>
 <%@ page import="omadikh.Admin, omadikh.AdminDAO, omadikh.Order" %>
 
 
@@ -109,13 +109,13 @@
 
 <body>
     <%
-        // Create an instance of AdminView
-        AdminView adminView = new AdminView();
+        // Create an instance of AdminStats
+        AdminStats adminStats = new AdminStats();
 
         // Fetch the order statistics
         OrderStats orderStats = null;
         try {
-            orderStats = adminView.calculateOrderStatistics();
+            orderStats = adminStats.calculateOrderStatistics();
         } catch (Exception e) {
             out.println("<p>Error: " + e.getMessage() + "</p>");
         }

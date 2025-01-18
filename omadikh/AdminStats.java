@@ -13,7 +13,7 @@ import java.util.TreeMap;
 import omadikh.OrderStats;
 import java.util.Date;
 
-public class AdminView {
+public class AdminStats {
 
     /**
      * Fetches the percentage distribution of item types (food, sweet, drink)

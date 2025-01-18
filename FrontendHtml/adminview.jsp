@@ -133,8 +133,8 @@
                 <div class="navbar-nav ms-auto py-0 pe-4">
                     <a href="adminview.jsp" class="nav-item nav-link active">Dashboard</a>
                     <a href="orders.jsp" class="nav-item nav-link">Orders</a>
-                    <a href="reports.jsp" class="nav-item nav-link">Reports</a>
-                    <a href="editmenu.jsp" class="nav-item nav-link">Edit Menu</a>
+                    <%-- <a href="reports.jsp" class="nav-item nav-link">Reports</a>
+                    <a href="editmenu.jsp" class="nav-item nav-link">Edit Menu</a> --%>
                 </div>
             </div>
         </nav>

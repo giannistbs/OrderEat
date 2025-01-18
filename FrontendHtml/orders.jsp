@@ -90,8 +90,8 @@
                 <div class="navbar-nav ms-auto py-0 pe-4">
                     <a href="adminview.jsp" class="nav-item nav-link no-underline">Dashboard</a>
                     <a href="orders.jsp" class="nav-item nav-link no-underline active">Orders</a>
-                    <a href="reports.jsp" class="nav-item nav-link no-underline">Reports</a>
-                    <a href="editmenu.jsp" class="nav-item nav-link no-underline">Edit Menu</a>
+                    <%-- <a href="reports.jsp" class="nav-item nav-link no-underline">Reports</a>
+                    <a href="editmenu.jsp" class="nav-item nav-link no-underline">Edit Menu</a> --%>
                 </div>
             </div>
         </nav>

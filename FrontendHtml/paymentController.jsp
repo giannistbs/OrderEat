@@ -2,6 +2,7 @@
 <%@ page import="omadikh.Payment" %> 
 <%@ page import="omadikh.PaymentDAO" %> 
 <%@ page import="omadikh.OrderDAO" %> 
+<%@ page import="omadikh.TableDAO" %> 
 <%@ page import="omadikh.Order" %>
 <%@ page import="java.util.Date" %>
 <%@ page import="java.util.List" %>
@@ -10,6 +11,16 @@
 <%
 
     String tableId = (String) session.getAttribute("table");
+
+    int tableNumber = 0; // Default value if conversion fails
+    if (tableId != null) {
+        try {
+            tableNumber = Integer.parseInt(tableId);
+        } catch (NumberFormatException e) {
+            e.printStackTrace(); // Log the error
+            // Handle the error gracefully, e.g., set a default value or notify the user
+        }
+    }
 
     // String totalOrd = request.getParameter("totalOrd");
     // if (totalOrd == null) {
@@ -30,6 +41,8 @@
 
     orders = orderDAO.retrieveOrdersByTable(tableId);
 
+    TableDAO tableDAO = new TableDAO();
+    tableDAO.updateTableStatus(tableNumber, "available");
     
     for (Order order : orders){
         int orderId = Integer.parseInt(order.getOrderId());

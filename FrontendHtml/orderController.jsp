@@ -2,6 +2,7 @@
 <%@ page import="omadikh.MenuItem" %> 
 <%@ page import="omadikh.Order" %> 
 <%@ page import="omadikh.OrderDAO" %> 
+<%@ page import="omadikh.TableDAO" %> 
 <%@ page import="java.text.SimpleDateFormat" %> 
 <%@ page import="java.util.Date" %>
 
@@ -16,6 +17,16 @@
     if (table == null) {
         out.println("<script>alert('TableId not found'); history.back();</script>");
         return;
+    }
+
+    int tableNumber = 0; // Default value if conversion fails
+    if (table != null) {
+        try {
+            tableNumber = Integer.parseInt(table);
+        } catch (NumberFormatException e) {
+            e.printStackTrace(); // Log the error
+            // Handle the error gracefully, e.g., set a default value or notify the user
+        }
     }
 
     // Step 2: Retrieve request parameters
@@ -46,6 +57,9 @@
     // Place the order
     OrderDAO orderDAO = new OrderDAO();
     orderDAO.placeOrder(order);
+
+    TableDAO tableDAO = new TableDAO();
+    tableDAO.updateTableStatus(tableNumber, "occupied");
 
     if (total > 0){
         orderItems.clear();

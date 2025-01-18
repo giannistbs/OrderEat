@@ -8,7 +8,7 @@ import java.util.List;
 
 public class TableDAO {
 
-    private static final String TABLE_NAME = "tables";
+    private static final String TABLE_NAME = "restaurant_table";
 
     public TableDAO() {}
 
@@ -54,39 +54,39 @@ public class TableDAO {
     //     }
     // }
 
-    // /**
-    //  * Updates the status of a table.
-    //  *
-    //  * @param tableId The ID of the table.
-    //  * @param newStatus The new status to set.
-    //  * @throws Exception if there's an issue during the operation.
-    //  */
-    // public void updateTableStatus(int tableId, String newStatus) throws Exception {
-    //     DB db = new DB();
-    //     Connection connection = null;
-    //     PreparedStatement statement = null;
+    /**
+     * Updates the status of a table.
+     *
+     * @param tableId The ID of the table.
+     * @param newStatus The new status to set.
+     * @throws Exception if there's an issue during the operation.
+     */
+    public void updateTableStatus(int tableId, String newStatus) throws Exception {
+        DB db = new DB();
+        Connection connection = null;
+        PreparedStatement statement = null;
 
-    //     try {
-    //         connection = db.getConnection();
+        try {
+            connection = db.getConnection();
 
-    //         String updateQuery = "UPDATE " + TABLE_NAME + " SET status = ? WHERE tableId = ?";
-    //         statement = connection.prepareStatement(updateQuery);
-    //         statement.setString(1, newStatus);
-    //         statement.setInt(2, tableId);
+            String updateQuery = "UPDATE " + TABLE_NAME + " SET status = ? WHERE tableId = ?";
+            statement = connection.prepareStatement(updateQuery);
+            statement.setString(1, newStatus);
+            statement.setInt(2, tableId);
 
-    //         int rowsUpdated = statement.executeUpdate();
-    //         if (rowsUpdated > 0) {
-    //             System.out.println("Table status updated successfully for Table ID: " + tableId);
-    //         } else {
-    //             System.out.println("No table found with Table ID: " + tableId);
-    //         }
+            int rowsUpdated = statement.executeUpdate();
+            if (rowsUpdated > 0) {
+                System.out.println("Table status updated successfully for Table ID: " + tableId);
+            } else {
+                System.out.println("No table found with Table ID: " + tableId);
+            }
 
-    //     } catch (Exception e) {
-    //         throw new Exception("Error updating table status: " + e.getMessage(), e);
-    //     } finally {
-    //         closeResources(statement, connection);
-    //     }
-    // }
+        } catch (Exception e) {
+            throw new Exception("Error updating table status: " + e.getMessage(), e);
+        } finally {
+            closeResources(statement, connection);
+        }
+    }
 
     // /**
     //  * Retrieves all tables from the database.
@@ -138,16 +138,16 @@ public class TableDAO {
         System.out.println("Waiter called for Table ID: " + tableId);
     }
 
-    // // Utility method to close resources
-    // private void closeResources(AutoCloseable... resources) {
-    //     for (AutoCloseable resource : resources) {
-    //         if (resource != null) {
-    //             try {
-    //                 resource.close();
-    //             } catch (Exception e) {
-    //                 System.err.println("Error closing resource: " + e.getMessage());
-    //             }
-    //         }
-    //     }
-    // }
+    // Utility method to close resources
+    private void closeResources(AutoCloseable... resources) {
+        for (AutoCloseable resource : resources) {
+            if (resource != null) {
+                try {
+                    resource.close();
+                } catch (Exception e) {
+                    System.err.println("Error closing resource: " + e.getMessage());
+                }
+            }
+        }
+    }
 }

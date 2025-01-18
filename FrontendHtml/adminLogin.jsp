@@ -10,9 +10,6 @@
         // Store the table number in the session
         session.setAttribute("table", table);
     }
-    if (session.getAttribute("table") == null) {
-        out.println("<div class='alert alert-danger'> error : no table selected </div>");
-    }
     // Check if a login error parameter is present in the request
     String loginError = request.getParameter("error");
 %>
@@ -37,18 +34,19 @@
     <div class="container-xxl bg-white p-0">
         <!-- Navbar Start -->
         <nav class="navbar navbar-expand-lg navbar-dark sticky-top bg-dark px-4 px-lg-5 py-3 py-lg-8">
-            <a href="menu.jsp" class="navbar-brand p-0">
-                <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>OrderEat</h1>
+            <a href="" class="navbar-brand p-0">
+                <h1 class="text-primary m-0"><i class="fa fa-utensils me-3"></i>OrderEat Admin</h1>
             </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
                 <span class="fa fa-bars"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarCollapse">
                 <div class="navbar-nav ms-auto py-0 pe-4">
-                    <a href="#" class="nav-item nav-link">Call Waiter</a>
-                    <a href="menu.jsp" class="nav-item nav-link">Menu</a>
-                    <a href="viewOrder.jsp" class="nav-item nav-link">View Order</a>
-                    <% 
+                    <a href="adminview.jsp" class="nav-item nav-link active">Dashboard</a>
+                    <a href="orders.jsp" class="nav-item nav-link">Orders</a>
+                    <%-- <a href="reports.jsp" class="nav-item nav-link">Reports</a>
+                    <a href="editmenu.jsp" class="nav-item nav-link">Edit Menu</a> --%>
+                     <% 
                         omadikh.Customer customer = (omadikh.Customer) session.getAttribute("customer");
                         if (customer != null) {
                     %>
@@ -61,23 +59,22 @@
                             </ul>
                         </div>
                     <% } else { %>
-                        <a href="login.jsp" class="nav-item nav-link"><i class="fa-solid fa-user"></i> Login</a>
+                        <a href="adminLogin.jsp" class="nav-item nav-link"><i class="fa-solid fa-user"></i> Login</a>
                     <% } %>
                 </div>
             </div>
         </nav>
-        <!-- Navbar End -->
 
         <!-- Login Form Start -->
         <div class="container d-flex align-items-center justify-content-center" style="min-height: 100vh; padding-top: 80px;">
             <div class="col-md-6 col-lg-5 col-xl-4">
                 <div class="card shadow-sm border-0">
                     <div class="card-body p-4">
-                        <h3 class="text-center mb-4 text-primary"><i class="fa fa-user-circle me-2"></i>Login</h3>
+                        <h3 class="text-center mb-4 text-primary"><i class="fa fa-user-circle me-2"></i>Admin Login</h3>
                         <% if (loginError != null && !loginError.isEmpty()) { %>
                             <div class="alert alert-danger text-center">Invalid username or password. Please try again.</div>
                         <% } %>
-                        <form action="loginController.jsp" method="post">
+                        <form action="adminLoginController.jsp" method="post">
                             <div class="mb-3">
                                 <label for="username" class="form-label">Username</label>
                                 <input type="username" class="form-control" id="username" name="username" placeholder="Enter your username" required>
@@ -88,7 +85,6 @@
                             </div>
                             <button type="submit" class="btn btn-primary w-100 mt-4">Login</button>
                         </form>
-                        <p class="text-center mt-3 mb-0">Don't have an account? <a href="signup.jsp" class="text-primary">Sign Up</a></p>
                     </div>
                 </div>
             </div>

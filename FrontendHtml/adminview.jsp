@@ -1,16 +1,16 @@
 <%@ page import="java.util.*" %>
 <%@ page import="omadikh.OrderStats" %>
 <%@ page import="omadikh.AdminView" %>
-<%@ page import="omadikh.Customer, omadikh.CustomerDAO, omadikh.Order" %>
+<%@ page import="omadikh.Admin, omadikh.AdminDAO, omadikh.Order" %>
 
 
 <!DOCTYPE jsp>
 <html lang="en">
 
 <%
-    Customer admin = (Customer) session.getAttribute("customer");
-    if (admin == null || !admin.getName().startsWith("admin")) {
-        response.sendRedirect("login.jsp");
+    Admin admin = (Admin) session.getAttribute("admin");
+    if (admin == null) {
+        response.sendRedirect("adminLogin.jsp");
         return;
     }
 %>
@@ -139,7 +139,7 @@
                     <%-- <a href="reports.jsp" class="nav-item nav-link">Reports</a>
                     <a href="editmenu.jsp" class="nav-item nav-link">Edit Menu</a> --%>
                      <% 
-                        omadikh.Customer customer = (omadikh.Customer) session.getAttribute("customer");
+                        omadikh.Admin customer = (omadikh.Admin) session.getAttribute("admin");
                         if (customer != null) {
                     %>
                         <div class="nav-item dropdown">
@@ -151,7 +151,7 @@
                             </ul>
                         </div>
                     <% } else { %>
-                        <a href="login.jsp" class="nav-item nav-link"><i class="fa-solid fa-user"></i> Login</a>
+                        <a href="adminLogin.jsp" class="nav-item nav-link"><i class="fa-solid fa-user"></i> Login</a>
                     <% } %>
                 </div>
             </div>

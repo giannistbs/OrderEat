@@ -111,14 +111,14 @@
                             <td>#R002</td>
                             <td>2024-10-10</td>
                             <td>Inventory</td>
-                            <td>Current stock levels</td>
+                            <td>Current Stock Levels</td>
                             <td><button class="btn btn-primary btn-sm" style="padding: 2px 6px; font-size: 0.8em;">View</button></td>
                         </tr>
                         <tr>
                             <td>#R003</td>
                             <td>2024-10-15</td>
                             <td>Customer</td>
-                            <td>Customer feedback summary</td>
+                            <td>Customer Feedback Summary</td>
                             <td><button class="btn btn-primary btn-sm" style="padding: 2px 6px; font-size: 0.8em;">View</button></td>
                         </tr>
                         <!-- More reports can be added here -->
